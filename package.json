@@ -1,6 +1,6 @@
 {
   "name": "dreamworld",
-  "repository": "https://github.com/dreamworld-426/dreamworld",
+  "repository": "dreamworld",
   "version": "0.1.0",
   "title": "Dream World",
   "description": "A computer graphics simulation to build a dream world while listening to meditative tracks.",
@@ -15,6 +15,7 @@
     "...",
     "this last entry CANNOT have a comma after it ->"
   ],
+  "homepage": "http://dreamworld-426.github.io/dreamworld",
   "scripts": {
     "start": "webpack-dev-server --mode development --output-public-path '/'",
     "prebuild": "rimraf ./build && mkdir ./build",
