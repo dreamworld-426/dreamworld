@@ -9,6 +9,7 @@ A computer graphics simulation to build a dream world while listening to meditat
 * Install npm packages: `npm install`
 * Start the local server: `npm run start`
 * Go to [http://localhost:8080/](http://localhost:8080/)
+* When you're ready to officially deploy the code, run `npm run deploy` and visit [the live site](https://dreamworld-426.github.io/dreamworld/).
 
 Base THREE.js code and the instructions below adapted from https://github.com/ReillyBova/three-seed. 
 
