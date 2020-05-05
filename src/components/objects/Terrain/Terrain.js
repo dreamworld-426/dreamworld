@@ -5,7 +5,7 @@ class Terrain extends Group {
         // Call parent Group() constructor
         super();
 
-        let geometry = new PlaneBufferGeometry(20000, 20000);
+        let geometry = new PlaneBufferGeometry(2000, 2000);
         let material = new MeshStandardMaterial({
             color: 0xccffcc,
             metalness: 0.7,

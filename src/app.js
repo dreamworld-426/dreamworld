@@ -8,6 +8,8 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
+
 import { SeedScene } from 'scenes';
 
 // Initialize core ThreeJS components
@@ -35,6 +37,8 @@ controls.enableDamping = true;
 controls.enablePan = false;
 controls.minDistance = 4;
 controls.maxDistance = 100;
+//const controls = new FirstPersonControls(camera, canvas);
+
 controls.update();
 
 // Render loop

@@ -16,7 +16,7 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = new Color(0xcce0ff);
 
         // add terrain to scene
         const terrain = new Terrain();
@@ -28,7 +28,7 @@ class SeedScene extends Scene {
         this.add(land, flower, lights);
 
 
-        this.fog = new THREE.Fog(0xcce0ff, 500, 10000);
+        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -40,7 +40,9 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+
+        // disable rotation
+        //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
