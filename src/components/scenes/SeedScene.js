@@ -1,8 +1,8 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Flower, Land } from 'objects';
+import { Flower, Land, Terrain } from 'objects';
 import { BasicLights } from 'lights';
-
+const THREE = require ('three');
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -18,11 +18,17 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
+        // add terrain to scene
+        const terrain = new Terrain();
+        this.add(terrain);
         // Add meshes to scene
         const land = new Land();
         const flower = new Flower(this);
         const lights = new BasicLights();
         this.add(land, flower, lights);
+
+
+        this.fog = new THREE.Fog(0xcce0ff, 500, 10000);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
