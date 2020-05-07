@@ -13,6 +13,33 @@ A computer graphics simulation to build a dream world while listening to meditat
 
 Base THREE.js code and the instructions below adapted from https://github.com/ReillyBova/three-seed. 
 
+## Contribution instructions:
+* Create your own branch (off of the master branch):
+```git checkout -b <new-branch-name>```
+
+* Add all the modified files (you can skip this step if you're using github desktop):
+```git add .```
+
+* Commit the modified files:
+``` git commit -m "<short description of what I changed>```
+
+* Push the modified files:
+```
+git push origin <my-branch-name>
+```
+
+* When you're reading to merge your changes with master:
+
+Option 1):
+```
+git checkout master 
+git pull
+git merge <my-branch-name>
+```
+
+Option 2): open a pull request instead of merging your branch immediately! 
+
+
 ## Installation
 This project uses the GitHub's NodeJS Package Manager (npm) to manage project dependencies. All npm settings, as well as your project dependencies and their versionings, are defined in the file `package.json`.
 
