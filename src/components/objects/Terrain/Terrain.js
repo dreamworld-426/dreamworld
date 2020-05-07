@@ -90,7 +90,7 @@ class Terrain extends Group {
 
     update(timeStamp) {
         // update colors, "land breathing", etc
-        console.log("update")
+        /*console.log("update")
         var offset = this.state.breathOffset*Math.sin(timeStamp/(this.state.breathLength*1000));
         offset *= 10;
         console.log(offset)
@@ -99,7 +99,7 @@ class Terrain extends Group {
           if(this.geometry.vertices[i] > this.state.waterLevel) {
             this.geometry.vertices[i].z = this.geometry.vertices[i].z + offset;
           }
-        }
+        } */
 
     }
 
