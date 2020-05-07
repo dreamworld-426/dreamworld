@@ -22,7 +22,7 @@ class SeedScene extends Scene {
         // add terrain to scene
         const terrain = new Terrain(this);
         this.add(terrain);
-      
+
         // Add meshes to scene
         //const land = new Land();
         //const flower = new Flower(this);
@@ -35,9 +35,6 @@ class SeedScene extends Scene {
         // Add cloud (just one for now for testing)
         const cloud = new Cloud();
         this.add(cloud);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {

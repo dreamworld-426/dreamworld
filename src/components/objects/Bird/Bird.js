@@ -1,4 +1,4 @@
-import { Group, Vector3, AnimationMixer, NumberKeyframeTrack, AnimationClip} from 'three';
+import { Group, Vector3, AnimationMixer, NumberKeyframeTrack, AnimationClip, Euler} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Stork from './stork.glb';
 import Parrot from './parrot.glb';
@@ -27,14 +27,41 @@ class Bird extends Group {
       // Populate GUI
       this.state.gui.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
 
+      // window listeners to rotate bird
+      window.addEventListener('keydown', (e) => {this.windowResizeHandler(e)}, false);
+
       // Add update list
       parent.addToUpdateList(this);
   }
 
+  // rotate bird based on wasd keys pressed
+  windowResizeHandler(e) {
+    if (e.key == "w") {
+      if (this.state.model.rotation.x >= -0.5) {
+        this.state.model.rotation.x -= 0.01;
+      }
+    }
+    else if (e.key == "s") {
+      if (this.state.model.rotation.x <= 0.5) {
+        this.state.model.rotation.x += 0.01;
+      }
+    }
+    else if (e.key == "a") {
+      if (this.state.model.rotation.z >= -0.5) {
+        this.state.model.rotation.z -= 0.01;
+      }
+    }
+    else if (e.key == "d") {
+      if (this.state.model.rotation.z <= 0.5) {
+        this.state.model.rotation.z += 0.01;
+      }
+    }
+  }
+
+
   // Converts glb files to gltf
   // Adapted from https://discoverthreejs.com/book/first-steps/load-models/
   onLoad(bird) {
-
     if (this.state.model !== null) {
       this.remove(this.state.model);
       this.state.model.geometry.dispose();
@@ -67,15 +94,16 @@ class Bird extends Group {
       const model = gltf.scene.children[0];
       model.position.copy(this.state.position);
 
+      // debugger;
       const animation = gltf.animations[0];
-      // const track =  animation.tracks[0];
+      const track =  animation.tracks[0];
 
-      // const times = track.times;
-      // let values = track.values;
-      // //debugger;
+      const times = track.times;
+      let values = track.values;
+
       // for (let i = 0; i < values.length; i++) {
       //   if (i < values.length / 2) {
-      //     if (i % 15 == 0){
+      //     if (i % 14 == 0) {
       //       values[i] = 1;
       //     }
       //     else {
@@ -86,10 +114,6 @@ class Bird extends Group {
       //     values[i] = 0;
       //   }
       // }
-      // const test = [];
-      // test.push(new NumberKeyframeTrack('test', times, values));
-      //
-      // const clip = new AnimationClip('testing', 1.2999999523162842, test);
 
       // add mixer to state
       const mixer = new AnimationMixer(model);
@@ -128,7 +152,6 @@ class Bird extends Group {
       // update animation
       this.state.mixer.update(delta);
     }
-
   }
 }
 
