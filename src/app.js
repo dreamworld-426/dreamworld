@@ -11,6 +11,30 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 
 import { SeedScene } from 'scenes';
+import MUSIC from './sounds/deep.mp3';
+
+// -------------------------- EVENT LISTENER HANDLERS ------------------------//
+// Stop audio handler
+function audioStopHandler(event) {
+  if (event.key == 's' && sound.isPlaying) {
+    sound.stop();
+  }
+  else return;
+}
+
+// Play audio handler
+function audioPlayHandler(event) {
+  if (event.key == 'p' && !sound.isPlaying) {
+    var audioLoader = new AudioLoader();
+    audioLoader.load(MUSIC, function(buffer) {
+    	sound.setBuffer(buffer);
+    	sound.setLoop(true);
+    	sound.setVolume(0.5);
+    	sound.play();
+    });
+  }
+  else return;
+}
 
 // Initialize core ThreeJS components
 const  camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
@@ -22,6 +46,19 @@ const renderer = new WebGLRenderer({ antialias: true });
 camera.position.y = 50;
 camera.position.z = -150;
 camera.lookAt(new Vector3(0, 0, 0));
+
+// Add audio
+var listener = new AudioListener();
+camera.add(listener);
+
+// create a global audio source
+var sound = new Audio(listener);
+
+// Choose audio file in GUI
+scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange(() => updateAudioFile(scene.state.audiofile));
+
+window.addEventListener('keydown', audioStopHandler);
+window.addEventListener('keydown', audioPlayHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
