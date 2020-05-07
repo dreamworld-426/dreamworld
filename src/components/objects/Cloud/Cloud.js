@@ -5,24 +5,26 @@ class Cloud extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
-
-        let radius = 0.5;
+        let scale = 20;
+        let xDelta = 70;
+        let zDelta = 200;
+        let yDelta = 5;
         let detail = 1;
 
         // Inspired by this to combine shapes to make clouds: https://medium.com/@joshmarinacci/procedural-geometry-low-poly-clouds-b86a0e66bcad
         var geometry = new Geometry();
 
         // create three sections of cloud
-        var section1 = new IcosahedronGeometry(radius, detail);
-        var section2 = new IcosahedronGeometry(0.4, detail);
-        var section3 = new IcosahedronGeometry(0.3, detail);
-        var section4 = new IcosahedronGeometry(0.25, detail);
+        var section1 = new IcosahedronGeometry(0.5*scale, detail);
+        var section2 = new IcosahedronGeometry(0.4*scale, detail);
+        var section3 = new IcosahedronGeometry(0.3*scale, detail);
+        var section4 = new IcosahedronGeometry(0.25*scale, detail);
 
         // translate sections
-        section2.translate(0,0,-2);
-        section1.translate(-0.5,0,-2);
-        section3.translate(0.5, 0,-2);
-        section4.translate(-0.8, -0.25,-2);
+        section2.translate(xDelta,yDelta,zDelta);
+        section1.translate(-0.5*scale + xDelta,yDelta,zDelta);
+        section3.translate(0.5*scale + xDelta, yDelta,zDelta);
+        section4.translate(-0.8*scale + xDelta, -0.25*scale + yDelta,zDelta);
 
 
         // merge 4 cloud parts together
@@ -46,7 +48,7 @@ class Cloud extends Group {
             v.y += map(Math.random(),0,1,-per,per);
             v.z += map(Math.random(),0,1,-per,per);
         })
-        //jitter(geometry,0.1);
+        //itter(geometry,0.7);
 
 
         var texture = new TextureLoader().load(img);
