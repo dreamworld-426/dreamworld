@@ -24,7 +24,7 @@ Base THREE.js code and the instructions below adapted from https://github.com/Re
 
 * Commit the modified files:
 
-```git commit -m "<short description of what I changed>```
+```git commit -m "<short description of what I changed>"```
 
 * Push the modified files:
 ```git push origin <my-branch-name>```
