@@ -1,8 +1,9 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Flower, Land, Cloud } from 'objects';
+import { Flower, Land, Cloud, Terrain } from 'objects';
+import { Flower, Land, Terrain } from 'objects';
 import { BasicLights } from 'lights';
-
+const THREE = require ('three');
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -16,13 +17,18 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = new Color(0xcce0ff);
 
+        // add terrain to scene, pass in parent for updating if needed
+        const terrain = new Terrain(this);
         // Add meshes to scene
-        const land = new Land();
-        const flower = new Flower(this);
+        //const land = new Land();
+        //const flower = new Flower(this);
         const lights = new BasicLights();
-        this.add(land, flower, lights);
+        this.add( lights, terrain);
+
+
+        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Add cloud (just one for now for testing)
         const cloud = new Cloud();
@@ -38,7 +44,9 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+
+        // disable rotation
+        //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
