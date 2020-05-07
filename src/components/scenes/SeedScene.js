@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
 import { Bird, Flower, Land, Terrain, Cloud } from 'objects';
 import { BasicLights } from 'lights';
+
 const THREE = require ('three');
 
 class SeedScene extends Scene {
@@ -12,7 +13,7 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 1,
+            audiofile: 'jazzy.mp3',
             updateList: [],
         };
 
@@ -42,7 +43,7 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
+        const { updateList } = this.state;
 
         // disable rotation
         //this.rotation.y = (rotationSpeed * timeStamp) / 10000;

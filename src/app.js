@@ -6,38 +6,71 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 
 import { SeedScene } from 'scenes';
-import MUSIC from './sounds/deep.mp3';
+import DEEP from './components/sounds/deep.mp3';
+import JAZZ from './components/sounds/jazzy.mp3';
 
 // -------------------------- EVENT LISTENER HANDLERS ------------------------//
-// Stop audio handler
-function audioStopHandler(event) {
-  if (event.key == 's' && sound.isPlaying) {
-    sound.stop();
+// Play audio handler
+function audioHandler(event) {
+  if (event.key == 'p' && !sound.isPlaying) {
+    let audioLoader = new AudioLoader();
+    if (scene.state.audiofile == 'jazzy.mp3') {
+      audioLoader.load(JAZZ, function(buffer) {
+      	sound.setBuffer(buffer);
+      	sound.setLoop(true);
+      	sound.setVolume(0.5);
+      	sound.play();
+      });
+    }
+    else if (scene.state.audiofile == 'deep.mp3') {
+      audioLoader.load(DEEP, function(buffer) {
+      	sound.setBuffer(buffer);
+      	sound.setLoop(true);
+      	sound.setVolume(0.5);
+      	sound.play();
+      });
+    }
   }
-  else return;
+  else if (event.key == 'p' && sound.isPlaying) {
+    sound.pause();
+  }
+  else {return;}
 }
 
-// Play audio handler
-function audioPlayHandler(event) {
-  if (event.key == 'p' && !sound.isPlaying) {
-    var audioLoader = new AudioLoader();
-    audioLoader.load(MUSIC, function(buffer) {
-    	sound.setBuffer(buffer);
-    	sound.setLoop(true);
-    	sound.setVolume(0.5);
-    	sound.play();
+// update audio when changed in gui
+function updateAudioFile(audiofile) {
+  let audioLoader = new AudioLoader();
+  let music;
+
+  // change audio
+  if (audiofile == 'jazzy.mp3') {
+    music = JAZZ;
+    scene.state.audiofile = audiofile;
+  }
+  else if (audiofile == 'deep.mp3') {
+    music = DEEP;
+    scene.state.audiofile = audiofile;
+  }
+
+  // stop current audio if playing already
+  if (sound.isPlaying) {
+    sound.pause();
+    audioLoader.load(music, function(buffer) {
+      sound.setBuffer(buffer);
+      sound.setLoop(true);
+      sound.setVolume(0.5);
+      sound.play();
     });
   }
-  else return;
 }
 
 // Initialize core ThreeJS components
-const  camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
+const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene();
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -55,10 +88,9 @@ camera.add(listener);
 var sound = new Audio(listener);
 
 // Choose audio file in GUI
-scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange(() => updateAudioFile(scene.state.audiofile));
+scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
 
-window.addEventListener('keydown', audioStopHandler);
-window.addEventListener('keydown', audioPlayHandler);
+window.addEventListener('keydown', audioHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
