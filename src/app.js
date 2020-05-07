@@ -70,7 +70,7 @@ camera.add(listener);
 var sound = new Audio(listener);
 
 // Choose audio file in GUI
-scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange(() => updateAudioFile(scene.state.audiofile));
+// scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange(() => updateAudioFile(scene.state.audiofile));
 
 window.addEventListener('keydown', audioStopHandler);
 window.addEventListener('keydown', audioPlayHandler);
