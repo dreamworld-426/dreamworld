@@ -36,7 +36,7 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
 controls.minDistance = 4;
-controls.maxDistance = 100;
+controls.maxDistance = 500;
 //const controls = new FirstPersonControls(camera, canvas);
 
 controls.update();
