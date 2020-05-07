@@ -11,7 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 
 import { SeedScene } from 'scenes';
-import MUSIC from './sounds/deep.mp3';
+import MUSIC from './components/sounds/deep.mp3';
 
 // -------------------------- EVENT LISTENER HANDLERS ------------------------//
 // Stop audio handler
