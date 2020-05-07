@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Bird, Flower, Land, Terrain } from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud } from 'objects';
 import { BasicLights } from 'lights';
 const THREE = require ('three');
 
@@ -20,18 +20,21 @@ class SeedScene extends Scene {
         this.background = new Color(0xcce0ff);
 
         // add terrain to scene
-        const terrain = new Terrain();
+        const terrain = new Terrain(this);
         this.add(terrain);
-
+      
         // Add meshes to scene
-        const land = new Land();
-        const flower = new Flower(this);
+        //const land = new Land();
+        //const flower = new Flower(this);
         const lights = new BasicLights();
         const bird = new Bird(this);
         this.add(land, flower, lights, bird);
 
-
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
+
+        // Add cloud (just one for now for testing)
+        const cloud = new Cloud();
+        this.add(cloud);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
