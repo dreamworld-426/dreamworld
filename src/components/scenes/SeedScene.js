@@ -1,7 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
 import { Flower, Land, Cloud, Terrain } from 'objects';
-import { Flower, Land, Terrain } from 'objects';
 import { BasicLights } from 'lights';
 const THREE = require ('three');
 class SeedScene extends Scene {
