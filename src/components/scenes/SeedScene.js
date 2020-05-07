@@ -18,14 +18,13 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0xcce0ff);
 
-        // add terrain to scene
-        const terrain = new Terrain();
-        this.add(terrain);
+        // add terrain to scene, pass in parent for updating if needed
+        const terrain = new Terrain(this);
         // Add meshes to scene
-        const land = new Land();
-        const flower = new Flower(this);
+        //const land = new Land();
+        //const flower = new Flower(this);
         const lights = new BasicLights();
-        this.add(land, flower, lights);
+        this.add( lights, terrain);
 
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
