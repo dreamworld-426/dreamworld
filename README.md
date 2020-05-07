@@ -16,25 +16,20 @@ Base THREE.js code and the instructions below adapted from https://github.com/Re
 ## Contribution instructions:
 * Create your own branch (off of the master branch):
 
-```git checkout -b <new-branch-name>
-```
+```git checkout -b <new-branch-name>```
 
 * Add all the modified files (you can skip this step if you're using github desktop):
 
-```git add .
-```
+```git add .```
 
 * Commit the modified files:
 
-``` git commit -m "<short description of what I changed>
-```
+```git commit -m "<short description of what I changed>```
 
 * Push the modified files:
-```
-git push origin <my-branch-name>
-```
+```git push origin <my-branch-name>```
 
-* When you're reading to merge your changes with master:
+* When you're ready to merge your changes with master:
 
 Option 1):
 ```
