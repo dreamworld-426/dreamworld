@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Audio, AudioLoader, AudioListener } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 
@@ -33,7 +33,22 @@ function audioPlayHandler(event) {
     	sound.play();
     });
   }
+  else if (event.key == 'p' && sound.isPlaying) {
+    sound.pause();
+  }
   else return;
+}
+
+// FUNCTION UNDER CONSTRCITON, DOESN'T WORK YET
+function updateAudioFile(audiofile) {
+  // MUSIC = audiofile;
+  // var audioLoader = new AudioLoader();
+  // audioLoader.load(MUSIC, function(buffer) {
+  //   sound.setBuffer(buffer);
+  //   sound.setLoop(true);
+  //   sound.setVolume(0.5);
+  //   sound.play();
+  // });
 }
 
 // Initialize core ThreeJS components
