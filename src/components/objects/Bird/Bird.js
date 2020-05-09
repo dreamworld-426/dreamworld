@@ -4,10 +4,14 @@ import Stork from './stork.glb';
 import Parrot from './parrot.glb';
 import Flamingo from './flamingo.glb';
 
+const velocity = 1;
+
 class Bird extends Group {
   constructor(parent) {
       // Call parent Group() constructor
       super();
+
+      console.log("BIRD CONSTRUCTOR")
 
       // Init state
       this.state = {
@@ -17,6 +21,7 @@ class Bird extends Group {
           mixer: null,
           prevTimeStamp: null,
           position: new Vector3(0, 0, 0),
+          parent: parent,
       };
 
       this.name = 'bird';
@@ -37,21 +42,36 @@ class Bird extends Group {
   // rotate bird based on wasd keys pressed
   windowResizeHandler(e) {
     if (e.key == "w") {
+
+      this.state.parent.state.z += velocity;
+
       if (this.state.model.rotation.x >= -0.5) {
         this.state.model.rotation.x -= 0.01;
+
       }
     }
     else if (e.key == "s") {
+
+      this.state.parent.state.z -= velocity;
+
       if (this.state.model.rotation.x <= 0.5) {
         this.state.model.rotation.x += 0.01;
       }
     }
     else if (e.key == "a") {
+
+      this.state.parent.state.x += velocity;
+
+
       if (this.state.model.rotation.z >= -0.5) {
         this.state.model.rotation.z -= 0.01;
       }
     }
     else if (e.key == "d") {
+
+      this.state.parent.state.x -= velocity;
+
+
       if (this.state.model.rotation.z <= 0.5) {
         this.state.model.rotation.z += 0.01;
       }
@@ -130,11 +150,14 @@ class Bird extends Group {
     })
   };
 
-  update(timeStamp) {
+  update(timeStamp, x, y, z) {
     // this.camera.position.set(this.position.clone().add(new Vector3(0, 0, 0)));
     // this.camera.lookAt(new Vector3(0,0,0));
     // this.camera.updateProjectionMatrix();
-    // this.position.z += 1;
+
+    //this.state.parent.state.z += Math.random()*velocity;
+    //this.state.parent.state.x += Math.random()*velocity;
+    //debugger;
 
     // animate the bird
     if (this.state.mixer !== null) {

@@ -1,7 +1,7 @@
 import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh} from 'three';
 import  SimplexNoise  from 'simplex-noise';
 
-const terrainSize = {width: 1500, height: 1500, vertsWidth: 200, vertsHeight: 200};
+const terrainSize = {width: 1000, height: 1000, vertsWidth: 100, vertsHeight: 100};
 
 class Terrain extends Group {
 
@@ -67,28 +67,27 @@ class Terrain extends Group {
         folder1.add(this.state, 'breathOffset', 0, 100);
 
         // Related to perlin noise, so call updateNoise which updates everything
-        var folder0 = this.state.gui.addFolder( 'NOISE FACTORS' );
-        folder0.add(this.state, 'octaves', 0, 20).onChange(() => this.updateNoise()) ;
+        var folder0 = this.state.gui.addFolder( 'TERRAIN GENERATION FACTORS' );
+        folder0.add(this.state, 'octaves', 1, 16).name("Jaggedness").onChange(() => this.updateNoise()) ;
         // folder0.add(this.state, 'amplitude', 0, 10).onChange(() => this.updateNoise());
-        folder0.add(this.state, 'freq', 0, 10).onChange(() => this.updateNoise());
-        folder0.add(this.state, 'randSeed', 0, 10).onChange(() => this.updateNoise());
+        folder0.add(this.state, 'freq', 1, 10).name("Peaks").onChange(() => this.updateNoise());
+        folder0.add(this.state, 'randSeed', 0, 10).name("World Seed").onChange(() => this.updateSimplexSeed());
 
         // Related to the look of the terrain and don't need to recalculate height map again
-        var folder = this.state.gui.addFolder( 'TERRAIN' );
+        var folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
         folder.add(this.state, 'exaggeration', 0, 70).onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'waterLevel', -100, 100).onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'colorWiggle', -1, 1).onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'middleGradient', 0, 1).onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'middleGradient', 0, 1).name("Peak Height").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'waterColor').name("Water Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'bankColor').name("Bank Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'middleColor').name("Middle Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
 
         folder.open();
-
     }
 
-    update(timeStamp) {
+    update(timeStamp, x, y, z) {
         // update colors, "land breathing", etc
         /*console.log("update")
         var offset = this.state.breathOffset*Math.sin(timeStamp/(this.state.breathLength*1000));
@@ -100,6 +99,9 @@ class Terrain extends Group {
             this.geometry.vertices[i].z = this.geometry.vertices[i].z + offset;
           }
         } */
+
+        //console.log("TS = " + timeStamp + "(" + x + ", " + y + ", " + z + ")")
+
 
     }
 
@@ -147,9 +149,15 @@ class Terrain extends Group {
 
       this.geometry.verticesNeedUpdate = true;
       this.geometry.colorsNeedUpdate = true;
-      this.geometry.computeFlatVertexNormals()
+      this.geometry.computeFlatVertexNormals();
     }
 
+
+    updateSimplexSeed() {
+      // this.simplex = new SimplexNoise(this.state.randSeed);
+
+      this.updateNoise();
+    }
 
     updateNoise() {
       this.heightMap = this.generateTexture();
@@ -180,7 +188,8 @@ class Terrain extends Group {
     //generate noise
     generateTexture() {
         // make 2d array
-        let simplex = new SimplexNoise(this.state.randSeed);
+        var simplex = new SimplexNoise(this.state.randSeed);
+
         const canvas = new Array(terrainSize.vertsHeight);
         for (var i = 0; i < canvas.length; i++) {
           canvas[i] = new Array(terrainSize.vertsWidth);
@@ -194,8 +203,6 @@ class Terrain extends Group {
         }
         return canvas
     }
-
-
 
 }
 
