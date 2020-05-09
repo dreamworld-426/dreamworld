@@ -68,7 +68,12 @@ class TerrainPlane extends Group {
           for (let i = 0; i < this.heightMap[0].length; i++) {
               const index = (j*(this.heightMap.length)+i)
               const v1 = this.geometry.vertices[index]
-              v1.z = this.heightMap[j][i]*this.state.parent.state.exaggeration*10
+              if(this.state.parent.state.terraced == true) {
+                v1.z = (Math.round(Math.pow(this.heightMap[j][i], Math.ceil(this.state.parent.state.power)) * this.state.parent.state.terraces)/this.state.parent.state.terraces)*this.state.parent.state.exaggeration*10
+              }
+              else {
+                v1.z = Math.pow(this.heightMap[j][i], Math.ceil(this.state.parent.state.power))*this.state.parent.state.exaggeration*10
+              }
               // set to water level if below water
               v1.z = Math.max(this.state.parent.state.waterLevel, v1.z)
           }

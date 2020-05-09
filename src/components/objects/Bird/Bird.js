@@ -4,7 +4,7 @@ import Stork from './stork.glb';
 import Parrot from './parrot.glb';
 import Flamingo from './flamingo.glb';
 
-const velocity = 1;
+const velocity = 50;
 
 class Bird extends Group {
   constructor(parent) {
@@ -41,6 +41,16 @@ class Bird extends Group {
 
   // rotate bird based on wasd keys pressed
   windowResizeHandler(e) {
+    if (e.key == "q") {
+
+      this.state.parent.state.y += velocity;
+
+    }
+    if (e.key == "e") {
+
+      this.state.parent.state.y -= velocity;
+
+    }
     if (e.key == "w") {
 
       this.state.parent.state.z += velocity;

@@ -37,6 +37,7 @@ class ChunkManager extends Group {
             currentXOffset: 0,
             currentZOffset: 0,
 
+            power: 1,
             octaves: 16,
             exaggeration: 20,
             waterLevel: 0,
@@ -48,6 +49,8 @@ class ChunkManager extends Group {
             middleGradient: 0.5,
             randSeed: 4,
             freq: 1,
+            terraced: false,
+            terraces: 15,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -106,7 +109,8 @@ class ChunkManager extends Group {
 
         // Related to the look of the terrain and don't need to recalculate height map again
         var folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
-        folder.add(this.state, 'exaggeration', 0, 70).onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'exaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'middleGradient', 0, 1).name("Peak Color Height").onChange(() => this.updateTerrainGeo());
@@ -114,6 +118,8 @@ class ChunkManager extends Group {
         folder.addColor(this.state, 'bankColor').name("Bank Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'middleColor').name("Middle Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
 
         folder.open();
 
