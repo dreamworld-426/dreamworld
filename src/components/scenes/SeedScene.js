@@ -33,7 +33,7 @@ class SeedScene extends Scene {
 
         console.log("adding bird...")
         const bird = new Bird(this);
-        this.add(bird);
+        //this.add(bird);
 
         // add terrain to scene
         console.log("adding chunk manager...")
@@ -50,6 +50,10 @@ class SeedScene extends Scene {
 
         // Add cloud (just one for now for testing)
         const cloud = new Cloud();
+        this.add(cloud);
+        this.add(cloud);
+        this.add(cloud);
+        this.add(cloud);
         this.add(cloud);
     }
 
