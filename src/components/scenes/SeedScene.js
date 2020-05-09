@@ -31,12 +31,16 @@ class SeedScene extends Scene {
         this.add(lights);
 
         const bird = new Bird(this);
-        this.add(bird);
+        //this.add(bird);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Add cloud (just one for now for testing)
         const cloud = new Cloud();
+        this.add(cloud);
+        this.add(cloud);
+        this.add(cloud);
+        this.add(cloud);
         this.add(cloud);
     }
 
