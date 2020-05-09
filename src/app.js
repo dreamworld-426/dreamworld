@@ -70,15 +70,15 @@ function updateAudioFile(audiofile) {
 }
 
 // Initialize core ThreeJS components
-const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
+const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene();
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
 //camera.position.set(6, 3, -10);
-camera.position.y = 50;
-camera.position.z = -150;
-camera.lookAt(new Vector3(0, 0, 0));
+camera.position.y = 60;
+camera.position.z = -300;
+camera.lookAt(new Vector3(0, 50, 0));
 
 // Add audio
 var listener = new AudioListener();

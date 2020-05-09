@@ -4,7 +4,7 @@ import Stork from './stork.glb';
 import Parrot from './parrot.glb';
 import Flamingo from './flamingo.glb';
 
-const velocity = 50;
+const velocity = 10;
 
 class Bird extends Group {
   constructor(parent) {
