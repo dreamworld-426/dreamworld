@@ -6,14 +6,16 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
-
 import { SeedScene } from 'scenes';
 import DEEP from './components/sounds/deep.mp3';
 import JAZZ from './components/sounds/jazzy.mp3';
+import { Color } from 'three';
+var ColorTween = require('color-tween');
 
+const scene = new SeedScene();
 // -------------------------- EVENT LISTENER HANDLERS ------------------------//
 // Play audio handler
 function audioHandler(event) {
@@ -69,10 +71,42 @@ function updateAudioFile(audiofile) {
   }
 }
 
+// animation loop for sky tween
+function animate() {
+  if (tween.update()) {
+    // do some work, then recursively call animate
+    requestAnimationFrame(animate);
+  }
+  else loopSkyTween();
+}
+
+// for sky tween
+function someFn(color) {
+  scene.background = new Color(color.hex());
+  // background can be any Object: color, cubemap, or texture
+}
+
+function loopSkyTween() {
+  // change sky color
+  var tween = new ColorTween('#000', '#FFF')
+              .onUpdate(someFn)
+              .easing('Quadratic')
+              .duration(5000)
+              .start(animate);
+  // tween.onComplete(() => loopSkyTween());
+}
+
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
-const scene = new SeedScene();
+
 const renderer = new WebGLRenderer({ antialias: true });
+loopSkyTween();
+
+var tween = new ColorTween('#000', '#FFF')
+            .onUpdate(someFn)
+            .easing('Quadratic')
+            .duration(5000)
+            .start(animate);
 
 // Set up camera
 //camera.position.set(6, 3, -10);
@@ -87,6 +121,10 @@ camera.add(listener);
 // create a global audio source
 var sound = new Audio(listener);
 
+// create an AudioAnalyser, passing in the sound and desired fftSize
+var analyser = new AudioAnalyser(sound, 32);
+var data = analyser.getFrequencyData();
+
 // Choose audio file in GUI
 scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
 
@@ -94,6 +132,9 @@ window.addEventListener('keydown', audioHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.physicallyCorrectLights = true;
+renderer.shadowMap.enabled;
+renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page

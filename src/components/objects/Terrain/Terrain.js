@@ -7,7 +7,7 @@ class Terrain extends Group {
 
 
     constructor(parent) {
-        console.log("CONSTRUCTOR TERRAIN")
+        // console.log("CONSTRUCTOR TERRAIN")
         // Call parent Group() constructor
         super();
 
