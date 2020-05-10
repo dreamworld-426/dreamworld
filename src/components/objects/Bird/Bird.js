@@ -42,21 +42,35 @@ class Bird extends Group {
       // Load stork as default
       this.onLoad('Stork');
 
-      // Populate GUI
-      this.state.gui.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
-      this.state.gui.add(this.state, 'velocity', 0, 20).onChange((e) => {this.state.velocity = e});
+      // Populate Bird GUI
+      let folder = this.state.gui.addFolder('BIRD');
+      folder.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
+      folder.add(this.state, 'velocity', 0, 20).onChange((e) => {this.state.velocity = e});
+      folder.open();
 
       // window listeners to rotate bird
-      window.addEventListener('keydown', (e) => {this.windowResizeHandler(e)}, false);
+      let keysPressed = [];
+      // set keysPressed true when key is pressed
+      window.addEventListener('keydown', (e) => {
+        keysPressed[e.keyCode] = true;
+        this.windowResizeHandler(e, keysPressed);
+      }, false);
+
+
+      // set keysPressed to false when key is lifted
+      window.addEventListener('keyup', (e) => {
+        keysPressed[e.keyCode] = false;
+      }, false);
 
       // Add update list
       parent.addToUpdateList(this);
   }
 
   // rotate bird based on wasd keys pressed
-  windowResizeHandler(e) {
-    // bird goes down
-    if (e.key == "q") {
+  windowResizeHandler(e, keysPressed) {
+    // bird goes up
+    // w key
+    if (keysPressed[87]) {
       this.state.upTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
@@ -72,13 +86,14 @@ class Bird extends Group {
       this.state.parent.state.y -= this.state.velocity;
     }
 
-    // bird goes up
-    if (e.key == "e") {
+    // bird goes down
+    // s space key
+    if (keysPressed[83]) {
       this.state.downTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
       if (this.state.xRotate <= 0.5) {
-        this.state.xRotate += 0.01;
+          this.state.xRotate += 0.05;
       }
 
       let animation = this.state.animation.clone();
@@ -99,18 +114,14 @@ class Bird extends Group {
       }
 
       // Update terrain position
-      this.state.parent.state.y += this.state.velocity;
-    }
-
-    // Bird goes forward
-    if (e.key == "w") {
-      // Update parent terrain
-      this.state.parent.state.z += this.state.velocity * Math.cos(this.state.yRotate);
-      this.state.parent.state.x += this.state.velocity * Math.sin(this.state.yRotate);
+      if (this.state.parent.state.y <= -10) {
+        this.state.parent.state.y += this.state.velocity;
+      }
     }
 
     // bird goes to the left
-    if (e.key == "a") {
+    // a key
+    if (keysPressed[68]) {
       this.state.rightTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate <= 0.5) {
@@ -118,30 +129,31 @@ class Bird extends Group {
       }
 
       // Keep rotations between 0 and 2 * PI;
-      this.state.yRotate += 0.01;
-      this.state.yRotate = this.state.yRotate % (2 * Math.PI);
+      if (this.state.yRotate <= 0) {
+        this.state.yRotate = 2 * Math.PI;
+      }
+      this.state.yRotate -= 0.03;
 
-      // Update Terrain
-      this.state.parent.state.x -= this.state.velocity * Math.cos(this.state.yRotate);
-      this.state.parent.state.z -= this.state.velocity * Math.sin(this.state.yRotate);
+      // update terrain
+      this.state.parent.state.x -= Math.cos(this.state.yRotate);
+      this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
 
-    if (e.key == "d") {
+    // d key
+    if (keysPressed[65]) {
       this.state.leftTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate >= -0.5) {
         this.state.zRotate -= 0.01;
       }
-      this.state.yRotate -= 0.01;
 
       // Keep rotations between 0 and 2 * PI;
-      if (this.state.yRotate <= 0) {
-        this.state.yRotate = 2 * Math.PI;
-      }
+      this.state.yRotate += 0.03;
+      this.state.yRotate = this.state.yRotate % (2 * Math.PI);
 
-      // update terrain
-      this.state.parent.state.x -= this.state.velocity * Math.cos(this.state.yRotate);
-      this.state.parent.state.z -= this.state.velocity * Math.sin(this.state.yRotate);
+      // Update Terrain
+      this.state.parent.state.x += Math.cos(this.state.yRotate);
+      this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
   }
 
@@ -233,8 +245,12 @@ class Bird extends Group {
       this.state.model.rotation.y = this.state.yRotate;
       this.state.model.rotation.z = this.state.zRotate;
 
+      // move bird foward
+      this.state.parent.state.z += this.state.velocity * Math.cos(this.state.yRotate);
+      this.state.parent.state.x += this.state.velocity * Math.sin(this.state.yRotate);
+
       // reposition bird if wasd were pressed and isn't currently being pressed
-      if (this.state.upTime + 1000 < timeStamp && this.state.keyTime + 1000 < timeStamp) {
+      if (this.state.upTime + 1000 < timeStamp) {
         if (this.state.xRotate <= 0.005) {
           this.state.xRotate += 0.005;
         }
@@ -242,24 +258,24 @@ class Bird extends Group {
           this.state.speed += 50;
         }
       }
-      if (this.state.downTime + 1000 < timeStamp && this.state.keyTime + 1000 < timeStamp) {
+      if (this.state.downTime + 1000 < timeStamp) {
         if (this.state.xRotate >= 0.005) {
           this.state.xRotate -= 0.005;
         }
       }
-      if (this.state.downTime < timeStamp && this.state.keyTime + 1000 < timeStamp && this.state.newAnimate) {
+      if (this.state.downTime < timeStamp && this.state.newAnimate) {
         this.state.mixer.stopAllAction();
         const action = this.state.mixer.clipAction(this.state.animation);
         this.state.action = this.state.action.crossFadeTo(action, 1, true);
         this.state.action.play();
         this.state.newAnimate = false;
       }
-      if (this.state.leftTime + 1000 < timeStamp && this.state.keyTime + 1000 < timeStamp) {
+      if (this.state.leftTime + 1000 < timeStamp) {
         if (this.state.zRotate <= 0) {
           this.state.zRotate += 0.005;
         }
       }
-      if (this.state.rightTime + 1000 < timeStamp && this.state.keyTime + 1000 < timeStamp) {
+      if (this.state.rightTime + 1000 < timeStamp) {
         if (this.state.zRotate >= 0) {
           this.state.zRotate -= 0.005;
         }
