@@ -20,8 +20,8 @@ class Chunk extends Group {
       this.terrain = new TerrainPlane(parent, xOffset, yOffset, zOffset)
       this.add(this.terrain);
 
-      this.position.x = xOffset;
-      this.position.z = zOffset;
+      this.position.x = -1000;
+      this.position.z = -1000;
 
   }
 

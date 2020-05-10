@@ -58,38 +58,47 @@ class ChunkManager extends Group {
         const chunk0 = new Chunk(this, this.state.chunkWidth, 0, this.state.chunkWidth);
         this.add(chunk0);
         this.state.chunks.push(chunk0);
+        chunk0.setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth);
 
         const chunk1 = new Chunk(this, 0, 0, this.state.chunkWidth);
         this.add(chunk1);
         this.state.chunks.push(chunk1);
+        chunk1.setChunkPosition(0, 0, this.state.chunkWidth);
 
         const chunk2 = new Chunk(this, -this.state.chunkWidth, 0, this.state.chunkWidth);
         this.add(chunk2);
         this.state.chunks.push(chunk2);
+        chunk2.setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth);
 
         const chunk3 = new Chunk(this, this.state.chunkWidth, 0, 0);
         this.add(chunk3);
         this.state.chunks.push(chunk3);
+        chunk3.setChunkPosition(this.state.chunkWidth, 0, 0);
 
         const chunk4 = new Chunk(this, 0, 0, 0);
         this.add(chunk4);
         this.state.chunks.push(chunk4);
+        chunk4.setChunkPosition(0, 0, 0);
 
         const chunk5 = new Chunk(this, -this.state.chunkWidth, 0, 0);
         this.add(chunk5);
         this.state.chunks.push(chunk5);
+        chunk5.setChunkPosition(-this.state.chunkWidth, 0, 0);
 
         const chunk6 = new Chunk(this, this.state.chunkWidth, 0, -this.state.chunkWidth);
         this.add(chunk6);
         this.state.chunks.push(chunk6);
+        chunk6.setChunkPosition(this.state.chunkWidth, 0, -this.state.chunkWidth);
 
         const chunk7 = new Chunk(this, 0, 0, -this.state.chunkWidth);
         this.add(chunk7);
         this.state.chunks.push(chunk7);
+        chunk7.setChunkPosition(0, 0, -this.state.chunkWidth);
 
         const chunk8 = new Chunk(this, -this.state.chunkWidth, 0, -this.state.chunkWidth);
         this.add(chunk8);
         this.state.chunks.push(chunk8);
+        chunk8.setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth);
 
 /*
         const chunk9 = new Chunk(this, 0, 0, -2*this.state.chunkWidth);
@@ -147,15 +156,19 @@ class ChunkManager extends Group {
       // console.log("Update in chunk manager. x: " + x + " y: " + y + " z: " + z)
       // make/delete chunks as needed
 
+      // TRYING TO SOLVE GLITCH
       if(z > this.state.chunkWidth/2) {
+        console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
+        this.state.parent.state.z -= this.state.chunkWidth;
 
-        this.remove(this.state.chunks[6])
-        this.remove(this.state.chunks[7])
-        this.remove(this.state.chunks[8])
-        this.state.chunks[6].disposeOf()
-        this.state.chunks[7].disposeOf()
-        this.state.chunks[8].disposeOf()
+        var remove1 = this.state.chunks[6]
+        var remove2 = this.state.chunks[7]
+        var remove3 = this.state.chunks[8]
+
+        this.remove(remove1)
+        this.remove(remove2)
+        this.remove(remove3)
 
         // move everything a row back. Chunks[] help us keep track of this
         this.state.chunks[6] = this.state.chunks[3]
@@ -166,20 +179,6 @@ class ChunkManager extends Group {
         this.state.chunks[4] = this.state.chunks[1]
         this.state.chunks[5] = this.state.chunks[2]
 
-        // make new chunks with proper offset
-        this.state.chunks[0] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
-        this.state.chunks[1] = new Chunk(this, this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
-        this.state.chunks[2] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
-
-        this.add(this.state.chunks[0])
-        this.add(this.state.chunks[1])
-        this.add(this.state.chunks[2])
-
-        // move all pieces to correct position relative to center block
-        // top row
-        this.state.chunks[0].setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
-        this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
-        this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
         // middle row
         this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
         this.state.chunks[4].setChunkPosition(0, 0, 0)
@@ -189,7 +188,29 @@ class ChunkManager extends Group {
         this.state.chunks[7].setChunkPosition(0, 0, -this.state.chunkWidth)
         this.state.chunks[8].setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth)
 
-        this.state.parent.state.z -= this.state.chunkWidth;
+        this.position.x = -x;
+        this.position.y = y - startYBelow;
+        this.position.z = -z;
+
+        // make new chunks with proper offset
+        this.state.chunks[0] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+        this.state.chunks[1] = new Chunk(this, this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+        this.state.chunks[2] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+
+        // move all pieces to correct position relative to center block
+        // top row
+        this.state.chunks[0].setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
+        this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
+        this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
+
+        remove1.disposeOf()
+        remove2.disposeOf()
+        remove3.disposeOf()
+        this.add(this.state.chunks[0])
+        this.add(this.state.chunks[1])
+        this.add(this.state.chunks[2])
+
+        return;
 
       }
       else if(z < -this.state.chunkWidth/2) {
