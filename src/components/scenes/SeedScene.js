@@ -1,8 +1,8 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane } from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb } from 'objects';
 import { BasicLights } from 'lights';
-
+ 
 const THREE = require ('three');
 
 class SeedScene extends Scene {
@@ -23,7 +23,6 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0xcce0ff);
 
-
         // Add meshes to scene
         console.log("adding lights...")
         const lights = new BasicLights();
@@ -37,6 +36,10 @@ class SeedScene extends Scene {
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
+
+        // add orbs
+        const orb = new Orb(this);
+        this.add(orb);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 

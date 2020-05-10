@@ -5,3 +5,4 @@ export * from './Terrain';
 export * from './TerrainPlane';
 export * from './ChunkManager';
 export * from './Chunk';
+export * from './Orb';

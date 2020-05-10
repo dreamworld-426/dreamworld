@@ -91,8 +91,9 @@ camera.add(listener);
 var sound = new Audio(listener);
 
 // Choose audio file in GUI
-scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
-
+let folder = scene.state.gui.addFolder('AUDIO');
+folder.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
+folder.open();
 window.addEventListener('keydown', audioHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
