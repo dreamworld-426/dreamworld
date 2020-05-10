@@ -2,7 +2,12 @@ import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
 import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb } from 'objects';
 import { BasicLights } from 'lights';
- 
+
+import { WorldLighting } from 'lights';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+// import { Sky } from 'three/examples/jsm/objects/Sky.js';
+import SUNSET from './sunset.jpg';
+
 const THREE = require ('three');
 
 class SeedScene extends Scene {
@@ -21,10 +26,47 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0xcce0ff);
+        // var texture = new THREE.TextureLoader().load(SUNSET);
+        // texture.wrapS = THREE.RepeatWrapping;
+        // texture.wrapT = THREE.RepeatWrapping;
+        // this.background = texture;
+        // texture.repeat.set( 200, 200 );
+        // this.background = new Color(0xcce0ff);
+
+        // debugger;
+        // var color = new Color(0, 0, 0);
+        // var tween = new TWEEN.Tween(color)
+        // .to(new Color(1, 1, 1), 1.0, 'Linear')
+        // .loop(true)
+        // .yoyo(true)
+        // .on('update', function () {
+        //   this.background = color
+        // })
+        // .start();
+
+        // Skydome
+        // var skyDome = new THREE.SphereGeometry(100000, 32, 32);
+        // var texture  = new THREE.TextureLoader().load(SUNSET);
+        // texture.wrapS = THREE.RepeatWrapping;
+        // texture.wrapT = THREE.RepeatWrapping;
+        // var material = new THREE.MeshPhongMaterial({
+        //   map: texture,
+        // });
+        // var sky = new THREE.Mesh(skyDome, material);
+        // sky.position.set(0, 0, 0);
+        // sky.material.side = THREE.BackSide;
+        // this.add(sky);
+
+        // var sky = new Sky();
+				// sky.scale.setScalar( 450000 );
+				// this.add( sky );
 
         // Add meshes to scene
-        console.log("adding lights...")
+        //const land = new Land();
+        //const flower = new Flower(this);
+        const worldlights = new WorldLighting(this);
+        this.add(worldlights);
+
         const lights = new BasicLights();
         this.add(lights);
 
@@ -71,6 +113,7 @@ class SeedScene extends Scene {
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
         }
     }
+
 }
 
 export default SeedScene;
