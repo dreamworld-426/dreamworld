@@ -29,7 +29,8 @@
     "simplex-noise": "^2.4.0",
     "three": "^0.115.0",
     "three-obj-loader": "^1.1.3",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "three-instanced-mesh": "0.96.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

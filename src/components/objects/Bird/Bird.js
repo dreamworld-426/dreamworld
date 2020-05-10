@@ -5,18 +5,36 @@ import Parrot from './parrot.glb';
 import Flamingo from './flamingo.glb';
 
 class Bird extends Group {
-  constructor(parent) {
+  constructor(parent, camera) {
       // Call parent Group() constructor
       super();
 
+      console.log("BIRD CONSTRUCTOR")
+
       // Init state
       this.state = {
-          gui: parent.state.gui,
-          bird: 'Stork',
-          model: null,
-          mixer: null,
-          prevTimeStamp: null,
-          position: new Vector3(0, 0, 0),
+        gui: parent.state.gui,
+        bird: 'Stork',
+        model: null,
+        mixer: null,
+        prevTimeStamp: null,
+        camera: camera,
+        speed: 1000,
+        upTime: 0,
+        downTime: 0,
+        rightTime: 0,
+        leftTime: 0,
+        forwardTime: 0,
+        backwardTime: 0,
+        keyTime: 0,
+        parent: parent,
+        animation: null,
+        action: null,
+        newAnimate: false,
+        xRotate: 0,
+        yRotate: 0,
+        zRotate: 0,
+        velocity: 10,
       };
 
       this.name = 'bird';
@@ -24,37 +42,118 @@ class Bird extends Group {
       // Load stork as default
       this.onLoad('Stork');
 
-      // Populate GUI
-      this.state.gui.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
+      // Populate Bird GUI
+      let folder = this.state.gui.addFolder('BIRD');
+      folder.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
+      folder.add(this.state, 'velocity', 0, 20).onChange((e) => {this.state.velocity = e});
+      folder.open();
 
       // window listeners to rotate bird
-      window.addEventListener('keydown', (e) => {this.windowResizeHandler(e)}, false);
+      let keysPressed = [];
+      // set keysPressed true when key is pressed
+      window.addEventListener('keydown', (e) => {
+        keysPressed[e.keyCode] = true;
+        this.windowResizeHandler(e, keysPressed);
+      }, false);
+
+
+      // set keysPressed to false when key is lifted
+      window.addEventListener('keyup', (e) => {
+        keysPressed[e.keyCode] = false;
+      }, false);
 
       // Add update list
       parent.addToUpdateList(this);
   }
 
   // rotate bird based on wasd keys pressed
-  windowResizeHandler(e) {
-    if (e.key == "w") {
-      if (this.state.model.rotation.x >= -0.5) {
-        this.state.model.rotation.x -= 0.01;
+  windowResizeHandler(e, keysPressed) {
+    // bird goes up
+    // w key
+    if (keysPressed[87]) {
+      this.state.upTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
+
+      if (this.state.xRotate >= -0.5) {
+        this.state.xRotate -= 0.01;
+      }
+
+      if (this.state.speed >= 700) {
+        this.state.speed -= 100;
+      }
+
+      // update terrain position
+      this.state.parent.state.y -= this.state.velocity;
+    }
+
+    // bird goes down
+    // s space key
+    if (keysPressed[83]) {
+      this.state.downTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
+
+      if (this.state.xRotate <= 0.5) {
+          this.state.xRotate += 0.05;
+      }
+
+      let animation = this.state.animation.clone();
+      let track =  animation.tracks[0];
+      let values = track.values;
+
+      // if (this.state.bird != 'Flamingo'){
+      let vals = [11,24,36,48,60,73,86,99,112,126,140,154,168,178];
+      for (let i = 0; i < values.length; i++) {
+        values[i] = 0;
+      }
+
+      if (!e.repeat) {
+        const action = this.state.mixer.clipAction(animation);
+        this.state.action = this.state.action.crossFadeTo(action, 1, true);
+        this.state.action.play();
+        this.state.newAnimate = true;
+      }
+
+      // Update terrain position
+      if (this.state.parent.state.y <= -10) {
+        this.state.parent.state.y += this.state.velocity;
       }
     }
-    else if (e.key == "s") {
-      if (this.state.model.rotation.x <= 0.5) {
-        this.state.model.rotation.x += 0.01;
+
+    // bird goes to the left
+    // a key
+    if (keysPressed[68]) {
+      this.state.rightTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
+      if (this.state.zRotate <= 0.5) {
+        this.state.zRotate += 0.01;
       }
+
+      // Keep rotations between 0 and 2 * PI;
+      if (this.state.yRotate <= 0) {
+        this.state.yRotate = 2 * Math.PI;
+      }
+      this.state.yRotate -= 0.03;
+
+      // update terrain
+      this.state.parent.state.x -= Math.cos(this.state.yRotate);
+      this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
-    else if (e.key == "a") {
-      if (this.state.model.rotation.z >= -0.5) {
-        this.state.model.rotation.z -= 0.01;
+
+    // d key
+    if (keysPressed[65]) {
+      this.state.leftTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
+      if (this.state.zRotate >= -0.5) {
+        this.state.zRotate -= 0.01;
       }
-    }
-    else if (e.key == "d") {
-      if (this.state.model.rotation.z <= 0.5) {
-        this.state.model.rotation.z += 0.01;
-      }
+
+      // Keep rotations between 0 and 2 * PI;
+      this.state.yRotate += 0.03;
+      this.state.yRotate = this.state.yRotate % (2 * Math.PI);
+
+      // Update Terrain
+      this.state.parent.state.x += Math.cos(this.state.yRotate);
+      this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
   }
 
@@ -62,13 +161,26 @@ class Bird extends Group {
   // Converts glb files to gltf
   // Adapted from https://discoverthreejs.com/book/first-steps/load-models/
   onLoad(bird) {
+    // Previous position of the bird
+    let prevBirdPosition;
+
     if (this.state.model !== null) {
+      prevBirdPosition = this.state.model;
       this.remove(this.state.model);
       this.state.model.geometry.dispose();
       this.state.model.material.dispose();
       this.state.mixer = null;
       this.state.prevTimeStamp = null;
       this.state.model = null;
+      this.state.speed = 1000;
+      this.state.upTime = 0;
+      this.state.downTime = 0;
+      this.state.rightTime = 0;
+      this.state.leftTime = 0;
+      this.state.keyTime = 0;
+      this.state.animation =  null;
+      this.state.action = null;
+      this.statenewAnimate = false;
     }
 
     // Bird loader
@@ -92,35 +204,31 @@ class Bird extends Group {
     // load the type of bird
     loader.load(type, (gltf) => {
       const model = gltf.scene.children[0];
-      model.position.copy(this.state.position);
 
-      // debugger;
-      const animation = gltf.animations[0];
-      const track =  animation.tracks[0];
+      // If there was a previous bird, set it to that position and not the
+      // origin
+      if (prevBirdPosition == null) {
+        model.position.copy(new Vector3(0, 0, 0));
+      }
+      else {
+        model.position.copy(prevBirdPosition.position);
+        model.rotation.copy(prevBirdPosition.rotation);
+      }
 
-      const times = track.times;
-      let values = track.values;
+      // copy rotations into state
+      model.rotation.reorder('YXZ');
+      this.state.xRotate = model.rotation.x;
+      this.state.yRotate = model.rotation.y;
+      this.state.zRotate = model.rotation.z;
 
-      // for (let i = 0; i < values.length; i++) {
-      //   if (i < values.length / 2) {
-      //     if (i % 14 == 0) {
-      //       values[i] = 1;
-      //     }
-      //     else {
-      //       values[i] = 0;
-      //     }
-      //   }
-      //   else {
-      //     values[i] = 0;
-      //   }
-      // }
+      this.state.animation = gltf.animations[0];
 
       // add mixer to state
       const mixer = new AnimationMixer(model);
       this.state.mixer = mixer;
 
-      const action = mixer.clipAction(animation);
-      action.play();
+      this.state.action = this.state.mixer.clipAction(this.state.animation);
+      this.state.action.play();
 
       // set model to state
       this.state.model = model;
@@ -130,11 +238,55 @@ class Bird extends Group {
     })
   };
 
-  update(timeStamp) {
-    // this.camera.position.set(this.position.clone().add(new Vector3(0, 0, 0)));
-    // this.camera.lookAt(new Vector3(0,0,0));
-    // this.camera.updateProjectionMatrix();
-    // this.position.z += 1;
+  update(timeStamp, x, y, z) {
+    if (this.state.model != null) {
+      // update rotation of the bird;
+      this.state.model.rotation.x = this.state.xRotate;
+      this.state.model.rotation.y = this.state.yRotate;
+      this.state.model.rotation.z = this.state.zRotate;
+
+      // move bird foward
+      this.state.parent.state.z += this.state.velocity * Math.cos(this.state.yRotate);
+      this.state.parent.state.x += this.state.velocity * Math.sin(this.state.yRotate);
+
+      // reposition bird if wasd were pressed and isn't currently being pressed
+      if (this.state.upTime + 1000 < timeStamp) {
+        if (this.state.xRotate <= 0.005) {
+          this.state.xRotate += 0.005;
+        }
+        if (this.state.speed <= 1000) {
+          this.state.speed += 50;
+        }
+      }
+      if (this.state.downTime + 1000 < timeStamp) {
+        if (this.state.xRotate >= 0.005) {
+          this.state.xRotate -= 0.005;
+        }
+      }
+      if (this.state.downTime < timeStamp && this.state.newAnimate) {
+        this.state.mixer.stopAllAction();
+        const action = this.state.mixer.clipAction(this.state.animation);
+        this.state.action = this.state.action.crossFadeTo(action, 1, true);
+        this.state.action.play();
+        this.state.newAnimate = false;
+      }
+      if (this.state.leftTime + 1000 < timeStamp) {
+        if (this.state.zRotate <= 0) {
+          this.state.zRotate += 0.005;
+        }
+      }
+      if (this.state.rightTime + 1000 < timeStamp) {
+        if (this.state.zRotate >= 0) {
+          this.state.zRotate -= 0.005;
+        }
+      }
+
+      // Reposition camera
+      this.state.camera.position.y = 350 * Math.sin(this.state.xRotate + Math.PI/15);
+      this.state.camera.position.z = -300 * Math.cos(this.state.yRotate);
+      this.state.camera.position.x = 300 * Math.sin(-this.state.yRotate);
+      this.state.camera.lookAt(this.state.model.position);
+    }
 
     // animate the bird
     if (this.state.mixer !== null) {
@@ -144,7 +296,7 @@ class Bird extends Group {
       }
 
       // calculate delta
-      const delta = (timeStamp - this.state.prevTimeStamp) / 1000;
+      const delta = (timeStamp - this.state.prevTimeStamp) / this.state.speed;
 
       // update previous time stamp
       this.state.prevTimeStamp = timeStamp;

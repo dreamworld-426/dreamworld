@@ -1,25 +1,27 @@
-import { Group, Color, TextureLoader, IcosahedronGeometry, PlaneBufferGeometry, Geometry, MeshBasicMaterial, MeshLambertMaterial, ShaderMaterial, Mesh, FrontSide} from 'three';
+import { Group, Color, TextureLoader, IcosahedronGeometry, IcosahedronBufferGeometry, Geometry, BufferGeometry, InstancedMesh, InstancedBufferAttribute, MeshBasicMaterial, MeshLambertMaterial, ShaderMaterial, Mesh, InstancedBufferGeometry} from 'three';
 import img from './cloudy3.png';
-
+import * as THREE from 'three';
 class Cloud extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
         let scale = 20;
-        let xDelta = 70;
-        let zDelta = 200;
+        let xDelta = 150;
+        let zDelta = 300;
         let yDelta = 5;
         let detail = 1;
+        let count = 500; 
 
         // Inspired by this to combine shapes to make clouds: https://medium.com/@joshmarinacci/procedural-geometry-low-poly-clouds-b86a0e66bcad
         var geometry = new Geometry();
 
         // create three sections of cloud
-        var section1 = new IcosahedronGeometry(0.5*scale, detail);
-        var section2 = new IcosahedronGeometry(0.4*scale, detail);
-        var section3 = new IcosahedronGeometry(0.3*scale, detail);
-        var section4 = new IcosahedronGeometry(0.25*scale, detail);
-
+  
+        let section1 = new IcosahedronGeometry(0.5*scale, detail);
+        let section2 = new IcosahedronGeometry(0.4*scale, detail);
+        let section3 = new IcosahedronGeometry(0.3*scale, detail);
+        let section4 = new IcosahedronGeometry(0.25*scale, detail);
+        
         // translate sections
         section2.translate(xDelta,yDelta,zDelta);
         section1.translate(-0.5*scale + xDelta,yDelta,zDelta);
@@ -33,38 +35,43 @@ class Cloud extends Group {
         geometry.merge(section3);
         geometry.merge(section4);
 
+        // convert geometry to buffer geometry for instancedmesh
+        geometry = new BufferGeometry().fromGeometry( geometry );
 
-        let uniforms = {
-            colorB: {type: 'vec3', value: new Color(0xb4c1c6)},
-            colorA: {type: 'vec3', value: new Color(0xe1f1f7)}
-        }
-
-        // Jitter function (used only for testing): https://medium.com/@joshmarinacci/procedural-geometry-low-poly-clouds-b86a0e66bcad
-        // remap value from the range of [smin,smax] to [emin,emax]
-        const map = (val, smin, smax, emin, emax) => (emax-emin)*(val-smin)/(smax-smin) + emin;
-        // randomly displace the x,y,z coords by the `per` value
-        const jitter = (geometry,per) => geometry.vertices.forEach(v => {
-            v.x += map(Math.random(),0,1,-per,per);
-            v.y += map(Math.random(),0,1,-per,per);
-            v.z += map(Math.random(),0,1,-per,per);
-        })
-        //itter(geometry,0.7);
-
-
+        // load in a cloudy texture (hand-made in figma)
         var texture = new TextureLoader().load(img);
 
         let material = new MeshLambertMaterial({
             map:texture,
             transparent: true,
-            opacity: 0.95,
-            side: FrontSide,
+            opacity: 0.85,
           });
+        // instance mesh code very loosely inspired by Three.js example:
+        // https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
+        let mesh = new THREE.InstancedMesh( geometry, material, count );
+        let orientation = new THREE.Object3D();
 
-          
+        let offset = 100;
+        let offsetX  = 100;
 
-        var cloud = new Mesh( geometry, material );
+        for( let i = 0; i < count; i ++ ) {
+            // set position based on qualitative testing of what appears natural
+            orientation.position.set(offset + offsetX - i*400*Math.random(), offset - i*5 + Math.random()*100, offset - i*50*Math.random());
+            
+            // make half of clouds oriented regularly and the other half flipped
+            if (i % 2 == 0) {
+                orientation.rotation.y = Math.PI/2;
+            }
+            else {
+                orientation.rotation.y = -Math.PI/2;
+            }
+            // updated
+            orientation.updateMatrix();
+            mesh.setMatrixAt( i, orientation.matrix );
+        }
 
-        this.add(cloud);
+
+        this.add( mesh );
 
     }
 }

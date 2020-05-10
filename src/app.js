@@ -97,10 +97,14 @@ function loopSkyTween() {
 }
 
 // Initialize core ThreeJS components
-const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
+// const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
+const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+// camera.position.y = 350;
+// camera.position.z = -300;
+// camera.position.x = 300;
+const scene = new SeedScene(camera);
 
 const renderer = new WebGLRenderer({ antialias: true });
-loopSkyTween();
 
 var tween = new ColorTween('#000', '#FFF')
             .onUpdate(someFn)
@@ -110,9 +114,9 @@ var tween = new ColorTween('#000', '#FFF')
 
 // Set up camera
 //camera.position.set(6, 3, -10);
-camera.position.y = 50;
-camera.position.z = -150;
-camera.lookAt(new Vector3(0, 0, 0));
+camera.position.y = 60;
+camera.position.z = -300;
+camera.lookAt(new Vector3(0, 50, 0));
 
 // Add audio
 var listener = new AudioListener();
@@ -126,8 +130,9 @@ var analyser = new AudioAnalyser(sound, 32);
 var data = analyser.getFrequencyData();
 
 // Choose audio file in GUI
-scene.state.gui.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
-
+let folder = scene.state.gui.addFolder('AUDIO');
+folder.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
+folder.open();
 window.addEventListener('keydown', audioHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -142,18 +147,18 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // Set up controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 4;
-controls.maxDistance = 500;
+// const controls = new OrbitControls(camera, canvas);
+// controls.enableDamping = true;
+// controls.enablePan = false;
+// controls.minDistance = 4;
+// controls.maxDistance = 500;
 //const controls = new FirstPersonControls(camera, canvas);
 
-controls.update();
+// controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    controls.update();
+    // controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
