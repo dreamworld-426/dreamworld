@@ -15,7 +15,8 @@ import JAZZ from './components/sounds/jazzy.mp3';
 import { Color } from 'three';
 var ColorTween = require('color-tween');
 
-const scene = new SeedScene();
+const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+const scene = new SeedScene(camera);
 // -------------------------- EVENT LISTENER HANDLERS ------------------------//
 // Play audio handler
 function audioHandler(event) {
@@ -98,11 +99,10 @@ function loopSkyTween() {
 
 // Initialize core ThreeJS components
 // const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
-const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 // camera.position.y = 350;
 // camera.position.z = -300;
 // camera.position.x = 300;
-const scene = new SeedScene(camera);
+// const scene = new SeedScene(camera);
 
 const renderer = new WebGLRenderer({ antialias: true });
 
