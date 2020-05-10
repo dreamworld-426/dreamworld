@@ -71,7 +71,10 @@ function updateAudioFile(audiofile) {
 
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-const scene = new SeedScene();
+camera.position.y = 350;
+camera.position.z = -300;
+camera.position.x = 300;
+const scene = new SeedScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
@@ -101,18 +104,18 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // Set up controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 4;
-controls.maxDistance = 500;
+// const controls = new OrbitControls(camera, canvas);
+// controls.enableDamping = true;
+// controls.enablePan = false;
+// controls.minDistance = 4;
+// controls.maxDistance = 500;
 //const controls = new FirstPersonControls(camera, canvas);
 
-controls.update();
+// controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    controls.update();
+    // controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);

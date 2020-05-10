@@ -6,7 +6,7 @@ import { BasicLights } from 'lights';
 const THREE = require ('three');
 
 class SeedScene extends Scene {
-    constructor() {
+    constructor(camera) {
         // Call parent Scene() constructor
         super();
 
@@ -30,7 +30,7 @@ class SeedScene extends Scene {
         this.add(lights);
 
         console.log("adding bird...")
-        const bird = new Bird(this);
+        const bird = new Bird(this, camera);
         this.add(bird);
 
         // add terrain to scene
