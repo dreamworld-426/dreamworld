@@ -16,12 +16,13 @@ class Orb extends Group {
             orientation: null,
         };
 
-
+        this.name = 'orb';
+        
         // parent.addToUpdateList(this);
-        this.updateOrbs(10);
+        this.updateOrbs(this.state.numOrb);
     }
 
-    updateOrbs(orbNum) {
+    updateOrbs() {
       if (this.state.mesh != null || this.state.sphere != null) {
         this.remove(this.state.mesh);
         this.state.mesh.geometry.dispose();
@@ -33,28 +34,28 @@ class Orb extends Group {
         this.state.orientation = null;
       }
 
-      let geometry = new SphereBufferGeometry(10,10,10);
+      let geometry = new SphereBufferGeometry(20,20,20);
       geometry.translate(0, 100, 0);
 
       let texture = new TextureLoader().load(ORB);
       let material = new MeshLambertMaterial({
         map: texture,
         transparent: true,
-        opacity:1,
+        opacity: 0.85,
       });
 
       let sphere = new Mesh( geometry, material );
 
       // adapted from https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
-      let mesh = new InstancedMesh( geometry, material, orbNum);
+      let mesh = new InstancedMesh( geometry, material, this.state.parent.state.orbNum);
       // mesh.instanceMatrix.setUsage(DynamicDrawUsage ); // will be updated every frame
 
       let orientation = new Object3D();
       this.state.orientation = orientation;
 
-      for (let i = 0; i < orbNum; i ++ ) {
+      for (let i = 0; i < this.state.parent.state.orbNum; i ++ ) {
           // set position based on qualitative testing of what appears natural
-          orientation.position.set(Math.random() * 2000 - 1000, Math.random() * 300, Math.random() * 2000 - 1000);
+          orientation.position.set(Math.random() * 1000 - 500, Math.random() * 300, Math.random() * 1000 - 500);
 
           // updated
           orientation.updateMatrix();

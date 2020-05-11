@@ -74,13 +74,6 @@ class SeedScene extends Scene {
         let folder = this.state.gui.addFolder('SKY');
         folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
         folder.open();
-
-        // const cloud = new Cloud();
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
     }
 
     addToUpdateList(object) {
@@ -112,7 +105,6 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { updateList, x, y, z } = this.state;
-
         // calculate offsets
 
         // disable rotation
@@ -122,9 +114,9 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
-            // update ChunkManager twice to prevent glitching due to moving terrain
-            if (obj.name === "ChunkManager" && obj.state.betweenChunks === false) {
-                    obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            // update twice to prevent glitching due to moving terrain
+            if (obj.name == "ChunkManager") {
+                obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
             }
         }
     }
