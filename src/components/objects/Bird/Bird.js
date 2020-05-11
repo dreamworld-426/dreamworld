@@ -31,7 +31,7 @@ class Bird extends Group {
         animation: null,
         action: null,
         newAnimate: false,
-        xRotate: 0,
+        xRotate: 0.10,
         yRotate: 0,
         zRotate: 0,
         velocity: 10,

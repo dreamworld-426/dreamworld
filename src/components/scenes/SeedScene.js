@@ -25,6 +25,8 @@ class SeedScene extends Scene {
             z: 0,
         };
 
+        this.background = new Color(0xcce0ff);
+
         // Set background to a nice color
         // var texture = new THREE.TextureLoader().load(SUNSET);
         // texture.wrapS = THREE.RepeatWrapping;
