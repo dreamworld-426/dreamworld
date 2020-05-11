@@ -114,21 +114,14 @@ class SeedScene extends Scene {
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            console.log(obj);
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
-            if (obj.name !== "ChunkManager") {
-                obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
-            }
-            else {
+            // update ChunkManager twice to prevent glitching due to moving terrain
+            if (obj.name === "ChunkManager") {
                 if (obj.state.betweenChunks === false) {
                     obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
                 }
-                else {
-                    console.log(obj);
-                }
             }
-
         }
     }
 
