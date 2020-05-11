@@ -73,6 +73,9 @@ class SeedScene extends Scene {
         this.add(lights);
 
         // add terrain to scene
+   
+
+        
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
@@ -80,12 +83,11 @@ class SeedScene extends Scene {
         console.log("adding bird...")
         const bird = new Bird(this, camera);
         this.add(bird);
-
         // add orbs
         // const orb = new Orb(this);
         // this.add(orb);
 
-        this.fog = new THREE.Fog(0xcce0ff, 500, 5000);
+        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Add cloud (just one for now for testing)
         // const cloud = new Cloud();
@@ -112,7 +114,8 @@ class SeedScene extends Scene {
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            //obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            console.log(obj);
+            obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
             if (obj.name !== "ChunkManager") {
                 obj.update(timeStamp, this.state.x, this.state.y, this.state.z);

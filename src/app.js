@@ -156,14 +156,28 @@ document.body.appendChild(canvas);
 
 // controls.update();
 
-// Render loop
+//Render loop
+let t0 = true;
+let lastTimeStamp = window.animationTime;
 const onAnimationFrameHandler = (timeStamp) => {
     // controls.update();
-    scene.update && scene.update(timeStamp);
-    renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
-    window.requestAnimationFrame(onAnimationFrameHandler);
+    // let timeDelta = timeStamp - lastTimeStamp;
+    // if (timeDelta > 10 || t0 == true) {
+      scene.update && scene.update(timeStamp);
+      renderer.render(scene, camera);
+
+      scene.update && scene.update(timeStamp);
+
+      window.requestAnimationFrame(onAnimationFrameHandler);
+
+    // }
+    // else if (timeDelta == 10){
+    //   window.requestAnimationFrame(onAnimationFrameHandler);
+    // }
+    lastTimeStamp = timeStamp;
+    t0 = false;
 };
+
 window.requestAnimationFrame(onAnimationFrameHandler);
 
 // Resize Handler
