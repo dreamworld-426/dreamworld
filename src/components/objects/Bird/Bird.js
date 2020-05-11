@@ -34,7 +34,7 @@ class Bird extends Group {
         xRotate: 0,
         yRotate: 0,
         zRotate: 0,
-        velocity: 10,
+        velocity: 5,
         keysPressed: [],
       };
 
@@ -46,7 +46,7 @@ class Bird extends Group {
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
       folder.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
-      folder.add(this.state, 'velocity', 0, 20).onChange((e) => {this.state.velocity = e});
+      folder.add(this.state, 'velocity', 0, 10).onChange((e) => {this.state.velocity = e});
       folder.open();
 
       // window listeners to rotate bird

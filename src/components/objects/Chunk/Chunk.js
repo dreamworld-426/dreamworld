@@ -13,7 +13,6 @@ class Chunk extends Group {
       this.state = {
           gui: parent.state.gui,
           parent:parent,
-          orbNum: 10,
       };
 
       // feed in the parent (chunk manager) as it has the proper terrain variables
@@ -21,7 +20,7 @@ class Chunk extends Group {
       this.add(this.terrain);
 
       this.orb = new Orb(parent);
-      this.updateOrbs(this.state.orbNum);
+      this.updateOrbs();
       this.add(this.orb);
 
       this.cloud = new Cloud(parent);
@@ -39,8 +38,8 @@ class Chunk extends Group {
     this.terrain.updateTerrainGeo();
   }
 
-  updateOrbs(orbNum) {
-    this.orb.updateOrbs(orbNum);
+  updateOrbs() {
+    this.orb.updateOrbs();
   }
 
   setChunkPosition(x, y, z) {

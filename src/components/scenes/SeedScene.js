@@ -55,9 +55,9 @@ class SeedScene extends Scene {
         this.add(lights);
 
         // add terrain to scene
-   
 
-        
+
+
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
@@ -77,13 +77,6 @@ class SeedScene extends Scene {
         let folder = this.state.gui.addFolder('SKY');
         folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
         folder.open();
-
-        // const cloud = new Cloud();
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
-        // this.add(cloud);
     }
 
     addToUpdateList(object) {
@@ -115,7 +108,6 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { updateList, x, y, z } = this.state;
-
         // calculate offsets
 
         // disable rotation

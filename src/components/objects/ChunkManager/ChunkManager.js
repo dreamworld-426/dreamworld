@@ -51,7 +51,7 @@ class ChunkManager extends Group {
             terraced: false,
             terraces: 15,
 
-            orbNum: 10,
+            orbNum: 1,
             betweenChunks:false,
         };
 
@@ -110,7 +110,7 @@ class ChunkManager extends Group {
 
 
         let folder2 = this.state.gui.addFolder('ORBS');
-        folder2.add(this.state, 'orbNum', 0, 20).name('Orb Count').onChange(() => this.updateOrbs());
+        folder2.add(this.state, 'orbNum', 0, 5).name('Orb Count').onChange(() => this.updateOrbs());
     }
 
     updateSimplexSeed() {
@@ -133,7 +133,7 @@ class ChunkManager extends Group {
 
     updateOrbs() {
       for(let chunk of this.state.chunks) {
-        chunk.updateOrbs(this.state.orbNum);
+        chunk.updateOrbs();
       }
     }
 
@@ -183,11 +183,11 @@ class ChunkManager extends Group {
         this.state.chunks[0].setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
         this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
         this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
-        
+
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[1])
         this.add(this.state.chunks[2])
-        
+
         // bottom row
         this.state.chunks[6].setChunkPosition(this.state.chunkWidth, 0, -this.state.chunkWidth)
         this.state.chunks[7].setChunkPosition(0, 0, -this.state.chunkWidth)
@@ -307,7 +307,7 @@ class ChunkManager extends Group {
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[3])
         this.add(this.state.chunks[6])
-        
+
         this.state.betweenChunks = false;
       }
 
