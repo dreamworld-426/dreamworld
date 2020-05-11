@@ -114,17 +114,17 @@ class SeedScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
-            // if (obj.name !== "ChunkManager") {
-            //     obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
-            // }
-            // else {
-            //     if (obj.state.betweenChunks === false) {
-            //         obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
-            //     }
-            //     else {
-            //         console.log(obj);
-            //     }
-            // }
+            if (obj.name !== "ChunkManager") {
+                obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            }
+            else {
+                if (obj.state.betweenChunks === false) {
+                    obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+                }
+                else {
+                    console.log(obj);
+                }
+            }
 
         }
     }
