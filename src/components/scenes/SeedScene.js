@@ -70,28 +70,28 @@ class SeedScene extends Scene {
         const lights = new BasicLights();
         this.add(lights);
 
-        console.log("adding bird...")
-        const bird = new Bird(this, camera);
-        this.add(bird);
-
         // add terrain to scene
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
 
+        console.log("adding bird...")
+        const bird = new Bird(this, camera);
+        this.add(bird);
+
         // add orbs
-        const orb = new Orb(this);
-        this.add(orb);
+        // const orb = new Orb(this);
+        // this.add(orb);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 5000);
 
         // Add cloud (just one for now for testing)
-        const cloud = new Cloud();
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
+        // const cloud = new Cloud();
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
     }
 
     addToUpdateList(object) {

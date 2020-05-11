@@ -73,29 +73,29 @@ function updateAudioFile(audiofile) {
 }
 
 // animation loop for sky tween
-function animate() {
-  if (tween.update()) {
-    // do some work, then recursively call animate
-    requestAnimationFrame(animate);
-  }
-  else loopSkyTween();
-}
-
-// for sky tween
-function someFn(color) {
-  scene.background = new Color(color.hex());
-  // background can be any Object: color, cubemap, or texture
-}
-
-function loopSkyTween() {
-  // change sky color
-  var tween = new ColorTween('#000', '#FFF')
-              .onUpdate(someFn)
-              .easing('Quadratic')
-              .duration(5000)
-              .start(animate);
-  // tween.onComplete(() => loopSkyTween());
-}
+// function animate() {
+//   if (tween.update()) {
+//     // do some work, then recursively call animate
+//     requestAnimationFrame(animate);
+//   }
+//   else loopSkyTween();
+// }
+//
+// // for sky tween
+// function someFn(color) {
+//   scene.background = new Color(color.hex());
+//   // background can be any Object: color, cubemap, or texture
+// }
+//
+// function loopSkyTween() {
+//   // change sky color
+//   var tween = new ColorTween('#000', '#FFF')
+//               .onUpdate(someFn)
+//               .easing('Quadratic')
+//               .duration(5000)
+//               .start(animate);
+//   // tween.onComplete(() => loopSkyTween());
+// }
 
 // Initialize core ThreeJS components
 // const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
@@ -106,11 +106,11 @@ function loopSkyTween() {
 
 const renderer = new WebGLRenderer({ antialias: true });
 
-var tween = new ColorTween('#000', '#FFF')
-            .onUpdate(someFn)
-            .easing('Quadratic')
-            .duration(5000)
-            .start(animate);
+// var tween = new ColorTween('#000', '#FFF')
+//             .onUpdate(someFn)
+//             .easing('Quadratic')
+//             .duration(5000)
+//             .start(animate);
 
 // Set up camera
 //camera.position.set(6, 3, -10);
