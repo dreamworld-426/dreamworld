@@ -5,7 +5,7 @@ const terrainSize = {width: 1000, height: 1000, vertsWidth: 100, vertsHeight: 10
 
 class TerrainPlane extends Group {
 
-    constructor(parent, xOffset, yOffset, zOffset) {
+    constructor(parent, xOffset, yOffset, zOffset, planeGeometry) {
         // console.log("CONSTRUCTOR TERRAIN PLANE")
         // Call parent Group() constructor
         super();
@@ -28,13 +28,12 @@ class TerrainPlane extends Group {
         this.state.zOffset = zOffset*parent.state.chunkVertWidth/parent.state.chunkWidth;
 
         // create the plane
-        this.geometry = new PlaneGeometry(parent.state.chunkWidth,parent.state.chunkWidth,
-                                    parent.state.chunkVertWidth - 1, parent.state.chunkVertWidth - 1)
+        this.geometry = planeGeometry;
         this.geometry.verticesNeedUpdate = true;
         this.geometry.colorsNeedUpdate = true;
 
         // get perline noise height map and update the geometry
-        this.heightMap = this.generateTexture(xOffset, zOffset)
+        this.heightMap = this.generateTexture(xOffset, zOffset);
         this.updateTerrainGeo();
 
         //required for flat shading
