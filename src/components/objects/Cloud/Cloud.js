@@ -5,23 +5,23 @@ class Cloud extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
-        let scale = 20;
+        let scale = 100;
         let xDelta = 150;
         let zDelta = 300;
         let yDelta = 5;
         let detail = 1;
-        let count = 500; 
+        let count = 5;
 
         // Inspired by this to combine shapes to make clouds: https://medium.com/@joshmarinacci/procedural-geometry-low-poly-clouds-b86a0e66bcad
         var geometry = new Geometry();
 
         // create three sections of cloud
-  
+
         let section1 = new IcosahedronGeometry(0.5*scale, detail);
         let section2 = new IcosahedronGeometry(0.4*scale, detail);
         let section3 = new IcosahedronGeometry(0.3*scale, detail);
         let section4 = new IcosahedronGeometry(0.25*scale, detail);
-        
+
         // translate sections
         section2.translate(xDelta,yDelta,zDelta);
         section1.translate(-0.5*scale + xDelta,yDelta,zDelta);
@@ -44,7 +44,7 @@ class Cloud extends Group {
         let material = new MeshLambertMaterial({
             map:texture,
             transparent: true,
-            opacity: 0.85,
+            opacity: 0.75,
           });
         // instance mesh code very loosely inspired by Three.js example:
         // https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
@@ -56,14 +56,14 @@ class Cloud extends Group {
 
         for( let i = 0; i < count; i ++ ) {
             // set position based on qualitative testing of what appears natural
-            orientation.position.set(offset + offsetX - i*400*Math.random(), offset - i*5 + Math.random()*100, offset - i*50*Math.random());
-            
+            orientation.position.set(offset + offsetX - i*200*Math.random(), 500, offset - i*50*Math.random());
+
             // make half of clouds oriented regularly and the other half flipped
             if (i % 2 == 0) {
-                orientation.rotation.y = Math.PI/2;
+                orientation.rotation.y = Math.PI;
             }
             else {
-                orientation.rotation.y = -Math.PI/2;
+                orientation.rotation.y = -Math.PI;
             }
             // updated
             orientation.updateMatrix();

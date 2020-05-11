@@ -28,6 +28,7 @@ class SeedScene extends Scene {
         // Initial sky texture
         // var skyDome = new BoxGeometry(50, 50, 50);
         // var texture  = new THREE.TextureLoader().load(PURPLE);
+
         // texture.wrapS = THREE.RepeatWrapping;
         // texture.wrapT = THREE.RepeatWrapping;
         // // texture.opacity
@@ -53,33 +54,36 @@ class SeedScene extends Scene {
         const lights = new BasicLights();
         this.add(lights);
 
-        console.log("adding bird...")
-        const bird = new Bird(this, camera);
-        this.add(bird);
-
         // add terrain to scene
+   
+
+        
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
 
+        console.log("adding bird...")
+        const bird = new Bird(this, camera);
+        this.add(bird);
         // add orbs
-        const orb = new Orb(this);
-        this.add(orb);
+        // const orb = new Orb(this);
+        // this.add(orb);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Add cloud (just one for now for testing)
-        const cloud = new Cloud();
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
-        this.add(cloud);
 
         // Choose sky texture in GUI
         let folder = this.state.gui.addFolder('SKY');
         folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
         folder.open();
+
+        // const cloud = new Cloud();
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
+        // this.add(cloud);
     }
 
     addToUpdateList(object) {
@@ -120,6 +124,11 @@ class SeedScene extends Scene {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+
+            // update ChunkManager twice to prevent glitching due to moving terrain
+            if (obj.name === "ChunkManager" && obj.state.betweenChunks === false) {
+                    obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            }
         }
     }
 
