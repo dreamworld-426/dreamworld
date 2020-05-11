@@ -52,6 +52,7 @@ class ChunkManager extends Group {
             terraces: 15,
 
             orbNum: 10,
+            betweenChunks:false,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -156,6 +157,8 @@ class ChunkManager extends Group {
         plane_geos[1] = this.state.chunks[7].disposeOf()
         plane_geos[2] = this.state.chunks[8].disposeOf()
 
+        this.state.betweenChunks = true;
+
         // move everything a row back. Chunks[] help us keep track of this
         this.state.chunks[6] = this.state.chunks[3]
         this.state.chunks[7] = this.state.chunks[4]
@@ -194,6 +197,9 @@ class ChunkManager extends Group {
         this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
         this.state.chunks[4].setChunkPosition(0, 0, 0)
         this.state.chunks[5].setChunkPosition(-this.state.chunkWidth, 0, 0)
+
+        this.state.betweenChunks = false;
+
       }
       else if(z < -this.state.chunkWidth/2) {
         this.state.currentZOffset -= this.state.chunkWidth;

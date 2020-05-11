@@ -159,6 +159,7 @@ document.body.appendChild(canvas);
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     // controls.update();
+    scene.update && scene.update(timeStamp);
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
