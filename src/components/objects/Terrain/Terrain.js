@@ -118,7 +118,7 @@ class Terrain extends Group {
       }
 
       //for every face calculate the color, do some gradient calculations to make it polygons
-      this.geometry.faces.forEach(f=>{
+      this.geometry.faces.forEach(f => {
           //get three verts for the face
           const a = this.geometry.vertices[f.a]
           const b = this.geometry.vertices[f.b]
@@ -127,7 +127,18 @@ class Terrain extends Group {
           //assign colors based on the average point of the face
           var wiggle = this.state.colorWiggle * 25;
           const max = (a.z+b.z+c.z)/3
-          if(max <= this.state.waterLevel) return f.color.setRGB((this.state.waterColor.r + Math.random()*wiggle)/255, (this.state.waterColor.g + Math.random()*wiggle)/255, (this.state.waterColor.b +Math.random()*wiggle)/255)
+          if(max <= this.state.waterLevel) {
+            return f.color.setRGB((this.state.waterColor.r + Math.random()*wiggle)/255,
+            (this.state.waterColor.g + Math.random()*wiggle)/255,
+            (this.state.waterColor.b + Math.random()*wiggle)/255)
+        //     geometry2.faceVertexUvs[0].push([
+        //     new THREE.Vector2(0,0),        //play with these values
+        //     new THREE.Vector2(0.5,0),
+        //     new THREE.Vector2(0.5,0.5)
+        //
+        // ]);
+        // geometry2.uvsNeedUpdate = true;
+          }
           if(max - this.state.waterLevel > this.state.exaggeration*7) return f.color.setRGB((this.state.peakColor.r+ Math.random()*wiggle)/255, (this.state.peakColor.g+ Math.random()*wiggle)/255, (this.state.peakColor.b+ Math.random()*wiggle)/255)
 
           var ratio = (max - this.state.waterLevel)/(this.state.exaggeration*7);
@@ -151,7 +162,6 @@ class Terrain extends Group {
       this.geometry.colorsNeedUpdate = true;
       this.geometry.computeFlatVertexNormals();
     }
-
 
     updateSimplexSeed() {
       // this.simplex = new SimplexNoise(this.state.randSeed);

@@ -12,6 +12,9 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
 import { SeedScene } from 'scenes';
 import DEEP from './components/sounds/deep.mp3';
 import JAZZ from './components/sounds/jazzy.mp3';
+import PIANO from './components/sounds/piano.mp3';
+import MEDITATION from './components/sounds/5minbreathing.mp3';
+import SLOW from './components/sounds/slowmotion.mp3';
 import { Color } from 'three';
 var ColorTween = require('color-tween');
 
@@ -22,47 +25,25 @@ const scene = new SeedScene(camera);
 function audioHandler(event) {
   if (event.key == 'p' && !sound.isPlaying) {
     let audioLoader = new AudioLoader();
-    if (scene.state.audiofile == 'jazzy.mp3') {
-      audioLoader.load(JAZZ, function(buffer) {
-      	sound.setBuffer(buffer);
-      	sound.setLoop(true);
-      	sound.setVolume(0.5);
-      	sound.play();
-      });
+    let music;
+    let audiofile = scene.state.audiofile;
+    if ( audiofile == 'Jazzy') {
+      music = JAZZ;
     }
-    else if (scene.state.audiofile == 'deep.mp3') {
-      audioLoader.load(DEEP, function(buffer) {
-      	sound.setBuffer(buffer);
-      	sound.setLoop(true);
-      	sound.setVolume(0.5);
-      	sound.play();
-      });
+    else if (audiofile == 'Deep Meditation') {
+      music = DEEP;
+      // scene.state.audiofile = audiofile;
     }
-  }
-  else if (event.key == 'p' && sound.isPlaying) {
-    sound.pause();
-  }
-  else {return;}
-}
+    else if (audiofile == 'Slow') {
+      music = SLOW;
+    }
+    else if (audiofile == 'Piano') {
+      music = PIANO;
+    }
+    else if (audiofile == 'Breathing Exercise') {
+      music = MEDITATION;
+    }
 
-// update audio when changed in gui
-function updateAudioFile(audiofile) {
-  let audioLoader = new AudioLoader();
-  let music;
-
-  // change audio
-  if (audiofile == 'jazzy.mp3') {
-    music = JAZZ;
-    scene.state.audiofile = audiofile;
-  }
-  else if (audiofile == 'deep.mp3') {
-    music = DEEP;
-    scene.state.audiofile = audiofile;
-  }
-
-  // stop current audio if playing already
-  if (sound.isPlaying) {
-    sound.pause();
     audioLoader.load(music, function(buffer) {
       sound.setBuffer(buffer);
       sound.setLoop(true);
@@ -70,32 +51,78 @@ function updateAudioFile(audiofile) {
       sound.play();
     });
   }
+  else if (event.key == 'p' && sound.isPlaying) {
+    sound.pause();
+  }
+
+
+  else return;
+}
+
+// update audio when changed in gui
+function updateAudioFile() {
+  let audioLoader = new AudioLoader();
+  let music;
+  let audiofile = scene.state.audiofile;
+
+  // stop current audio if playing already
+  if (sound.isPlaying) {
+    sound.stop();
+  }
+  // change audio
+  if (audiofile == 'Jazzy') {
+    music = JAZZ;
+    // scene.state.audiofile = audiofile;
+  }
+  else if (audiofile == 'Deep Meditation') {
+    music = DEEP;
+    // scene.state.audiofile = audiofile;
+  }
+  else if (audiofile == 'Slow') {
+    music = SLOW;
+  }
+  else if (audiofile == 'Piano') {
+    music = PIANO;
+  }
+  else if (audiofile == 'Breathing Exercise') {
+    music = MEDITATION;
+  }
+
+  // audioLoader.load(music, function(buffer) {
+  //   sound.setBuffer(buffer);
+  //   sound.setLoop(true);
+  //   sound.setVolume(0.5);
+  //   sound.play();
+  // });
 }
 
 // animation loop for sky tween
-// function animate() {
-//   if (tween.update()) {
-//     // do some work, then recursively call animate
-//     requestAnimationFrame(animate);
-//   }
-//   else loopSkyTween();
-// }
-//
-// // for sky tween
-// function someFn(color) {
-//   scene.background = new Color(color.hex());
-//   // background can be any Object: color, cubemap, or texture
-// }
-//
-// function loopSkyTween() {
-//   // change sky color
-//   var tween = new ColorTween('#000', '#FFF')
-//               .onUpdate(someFn)
-//               .easing('Quadratic')
-//               .duration(5000)
-//               .start(animate);
-//   // tween.onComplete(() => loopSkyTween());
-// }
+function animate() {
+  // if (tween.update()) {
+  //   // do some work, then recursively call animate
+  //   requestAnimationFrame(animate);
+  // }
+  // else loopSkyTween();
+}
+
+// for sky tween
+function someFn(color) {
+  var sky_texture = scene.background;
+  // var alpha = scene.state.alpha; // add alpha to scene.state, make scene be passed into wordLighting, worldlighting can change the alpha based on the angle of the sun
+  // scene.background = new Color(color.hex());
+  // background can be any Object: color, cubemap, or texture
+}
+
+function loopSkyTween() {
+  // change sky color
+  var tween = new ColorTween('#000', '#FFF')
+              .onUpdate(someFn)
+              .easing('Quadratic')
+              .duration(5000)
+              .start(animate);
+  // tween.onComplete(() => loopSkyTween());
+}
+
 
 // Initialize core ThreeJS components
 // const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
@@ -104,7 +131,7 @@ function updateAudioFile(audiofile) {
 // camera.position.x = 300;
 // const scene = new SeedScene(camera);
 
-const renderer = new WebGLRenderer({ antialias: true });
+const renderer = new WebGLRenderer({ antialias: true, alpha: true});
 
 // var tween = new ColorTween('#000', '#FFF')
 //             .onUpdate(someFn)
@@ -127,11 +154,11 @@ var sound = new Audio(listener);
 
 // create an AudioAnalyser, passing in the sound and desired fftSize
 var analyser = new AudioAnalyser(sound, 32);
-var data = analyser.getFrequencyData();
+var data = analyser.getAverageFrequency();
 
 // Choose audio file in GUI
 let folder = scene.state.gui.addFolder('AUDIO');
-folder.add(scene.state, 'audiofile', ['jazzy.mp3', 'deep.mp3']).onChange((e) => {updateAudioFile(e)});
+folder.add(scene.state, 'audiofile', ['Jazzy', 'Deep Meditation', 'Slow', 'Piano', 'Breathing Exercise']).onChange(() => {updateAudioFile()});
 folder.open();
 window.addEventListener('keydown', audioHandler);
 
