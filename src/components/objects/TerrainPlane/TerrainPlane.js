@@ -172,9 +172,10 @@ class TerrainPlane extends Group {
     }
 
     disposeOf() {
-      this.geometry.dispose()
       this.material.dispose()
       this.remove(this.children[0])
+
+      return this.geometry;
     }
 
 }

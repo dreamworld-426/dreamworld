@@ -38,9 +38,9 @@ class Chunk extends Group {
   }
 
   disposeOf() {
-
-    this.terrain.disposeOf()
     this.remove(this.terrain)
+
+    return this.terrain.disposeOf()
   }
 
 }
