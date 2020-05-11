@@ -182,15 +182,6 @@ class ChunkManager extends Group {
         this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
         this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
 
-        remove1.disposeOf()
-        remove2.disposeOf()
-        remove3.disposeOf()
-        this.add(this.state.chunks[0])
-        this.add(this.state.chunks[1])
-        this.add(this.state.chunks[2])
-
-        return;
-
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[1])
         this.add(this.state.chunks[2])
