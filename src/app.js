@@ -178,6 +178,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
+      scene.update && scene.update(timeStamp);
 
     window.requestAnimationFrame(onAnimationFrameHandler);
 };

@@ -36,19 +36,19 @@ class Cloud extends Group {
         geometry.merge(section4);
 
         // convert geometry to buffer geometry for instancedmesh
-        geometry = new BufferGeometry().fromGeometry( geometry );
+        this.geometry = new BufferGeometry().fromGeometry( geometry );
 
         // load in a cloudy texture (hand-made in figma)
         var texture = new TextureLoader().load(img);
 
-        let material = new MeshLambertMaterial({
+        this.material = new MeshLambertMaterial({
             map:texture,
             transparent: true,
             opacity: 0.75,
           });
         // instance mesh code very loosely inspired by Three.js example:
         // https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
-        let mesh = new THREE.InstancedMesh( geometry, material, count );
+        let mesh = new THREE.InstancedMesh(this.geometry, this.material, count );
         let orientation = new THREE.Object3D();
 
         let offset = 100;
@@ -74,6 +74,11 @@ class Cloud extends Group {
         this.add( mesh );
 
     }
+    disposeOf() {
+        this.material.dispose()
+  
+        return this.geometry;
+      }
 }
 
 export default Cloud;

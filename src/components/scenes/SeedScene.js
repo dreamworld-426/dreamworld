@@ -126,7 +126,9 @@ class SeedScene extends Scene {
             obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
             // update twice to prevent glitching due to moving terrain
-            obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            if (obj.name == "ChunkManager") {
+                obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            }
         }
     }
 
