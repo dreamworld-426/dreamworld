@@ -57,6 +57,7 @@ class ChunkManager extends Group {
 
 
 
+
         const coordinates = [
           [this.state.chunkWidth, 0, this.state.chunkWidth],
           [0, 0, this.state.chunkWidth],
@@ -130,8 +131,12 @@ class ChunkManager extends Group {
       // Initialized asa 0 but are actually supposed to be PlaneGeometry objects
       let plane_geos = [0, 0, 0];
 
+      // TRYING TO SOLVE GLITCH
       if(z > this.state.chunkWidth/2) {
+        console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
+        this.state.parent.state.z -= this.state.chunkWidth;
+
 
         this.remove(this.state.chunks[6])
         this.remove(this.state.chunks[7])
@@ -149,7 +154,21 @@ class ChunkManager extends Group {
         this.state.chunks[4] = this.state.chunks[1]
         this.state.chunks[5] = this.state.chunks[2]
 
+        // middle row
+        this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
+        this.state.chunks[4].setChunkPosition(0, 0, 0)
+        this.state.chunks[5].setChunkPosition(-this.state.chunkWidth, 0, 0)
+        // bottom row
+        this.state.chunks[6].setChunkPosition(this.state.chunkWidth, 0, -this.state.chunkWidth)
+        this.state.chunks[7].setChunkPosition(0, 0, -this.state.chunkWidth)
+        this.state.chunks[8].setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth)
+
+        this.position.x = -x;
+        this.position.y = y - startYBelow;
+        this.position.z = -z;
+
         // make new chunks with proper offset
+
         this.state.chunks[0] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset, plane_geos
         [0]);
         this.state.chunks[1] = new Chunk(this, this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset,plane_geos
@@ -162,16 +181,15 @@ class ChunkManager extends Group {
         this.state.chunks[0].setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
         this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
         this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
-        // middle row
-        this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
-        this.state.chunks[4].setChunkPosition(0, 0, 0)
-        this.state.chunks[5].setChunkPosition(-this.state.chunkWidth, 0, 0)
-        // bottom row
-        this.state.chunks[6].setChunkPosition(this.state.chunkWidth, 0, -this.state.chunkWidth)
-        this.state.chunks[7].setChunkPosition(0, 0, -this.state.chunkWidth)
-        this.state.chunks[8].setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth)
 
-        this.state.parent.state.z -= this.state.chunkWidth;
+        remove1.disposeOf()
+        remove2.disposeOf()
+        remove3.disposeOf()
+        this.add(this.state.chunks[0])
+        this.add(this.state.chunks[1])
+        this.add(this.state.chunks[2])
+
+        return;
 
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[1])

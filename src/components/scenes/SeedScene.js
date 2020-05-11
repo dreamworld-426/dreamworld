@@ -83,7 +83,7 @@ class SeedScene extends Scene {
         const orb = new Orb(this);
         this.add(orb);
 
-        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
+        this.fog = new THREE.Fog(0xcce0ff, 500, 5000);
 
         // Add cloud (just one for now for testing)
         const cloud = new Cloud();
