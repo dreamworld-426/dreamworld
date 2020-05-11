@@ -24,8 +24,11 @@ class Chunk extends Group {
       this.updateOrbs(this.state.orbNum);
       this.add(this.orb);
 
-      this.cloud = new Cloud(parent);
-      this.add(this.cloud);
+      this.cloud1 = new Cloud(parent,0);
+      this.add(this.cloud1);
+
+      this.cloud2 = new Cloud(parent,1);
+      this.add(this.cloud2);
 
       this.position.x = -1000;
       this.position.z = -1000;
@@ -53,6 +56,12 @@ class Chunk extends Group {
   disposeOf() {
     this.terrain.disposeOf()
     this.remove(this.terrain)
+
+    this.cloud1.disposeOf()
+    this.remove(this.cloud1)
+
+    this.cloud2.disposeOf()
+    this.remove(this.cloud2)
 
     return this.terrain.disposeOf()
   }
