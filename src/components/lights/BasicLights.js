@@ -14,7 +14,7 @@ class BasicLights extends Group {
 
         // Add light right above bird
         // const birdLight = new (0xffffff, 10, 20, Math.PI/2, 0, 2);
-        var birdLight = new DirectionalLight(0xffffff, 3);
+        var birdLight = new DirectionalLight(0xffffff, 1);
         birdLight.power = 800; // 4 * Math.PI
         birdLight.position.set(0, 50, -100);
         birdLight.target.position.set(0, 0, 0);
