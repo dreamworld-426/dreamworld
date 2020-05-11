@@ -51,6 +51,8 @@ class ChunkManager extends Group {
             freq: 1,
             terraced: false,
             terraces: 15,
+
+            orbNum: 10,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -117,7 +119,7 @@ class ChunkManager extends Group {
         folder0.add(this.state, 'randSeed', 0, 10).name("World Seed").onChange(() => this.updateSimplexSeed());
 
         // Related to the look of the terrain and don't need to recalculate height map again
-        var folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
+        let folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
         folder.add(this.state, 'exaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
@@ -132,6 +134,9 @@ class ChunkManager extends Group {
 
         folder.open();
 
+
+        let folder2 = this.state.gui.addFolder('ORBS');
+        folder2.add(this.state, 'orbNum', 0, 20).name('Orb Count').onChange(() => this.updateOrbs());
     }
 
     updateSimplexSeed() {
@@ -152,11 +157,17 @@ class ChunkManager extends Group {
       }
     }
 
+    updateOrbs() {
+      for(let chunk of this.state.chunks) {
+        chunk.updateOrbs(this.state.orbNum);
+      }
+    }
+
     update(timeStamp, x, y, z) {
       // console.log("Update in chunk manager. x: " + x + " y: " + y + " z: " + z)
       // make/delete chunks as needed
-
-      // TRYING TO SOLVE GLITCH
+      //
+      // // TRYING TO SOLVE GLITCH
       if(z > this.state.chunkWidth/2) {
         console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
@@ -169,6 +180,9 @@ class ChunkManager extends Group {
         this.remove(remove1)
         this.remove(remove2)
         this.remove(remove3)
+        remove1.disposeOf()
+        remove2.disposeOf()
+        remove3.disposeOf()
 
         // move everything a row back. Chunks[] help us keep track of this
         this.state.chunks[6] = this.state.chunks[3]
@@ -179,38 +193,38 @@ class ChunkManager extends Group {
         this.state.chunks[4] = this.state.chunks[1]
         this.state.chunks[5] = this.state.chunks[2]
 
-        // middle row
-        this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
-        this.state.chunks[4].setChunkPosition(0, 0, 0)
-        this.state.chunks[5].setChunkPosition(-this.state.chunkWidth, 0, 0)
+        // make new chunks with proper offset
+        let chunk1 = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+        let chunk2 = new Chunk(this, this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+        let chunk3 = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
+
+        // debugger;
+        // move all pieces to correct position relative to center block
+        // top row
+        chunk1.setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
+        chunk2.setChunkPosition(0, 0, this.state.chunkWidth)
+        chunk3.setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
+
+        this.state.chunks[0] = chunk1;
+        this.state.chunks[1] = chunk2;
+        this.state.chunks[2] = chunk3;
+
+        this.add(this.state.chunks[0])
+        this.add(this.state.chunks[1])
+        this.add(this.state.chunks[2])
+
         // bottom row
         this.state.chunks[6].setChunkPosition(this.state.chunkWidth, 0, -this.state.chunkWidth)
         this.state.chunks[7].setChunkPosition(0, 0, -this.state.chunkWidth)
         this.state.chunks[8].setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth)
 
-        this.position.x = -x;
-        this.position.y = y - startYBelow;
-        this.position.z = -z;
+        // middle row
+        this.state.chunks[3].setChunkPosition(this.state.chunkWidth, 0, 0)
+        this.state.chunks[4].setChunkPosition(0, 0, 0)
+        this.state.chunks[5].setChunkPosition(-this.state.chunkWidth, 0, 0)
 
-        // make new chunks with proper offset
-        this.state.chunks[0] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
-        this.state.chunks[1] = new Chunk(this, this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
-        this.state.chunks[2] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, this.state.chunkWidth + this.state.currentZOffset);
 
-        // move all pieces to correct position relative to center block
-        // top row
-        this.state.chunks[0].setChunkPosition(this.state.chunkWidth, 0, this.state.chunkWidth)
-        this.state.chunks[1].setChunkPosition(0, 0, this.state.chunkWidth)
-        this.state.chunks[2].setChunkPosition(-this.state.chunkWidth, 0, this.state.chunkWidth)
-
-        remove1.disposeOf()
-        remove2.disposeOf()
-        remove3.disposeOf()
-        this.add(this.state.chunks[0])
-        this.add(this.state.chunks[1])
-        this.add(this.state.chunks[2])
-
-        return;
+        // return;
 
       }
       else if(z < -this.state.chunkWidth/2) {
@@ -354,6 +368,7 @@ class ChunkManager extends Group {
       this.position.x = -x;
       this.position.y = y - startYBelow;
       this.position.z = -z;
+      //debugger;
 
     }
 }

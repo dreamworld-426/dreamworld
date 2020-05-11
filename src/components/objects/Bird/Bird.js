@@ -35,6 +35,7 @@ class Bird extends Group {
         yRotate: 0,
         zRotate: 0,
         velocity: 10,
+        keysPressed: [],
       };
 
       this.name = 'bird';
@@ -49,17 +50,16 @@ class Bird extends Group {
       folder.open();
 
       // window listeners to rotate bird
-      let keysPressed = [];
       // set keysPressed true when key is pressed
       window.addEventListener('keydown', (e) => {
-        keysPressed[e.keyCode] = true;
-        this.windowResizeHandler(e, keysPressed);
+        this.state.keysPressed[e.keyCode] = true;
+        this.windowResizeHandler(e);
       }, false);
 
 
       // set keysPressed to false when key is lifted
       window.addEventListener('keyup', (e) => {
-        keysPressed[e.keyCode] = false;
+        this.state.keysPressed[e.keyCode] = false;
       }, false);
 
       // Add update list
@@ -67,10 +67,10 @@ class Bird extends Group {
   }
 
   // rotate bird based on wasd keys pressed
-  windowResizeHandler(e, keysPressed) {
+  windowResizeHandler(e) {
     // bird goes up
     // w key
-    if (keysPressed[87]) {
+    if (this.state.keysPressed[87]) {
       this.state.upTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
@@ -88,7 +88,7 @@ class Bird extends Group {
 
     // bird goes down
     // s space key
-    if (keysPressed[83]) {
+    if (this.state.keysPressed[83]) {
       this.state.downTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
@@ -120,8 +120,8 @@ class Bird extends Group {
     }
 
     // bird goes to the left
-    // a key
-    if (keysPressed[68]) {
+    // d key
+    if (this.state.keysPressed[68]) {
       this.state.rightTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate <= 0.5) {
@@ -135,12 +135,12 @@ class Bird extends Group {
       this.state.yRotate -= 0.03;
 
       // update terrain
-      this.state.parent.state.x -= Math.cos(this.state.yRotate);
-      this.state.parent.state.z -= Math.sin(this.state.yRotate);
+      // this.state.parent.state.x -= Math.cos(this.state.yRotate);
+      // this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
 
-    // d key
-    if (keysPressed[65]) {
+    // a key
+    if (this.state.keysPressed[65]) {
       this.state.leftTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate >= -0.5) {
@@ -152,8 +152,8 @@ class Bird extends Group {
       this.state.yRotate = this.state.yRotate % (2 * Math.PI);
 
       // Update Terrain
-      this.state.parent.state.x += Math.cos(this.state.yRotate);
-      this.state.parent.state.z -= Math.sin(this.state.yRotate);
+      // this.state.parent.state.x += Math.cos(this.state.yRotate);
+      // this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
   }
 
