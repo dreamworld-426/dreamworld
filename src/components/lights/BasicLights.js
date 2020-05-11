@@ -22,7 +22,7 @@ class BasicLights extends Group {
         birdLight.decay = 2;
         birdLight.distance = Infinity;
 
-        var helper = new DirectionalLightHelper(birdLight);
+        // var helper = new DirectionalLightHelper(birdLight);
 
         // SpotLight needs a position and target
         dir.position.set(5, 1, 2);

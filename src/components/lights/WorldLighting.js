@@ -47,7 +47,7 @@ class WorldLighting extends Group {
       aura.position.set(0, 100, 720);
 
       // add visualization helper for debugging
-      const helper = new DirectionalLightHelper(sun);
+      // const helper = new DirectionalLightHelper(sun);
 
       var blue = new PointLight(0x0000ff, 1, 20, 2);
       // blue.target.position.set(0, 50, 50);
