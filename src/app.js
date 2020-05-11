@@ -140,7 +140,6 @@ const renderer = new WebGLRenderer({ antialias: true, alpha: true});
 //             .start(animate);
 
 // Set up camera
-//camera.position.set(6, 3, -10);
 camera.position.y = 60;
 camera.position.z = -300;
 camera.lookAt(new Vector3(0, 50, 0));
@@ -173,36 +172,14 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-// Set up controls
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
-// controls.enablePan = false;
-// controls.minDistance = 4;
-// controls.maxDistance = 500;
-//const controls = new FirstPersonControls(camera, canvas);
-
-// controls.update();
 
 //Render loop
-let t0 = true;
-let lastTimeStamp = window.animationTime;
 const onAnimationFrameHandler = (timeStamp) => {
-    // controls.update();
-    // let timeDelta = timeStamp - lastTimeStamp;
-    // if (timeDelta > 10 || t0 == true) {
+
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
 
-      scene.update && scene.update(timeStamp);
-
-      window.requestAnimationFrame(onAnimationFrameHandler);
-
-    // }
-    // else if (timeDelta == 10){
-    //   window.requestAnimationFrame(onAnimationFrameHandler);
-    // }
-    lastTimeStamp = timeStamp;
-    t0 = false;
+    window.requestAnimationFrame(onAnimationFrameHandler);
 };
 
 window.requestAnimationFrame(onAnimationFrameHandler);
