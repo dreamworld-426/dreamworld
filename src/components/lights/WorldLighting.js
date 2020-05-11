@@ -54,7 +54,7 @@ class WorldLighting extends Group {
       var pink = new DirectionalLight(0xFFB6C1, 1, 50, 2);
       // pink.target.position.set(0, 50, 50);
 
-      this.add(helper);
+      // this.add(helper);
       this.add(sun);
       this.add(aura);
       this.add(blue);
