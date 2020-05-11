@@ -112,7 +112,7 @@ class SeedScene extends Scene {
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
+            //obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
 
             if (obj.name !== "ChunkManager") {
                 obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
