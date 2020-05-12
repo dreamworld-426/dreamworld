@@ -11,11 +11,11 @@ class Music extends Group {
         super();
 
         const library = {
-            'Jazzy':JAZZ,
-            'Deep Meditation': DEEP,
-            'Slow': SLOW,
-            'Piano': PIANO,
-            'Breathing Exercise': MEDITATION
+            '1: Jazzy':JAZZ,
+            '2: Deep Meditation': DEEP,
+            '3: Slow': SLOW,
+            '4: Piano': PIANO,
+            '5: Breathing Exercise': MEDITATION
         };
 
         let listener = new AudioListener();
@@ -29,13 +29,13 @@ class Music extends Group {
             gui: parent.state.gui,
             camera: camera,
             library: library,
-            audiofile: 'Deep Meditation',
+            audiofile: '2: Deep Meditation',
             audioLoader: new AudioLoader(),
             listener: listener,
             sound: sound,
         };
 
-        this.updateAudioFile('Deep Meditation');
+        this.soundHandler(sound);
         
         // // create an AudioAnalyser, passing in the sound and desired fftSize
         // var analyser = new AudioAnalyser(sound, 32);
@@ -44,7 +44,7 @@ class Music extends Group {
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
-        folder.add(this.state, 'audiofile', ['Jazzy', 'Deep Meditation', 'Slow', 'Piano', 'Breathing Exercise']).onChange((audiofile) => this.updateAudioFile(audiofile));
+        folder.add(this.state, 'audiofile', ['1: Jazzy', '2: Deep Meditation', '3: Slow', '4: Piano', '5: Breathing Exercise']).onChange((audiofile) => this.updateAudioFile(audiofile));
         folder.open();
 
         window.addEventListener('keydown', (e) => {
@@ -78,8 +78,8 @@ class Music extends Group {
       
       // update audio when changed in gui
       updateAudioFile(audiofile) {
-        let audioLoader = new AudioLoader();
-        let music = this.state.library[audiofile];
+       // let audioLoader = new AudioLoader();
+        //let music = this.state.library[audiofile];
         let sound = this.state.sound;
 
         // stop current audio if playing already
