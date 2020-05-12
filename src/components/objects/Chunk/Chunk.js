@@ -14,7 +14,7 @@ class Chunk extends Group {
           gui: parent.state.gui,
           parent: parent,
       };
-      
+
       //console.log(this.state.center);
       // feed in the parent (chunk manager) as it has the proper terrain variables
       this.terrain = new TerrainPlane(parent, xOffset, yOffset, zOffset, plane_geometry)

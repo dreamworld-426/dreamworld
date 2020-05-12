@@ -18,7 +18,6 @@ import SLOW from './components/sounds/slowmotion.mp3';
 import { Color } from 'three';
 var ColorTween = require('color-tween');
 import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
-
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 // -------------------------- EVENT LISTENER HANDLERS ------------------------//
@@ -173,18 +172,12 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-let labelRenderer = new CSS2DRenderer();
-labelRenderer.setSize( window.innerWidth, window.innerHeight );
-labelRenderer.domElement.style.position = 'absolute';
-labelRenderer.domElement.style.top = '0px';
-document.body.appendChild( labelRenderer.domElement );
-
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
 
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
-      labelRenderer.render(scene, camera);
+      // labelRenderer.render(scene, camera);
       scene.update && scene.update(timeStamp);
 
     window.requestAnimationFrame(onAnimationFrameHandler);

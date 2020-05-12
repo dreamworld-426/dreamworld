@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb } from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb, Text } from 'objects';
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
@@ -23,6 +23,7 @@ class SeedScene extends Scene {
             x: 0,
             y: 0,
             z: 0,
+            text: null,
         };
 
         // Initial sky texture
@@ -62,10 +63,11 @@ class SeedScene extends Scene {
         console.log("adding bird...")
         const bird = new Bird(this, camera);
         this.add(bird);
-        // add orbs
-        // const orb = new Orb(this);
-        // this.add(orb);
 
+        console.log("add text...")
+        const text = new Text();
+        this.state.text = text;
+        console.log(document.body);
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Add cloud (just one for now for testing)
@@ -119,6 +121,11 @@ class SeedScene extends Scene {
                 obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
             }
         }
+
+        // update texts
+        //if (this.state.text !== null) {
+          this.state.text.update(timeStamp);
+        //}
     }
 
 }

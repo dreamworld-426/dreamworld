@@ -81,12 +81,12 @@ class Orb extends Group {
           let audioLoader = new AudioLoader();
           let listener = new AudioListener();
           let sound = new Audio(listener);
-          audioLoader.load(DING, function(buffer) {
-            sound.setBuffer(buffer);
-            sound.setLoop(false);
-            sound.setVolume(0.5);
-            sound.play();
-          });
+          // audioLoader.load(DING, function(buffer) {
+          //   sound.setBuffer(buffer);
+          //   sound.setLoop(false);
+          //   sound.setVolume(0.5);
+          //   sound.play();
+          // });
           this.state.hit[i] = true;
           this.state.parent.state.score++;
         }

@@ -116,6 +116,7 @@ class ChunkManager extends Group {
 
         let folder2 = this.state.gui.addFolder('ORBS');
         folder2.add(this.state, 'orbNum', 0, 5).name('Orb Count').onChange(() => this.updateOrbs());
+        folder2.open();
 
         let scoreDiv = document.createElement( 'div' );
         scoreDiv.className = 'label';
