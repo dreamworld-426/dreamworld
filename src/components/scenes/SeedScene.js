@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb } from 'objects';
+import { Bird, ChunkManager, Music} from 'objects';
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
@@ -25,26 +25,6 @@ class SeedScene extends Scene {
             z: 0,
         };
 
-        // Initial sky texture
-        // var skyDome = new BoxGeometry(50, 50, 50);
-        // var texture  = new THREE.TextureLoader().load(PURPLE);
-
-        // texture.wrapS = THREE.RepeatWrapping;
-        // texture.wrapT = THREE.RepeatWrapping;
-        // // texture.opacity
-        // var material = new THREE.MeshStandardMaterial({
-        //   map: texture,
-        //   color: 0x34eb46,
-        //   wireframe: true,
-        //   // side: THREE.BackSide
-        // });
-        // // this.background = material;
-        // var sky = new THREE.Mesh(skyDome, material);
-        // // sky.position.set(0, 0, 0);
-        // // sky.material.side = THREE.BackSide;
-        // this.add(sky);
-        // this.background = texture;
-
         this.background = new THREE.TextureLoader().load(PURPLE);
 
         // Add meshes to scene
@@ -55,20 +35,17 @@ class SeedScene extends Scene {
         this.add(lights);
 
         // add terrain to scene
-        console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
 
-        console.log("adding bird...")
         const bird = new Bird(this, camera);
         this.add(bird);
-        // add orbs
-        // const orb = new Orb(this);
-        // this.add(orb);
+
+        const music = new Music(this,camera);
+        this.add(music);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
-        // Add cloud (just one for now for testing)
 
         // Choose sky texture in GUI
         let folder = this.state.gui.addFolder('SKY');

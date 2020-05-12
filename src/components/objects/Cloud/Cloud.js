@@ -1,6 +1,5 @@
-import { Group, Color, TextureLoader, IcosahedronGeometry, IcosahedronBufferGeometry, Geometry, BufferGeometry, InstancedMesh, InstancedBufferAttribute, MeshBasicMaterial, MeshLambertMaterial, ShaderMaterial, Mesh, InstancedBufferGeometry} from 'three';
+import { Group, TextureLoader, IcosahedronGeometry, Geometry, BufferGeometry, InstancedMesh, MeshLambertMaterial, Object3D} from 'three';
 import img from './cloudy3.png';
-import * as THREE from 'three';
 class Cloud extends Group {
     constructor(parent, kind) {
         // Call parent Group() constructor
@@ -70,8 +69,8 @@ class Cloud extends Group {
           });
         // instance mesh code very loosely inspired by Three.js example:
         // https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
-        let mesh = new THREE.InstancedMesh(this.geometry, this.material, count );
-        let orientation = new THREE.Object3D();
+        let mesh = new InstancedMesh(this.geometry, this.material, count );
+        let orientation = new Object3D();
 
         let offset = 100;
         let offsetX  = 100;
