@@ -9,7 +9,10 @@ class WorldLighting extends Group {
 
       // Init state
       this.state = {
-        sun: null
+        sun: null,
+        radius: 300,
+        spin_rate: 0.005,
+        sun_distance: 700
       }
 
       // add sun
@@ -24,7 +27,8 @@ class WorldLighting extends Group {
 			});
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
-      sun.position.set(0, 100, 1000);
+
+      sun.position.set(0, this.state.radius, this.state.sun_distance);
 			sun.castShadow = true;
       sun.power = 800;
       sun.decay = 2;
@@ -44,21 +48,21 @@ class WorldLighting extends Group {
 			} );
       aura.add(new Mesh(auraSphere, glowMat));
       aura.target.position.set(0, 0, 0);
-      aura.position.set(0, 100, 720);
+      aura.position.set(0, this.state.radius, this.state.sun_distance);
 
       // add visualization helper for debugging
       // const helper = new DirectionalLightHelper(sun);
 
-      var blue = new PointLight(0x0000ff, 1, 20, 2);
+      // var blue = new PointLight(0x0000ff, 1, 20, 2);
       // blue.target.position.set(0, 50, 50);
-      var pink = new DirectionalLight(0xFFB6C1, 1, 50, 2);
+      // var pink = new PointLight(0xFFB6C1, 1, 50, 2);
       // pink.target.position.set(0, 50, 50);
 
       // this.add(helper);
       this.add(sun);
       this.add(aura);
-      this.add(blue);
-      this.add(pink);
+      // this.add(blue);
+      // this.add(pink);
 
       // add this object to SeedScene's update list
       parent.addToUpdateList(this);
@@ -66,7 +70,8 @@ class WorldLighting extends Group {
 
     // move the sun
     update(timeStamp) {
-      this.rotateOnAxis(new Vector3(0, 1, 0).normalize(), 0.005);
+      this.rotateOnAxis(new Vector3(0, 0, 1), this.state.spin_rate);
+
       // tween.update();
     }
 

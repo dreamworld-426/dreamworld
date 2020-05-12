@@ -55,9 +55,6 @@ class SeedScene extends Scene {
         this.add(lights);
 
         // add terrain to scene
-
-
-
         console.log("adding chunk manager...")
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
