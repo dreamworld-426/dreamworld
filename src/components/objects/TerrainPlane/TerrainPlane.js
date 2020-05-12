@@ -10,7 +10,6 @@ class TerrainPlane extends Group {
         // Call parent Group() constructor
         super();
 
-
         // Init state
         this.state = {
             gui: parent.state.gui,

@@ -39,6 +39,7 @@ class ChunkManager extends Group {
             power: 1,
             octaves: 16,
             exaggeration: 20,
+            ogExaggeration: 20,
             waterLevel: 0,
             waterColor: new Color(50, 90, 145),
             bankColor: new Color(0, 255, 0),
@@ -50,6 +51,7 @@ class ChunkManager extends Group {
             freq: 1,
             terraced: false,
             terraces: 15,
+            updateWithMusic: false,
 
         };
 
@@ -88,7 +90,7 @@ class ChunkManager extends Group {
 
         // Related to the look of the terrain and don't need to recalculate height map again
         let folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
-        folder.add(this.state, 'exaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'ogExaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateExaggeration());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
@@ -99,8 +101,9 @@ class ChunkManager extends Group {
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
 
-        folder.open();
+        // folder.open();
     }
 
     updateSimplexSeed() {
@@ -115,6 +118,11 @@ class ChunkManager extends Group {
       }
     }
 
+    updateExaggeration() {
+      this.state.exaggeration = this.state.ogExaggeration;
+      this.updateTerrainGeo()
+    }
+
     updateTerrainGeo() {
       for(let chunk of this.state.chunks) {
         chunk.updateTerrainGeo();
@@ -124,7 +132,7 @@ class ChunkManager extends Group {
     update(timeStamp, x, y, z) {
       // console.log("Update in chunk manager. x: " + x + " y: " + y + " z: " + z)
       // make/delete chunks as needed
-      // Initialized asa 0 but are actually supposed to be PlaneGeometry objects
+      // Initialized as a 0 but are actually supposed to be PlaneGeometry objects
       let plane_geos = [0, 0, 0];
       let need_update = (z > this.state.chunkWidth/2) || (z < -this.state.chunkWidth/2)
       || (x > this.state.chunkWidth/2) || (x < -this.state.chunkWidth/2);
@@ -165,6 +173,7 @@ class ChunkManager extends Group {
       }
       else if(z < -this.state.chunkWidth/2) {
         this.state.currentZOffset -= this.state.chunkWidth;
+        this.state.parent.state.z += this.state.chunkWidth;
 
         this.remove(this.state.chunks[0])
         this.remove(this.state.chunks[1])
@@ -191,9 +200,6 @@ class ChunkManager extends Group {
         this.state.chunks[8] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset,plane_geos
         [2]);
 
-
-        this.state.parent.state.z += this.state.chunkWidth;
-
         this.add(this.state.chunks[6])
         this.add(this.state.chunks[7])
         this.add(this.state.chunks[8])
@@ -204,6 +210,7 @@ class ChunkManager extends Group {
       else if(x > this.state.chunkWidth/2) {
 
         this.state.currentXOffset += this.state.chunkWidth;
+        this.state.parent.state.x -= this.state.chunkWidth;
 
         this.remove(this.state.chunks[2])
         this.remove(this.state.chunks[5])
@@ -230,8 +237,6 @@ class ChunkManager extends Group {
         this.state.chunks[6] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset,plane_geos
         [2]);
 
-        this.state.parent.state.x -= this.state.chunkWidth;
-
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[3])
         this.add(this.state.chunks[6])
@@ -240,6 +245,7 @@ class ChunkManager extends Group {
 
       else if(x < -this.state.chunkWidth/2) {
         this.state.currentXOffset -= this.state.chunkWidth;
+        this.state.parent.state.x += this.state.chunkWidth;
 
         this.remove(this.state.chunks[0])
         this.remove(this.state.chunks[3])
@@ -265,8 +271,6 @@ class ChunkManager extends Group {
         [1]);
         this.state.chunks[8] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset, plane_geos
         [2]);
-
-        this.state.parent.state.x += this.state.chunkWidth;
 
         this.add(this.state.chunks[2])
         this.add(this.state.chunks[5])

@@ -1,6 +1,6 @@
-import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2} from 'three';
+import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2, Water} from 'three';
 import  SimplexNoise  from 'simplex-noise';
-import { Water } from 'three/examples/js/objects/Water2.js';
+//import { Water } from 'three/examples/js/objects/Water.js';
 
 const terrainSize = {width: 1000, height: 1000, vertsWidth: 100, vertsHeight: 100};
 

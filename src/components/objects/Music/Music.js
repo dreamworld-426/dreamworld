@@ -90,12 +90,12 @@ class Music extends Group {
       this.soundHandler(sound);
     }
     update() {
-      if (this.state.soundUpdate % 5 == 0) {
+      if (this.state.soundUpdate % 5 == 0 && this.parent.chunkmanager.state.updateWithMusic == true) {
         let avg = this.state.analyser.getAverageFrequency();
         //this.state.gui.exaggeration += avg*0.5;
         let chunkManager = this.parent.chunkmanager;
         if (avg > 10) {
-          chunkManager.state.exaggeration = Math.min(avg - 10,50);
+          chunkManager.state.exaggeration = chunkManager.state.ogExaggeration*avg/40;
           let factor = avg/500;
           if (this.state.colorLevel == 0) {
             chunkManager.state.bankColor.lerp(chunkManager.state.middleColor,factor);

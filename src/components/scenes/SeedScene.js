@@ -48,8 +48,8 @@ class SeedScene extends Scene {
         this.add(music);
 
         console.log("add text...")
-        const text = new Text();
-        this.state.text = text;
+        //const text = new Text();
+        //this.state.text = text;
         console.log(document.body);
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
@@ -105,7 +105,7 @@ class SeedScene extends Scene {
 
         // update texts
         //if (this.state.text !== null) {
-          this.state.text.update(timeStamp);
+        //  this.state.text.update(timeStamp);
         //}
     }
 
