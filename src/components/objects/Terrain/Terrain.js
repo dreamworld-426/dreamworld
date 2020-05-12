@@ -1,10 +1,10 @@
-import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh} from 'three';
+import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2} from 'three';
 import  SimplexNoise  from 'simplex-noise';
+import { Water } from 'three/examples/js/objects/Water2.js';
 
 const terrainSize = {width: 1000, height: 1000, vertsWidth: 100, vertsHeight: 100};
 
 class Terrain extends Group {
-
 
     constructor(parent) {
         // console.log("CONSTRUCTOR TERRAIN")
@@ -33,22 +33,32 @@ class Terrain extends Group {
 
         // create the plane
         this.geometry = new PlaneGeometry(terrainSize.width,terrainSize.height,
-                                    terrainSize.vertsWidth-1,terrainSize.vertsHeight-1)
+                                    terrainSize.vertsWidth-1,terrainSize.vertsHeight-1);
         this.geometry.verticesNeedUpdate = true;
         this.geometry.colorsNeedUpdate = true;
+
 
         // get perline noise height map and update the geometry
         this.heightMap = this.generateTexture()
         this.updateTerrainGeo();
 
         //required for flat shading
-        this.geometry.computeFlatVertexNormals()
-        const terrain = new Mesh(this.geometry, new MeshLambertMaterial({
-            // wireframe:true,
-            vertexColors: VertexColors,
-            //required for flat shading
-            flatShading:true,
-        }))
+        // this.geometry.computeFlatVertexNormals();
+        // const terrain = new Mesh(this.geometry, new MeshLambertMaterial({
+        //     // wireframe:true,
+        //     vertexColors: VertexColors,
+        //     //required for flat shading
+        //     flatShading: true,
+        // }))
+
+        const terrain = new Water(this.geometry, {
+          color: 0xffffff,
+          scale: 1000,
+          vertexColors: VertexColors,
+          flowDirection: new Vector2(1, 1),
+          textureWidth: terrainSize.width,
+          textureHeight: terrainSize.height
+        } );
 
         // update location on the map
         let groundY = -200 //-249;

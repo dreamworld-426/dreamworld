@@ -11,7 +11,7 @@ class Music extends Group {
         super();
 
         const library = {
-            '1: Jazzy':JAZZ,
+            '1: Jazzy': JAZZ,
             '2: Deep Meditation': DEEP,
             '3: Slow': SLOW,
             '4: Piano': PIANO,
@@ -20,10 +20,10 @@ class Music extends Group {
 
         let listener = new AudioListener();
         camera.add(listener);
-  
+
         let sound = new Audio(listener);
         this.add(sound);
-  
+
         // Init state
         this.state = {
             gui: parent.state.gui,
@@ -39,7 +39,6 @@ class Music extends Group {
         };
 
         this.soundHandler(sound);
-      
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
@@ -77,7 +76,7 @@ class Music extends Group {
         sound.pause();
       }
     }
-    
+
     // update audio when changed in gui
     updateAudioFile(audiofile) {
       // let audioLoader = new AudioLoader();
@@ -94,7 +93,7 @@ class Music extends Group {
       if (this.state.soundUpdate % 5 == 0) {
         let avg = this.state.analyser.getAverageFrequency();
         //this.state.gui.exaggeration += avg*0.5;
-        let chunkManager =  this.parent.chunkmanager;
+        let chunkManager = this.parent.chunkmanager;
         if (avg > 10) {
           chunkManager.state.exaggeration = Math.min(avg - 10,50);
           let factor = avg/500;
@@ -113,9 +112,9 @@ class Music extends Group {
       if (this.state.soundUpdate % 300 == 0) {
         this.state.colorLevel = (this.state.colorLevel + 1) % 3;
       }
-      this.state.soundUpdate = (this.state.soundUpdate + 1) % 500;
 
+      this.state.soundUpdate = (this.state.soundUpdate + 1) % 500;
     }
-}          
+}
 
 export default Music;

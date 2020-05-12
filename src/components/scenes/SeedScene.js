@@ -25,9 +25,10 @@ class SeedScene extends Scene {
             z: 0,
         };
 
+        // Set sky background
         this.background = new THREE.TextureLoader().load(PURPLE);
 
-        // Add meshes to scene
+        // Add lights to scene
         const worldlights = new WorldLighting(this);
         this.add(worldlights);
 
@@ -37,17 +38,15 @@ class SeedScene extends Scene {
         // add terrain to scene
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
-
         this.chunkmanager = chunkmanager;
 
         const bird = new Bird(this, camera);
         this.add(bird);
 
-        const music = new Music(this,camera);
+        const music = new Music(this, camera);
         this.add(music);
 
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
-
 
         // Choose sky texture in GUI
         let folder = this.state.gui.addFolder('SKY');

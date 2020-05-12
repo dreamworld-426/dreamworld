@@ -12,12 +12,12 @@ class WorldLighting extends Group {
         sun: null,
         radius: 300,
         spin_rate: 0.001,
-        sun_distance: 600
+        sun_distance: 650
       }
 
       // add sun
       var sunGeometry = new SphereBufferGeometry(20, 25, 25);
-      var sun = new DirectionalLight(0xffee88, 5);
+      var sun = new DirectionalLight(0xffee88, 3);
       var sunMat = new MeshStandardMaterial({
 					emissive: 0xffffee,
 					emissiveIntensity: 2,
@@ -28,7 +28,7 @@ class WorldLighting extends Group {
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
       sun.position.set(0, this.state.radius, this.state.sun_distance);
-			sun.castShadow = true;x
+			sun.castShadow = true;
       sun.power = 800;
       sun.decay = 2;
       sun.distance = Infinity;
@@ -52,16 +52,9 @@ class WorldLighting extends Group {
       // add visualization helper for debugging
       // const helper = new DirectionalLightHelper(sun);
 
-      // var blue = new PointLight(0x0000ff, 1, 20, 2);
-      // blue.target.position.set(0, 50, 50);
-      // var pink = new PointLight(0xFFB6C1, 1, 50, 2);
-      // pink.target.position.set(0, 50, 50);
-
       // this.add(helper);
-      // this.add(sun);
+      this.add(sun);
       this.add(aura);
-      // this.add(blue);
-      // this.add(pink);
 
       // add this object to SeedScene's update list
       parent.addToUpdateList(this);
@@ -70,12 +63,7 @@ class WorldLighting extends Group {
     // move the sun
     update(timeStamp) {
       this.rotateOnAxis(new Vector3(1, 0, 0), this.state.spin_rate);
-
-      // tween.update();
     }
-
-    // tween stuff
-
 }
 
 export default WorldLighting;
