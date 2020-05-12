@@ -33,14 +33,13 @@ class Music extends Group {
             audioLoader: new AudioLoader(),
             listener: listener,
             sound: sound,
+            analyser: new AudioAnalyser(sound, 32),
+            colorLevel:0,
+            soundUpdate:0
         };
 
         this.soundHandler(sound);
-        
-        // // create an AudioAnalyser, passing in the sound and desired fftSize
-        // var analyser = new AudioAnalyser(sound, 32);
-        // var data = analyser.getFrequencyData();
-        // console.log(data);
+      
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
@@ -51,6 +50,9 @@ class Music extends Group {
           this.audioHandler(e);
         }, false);
 
+        parent.addToUpdateList(this);
+
+
     }
     audioHandler(event) {
         if (event.key == 'p') {
@@ -60,33 +62,59 @@ class Music extends Group {
           }
         }
         else return;
+    }
+    soundHandler(sound) {
+      let music = this.state.library[this.state.audiofile];
+      if (!sound.isPlaying) {
+        this.state.audioLoader.load(music, function(buffer) {
+          sound.setBuffer(buffer);
+          sound.setLoop(true);
+          sound.setVolume(0.5);
+          sound.play();
+        });
       }
-      soundHandler(sound) {
-        let music = this.state.library[this.state.audiofile];
-        if (!sound.isPlaying) {
-          this.state.audioLoader.load(music, function(buffer) {
-            sound.setBuffer(buffer);
-            sound.setLoop(true);
-            sound.setVolume(0.5);
-            sound.play();
-          });
-        }
-        else {
-          sound.pause();
-        }
+      else {
+        sound.pause();
       }
-      
-      // update audio when changed in gui
-      updateAudioFile(audiofile) {
-       // let audioLoader = new AudioLoader();
-        //let music = this.state.library[audiofile];
-        let sound = this.state.sound;
+    }
+    
+    // update audio when changed in gui
+    updateAudioFile(audiofile) {
+      // let audioLoader = new AudioLoader();
+      //let music = this.state.library[audiofile];
+      let sound = this.state.sound;
 
-        // stop current audio if playing already
-        if (sound.isPlaying) {
-          sound.stop();
+      // stop current audio if playing already
+      if (sound.isPlaying) {
+        sound.stop();
+      }
+      this.soundHandler(sound);
+    }
+    update() {
+      if (this.state.soundUpdate % 5 == 0) {
+        let avg = this.state.analyser.getAverageFrequency();
+        //this.state.gui.exaggeration += avg*0.5;
+        let chunkManager =  this.parent.chunkmanager;
+        if (avg > 10) {
+          chunkManager.state.exaggeration = Math.min(avg - 10,50);
+          let factor = avg/500;
+          if (this.state.colorLevel == 0) {
+            chunkManager.state.bankColor.lerp(chunkManager.state.middleColor,factor);
+          }
+          else if (this.state.colorLevel == 1) {
+            chunkManager.state.middleColor.lerp(chunkManager.state.peakColor,factor);
+          } else {
+            chunkManager.state.peakColor.lerp(chunkManager.state.bankColor,factor);
+          }
+          chunkManager.updateTerrainGeo();
         }
-        this.soundHandler(sound);
+      }
+
+      if (this.state.soundUpdate % 300 == 0) {
+        this.state.colorLevel = (this.state.colorLevel + 1) % 3;
+      }
+      this.state.soundUpdate = (this.state.soundUpdate + 1) % 500;
+
     }
 }          
 

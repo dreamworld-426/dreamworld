@@ -38,6 +38,8 @@ class SeedScene extends Scene {
         const chunkmanager = new ChunkManager(this);
         this.add(chunkmanager);
 
+        this.chunkmanager = chunkmanager;
+
         const bird = new Bird(this, camera);
         this.add(bird);
 
