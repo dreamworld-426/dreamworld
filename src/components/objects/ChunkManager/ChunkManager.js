@@ -51,7 +51,6 @@ class ChunkManager extends Group {
             terraced: false,
             terraces: 15,
 
-            orbNum: 1,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -102,10 +101,6 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
 
         folder.open();
-
-
-        let folder2 = this.state.gui.addFolder('ORBS');
-        folder2.add(this.state, 'orbNum', 0, 5).name('Orb Count').onChange(() => this.updateOrbs());
     }
 
     updateSimplexSeed() {
@@ -123,12 +118,6 @@ class ChunkManager extends Group {
     updateTerrainGeo() {
       for(let chunk of this.state.chunks) {
         chunk.updateTerrainGeo();
-      }
-    }
-
-    updateOrbs() {
-      for(let chunk of this.state.chunks) {
-        chunk.updateOrbs();
       }
     }
 
@@ -304,7 +293,6 @@ class ChunkManager extends Group {
       this.position.x = -x;
       this.position.y = y - startYBelow;
       this.position.z = -z;
-      //debugger;
 
     }
 

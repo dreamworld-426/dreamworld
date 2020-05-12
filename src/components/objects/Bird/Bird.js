@@ -14,7 +14,7 @@ class Bird extends Group {
       // Init state
       this.state = {
         gui: parent.state.gui,
-        bird: 'Parrot',
+        bird: 'Stork',
         model: null,
         mixer: null,
         prevTimeStamp: null,
@@ -41,7 +41,7 @@ class Bird extends Group {
       this.name = 'bird';
 
       // Load stork as default
-      this.onLoad('Parrot');
+      this.onLoad('Stork');
 
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
