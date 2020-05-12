@@ -7,95 +7,12 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 import { SeedScene } from 'scenes';
-import DEEP from './components/sounds/deep.mp3';
-import JAZZ from './components/sounds/jazzy.mp3';
-import PIANO from './components/sounds/piano.mp3';
-import MEDITATION from './components/sounds/5minbreathing.mp3';
-import SLOW from './components/sounds/slowmotion.mp3';
-import { Color } from 'three';
 var ColorTween = require('color-tween');
-import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
-// -------------------------- EVENT LISTENER HANDLERS ------------------------//
-// Play audio handler
-function audioHandler(event) {
-  if (event.key == 'p' && !sound.isPlaying) {
-    let audioLoader = new AudioLoader();
-    let music;
-    let audiofile = scene.state.audiofile;
-    if ( audiofile == 'Jazzy') {
-      music = JAZZ;
-    }
-    else if (audiofile == 'Deep Meditation') {
-      music = DEEP;
-      // scene.state.audiofile = audiofile;
-    }
-    else if (audiofile == 'Slow') {
-      music = SLOW;
-    }
-    else if (audiofile == 'Piano') {
-      music = PIANO;
-    }
-    else if (audiofile == 'Breathing Exercise') {
-      music = MEDITATION;
-    }
 
-    audioLoader.load(music, function(buffer) {
-      sound.setBuffer(buffer);
-      sound.setLoop(true);
-      sound.setVolume(0.5);
-      sound.play();
-    });
-  }
-  else if (event.key == 'p' && sound.isPlaying) {
-    sound.pause();
-  }
-
-
-  else return;
-}
-
-// update audio when changed in gui
-function updateAudioFile() {
-  let audioLoader = new AudioLoader();
-  let music;
-  let audiofile = scene.state.audiofile;
-
-  // stop current audio if playing already
-  if (sound.isPlaying) {
-    sound.stop();
-  }
-  // change audio
-  if (audiofile == 'Jazzy') {
-    music = JAZZ;
-    // scene.state.audiofile = audiofile;
-  }
-  else if (audiofile == 'Deep Meditation') {
-    music = DEEP;
-    // scene.state.audiofile = audiofile;
-  }
-  else if (audiofile == 'Slow') {
-    music = SLOW;
-  }
-  else if (audiofile == 'Piano') {
-    music = PIANO;
-  }
-  else if (audiofile == 'Breathing Exercise') {
-    music = MEDITATION;
-  }
-
-  // audioLoader.load(music, function(buffer) {
-  //   sound.setBuffer(buffer);
-  //   sound.setLoop(true);
-  //   sound.setVolume(0.5);
-  //   sound.play();
-  // });
-}
 
 // animation loop for sky tween
 function animate() {
@@ -125,12 +42,6 @@ function loopSkyTween() {
 }
 
 
-// Initialize core ThreeJS components
-// const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
-// camera.position.y = 350;
-// camera.position.z = -300;
-// camera.position.x = 300;
-// const scene = new SeedScene(camera);
 
 const renderer = new WebGLRenderer({ antialias: true, alpha: true});
 
@@ -145,22 +56,6 @@ camera.position.y = 60;
 camera.position.z = -300;
 camera.lookAt(new Vector3(0, 50, 0));
 
-// Add audio
-var listener = new AudioListener();
-camera.add(listener);
-
-// create a global audio source
-var sound = new Audio(listener);
-
-// create an AudioAnalyser, passing in the sound and desired fftSize
-var analyser = new AudioAnalyser(sound, 32);
-var data = analyser.getAverageFrequency();
-
-// Choose audio file in GUI
-let folder = scene.state.gui.addFolder('AUDIO');
-folder.add(scene.state, 'audiofile', ['Jazzy', 'Deep Meditation', 'Slow', 'Piano', 'Breathing Exercise']).onChange(() => {updateAudioFile()});
-folder.open();
-window.addEventListener('keydown', audioHandler);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -173,18 +68,12 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-let labelRenderer = new CSS2DRenderer();
-labelRenderer.setSize( window.innerWidth, window.innerHeight );
-labelRenderer.domElement.style.position = 'absolute';
-labelRenderer.domElement.style.top = '0px';
-document.body.appendChild( labelRenderer.domElement );
 
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
 
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
-      labelRenderer.render(scene, camera);
       scene.update && scene.update(timeStamp);
 
     window.requestAnimationFrame(onAnimationFrameHandler);
