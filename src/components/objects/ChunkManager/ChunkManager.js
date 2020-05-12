@@ -62,10 +62,6 @@ class ChunkManager extends Group {
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
 
-
-
-
-
         const coordinates = [
           [this.state.chunkWidth, 0, this.state.chunkWidth],
           [0, 0, this.state.chunkWidth],
