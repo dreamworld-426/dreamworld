@@ -27,6 +27,7 @@ class WorldLighting extends Group {
 			});
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
+
       sun.position.set(0, this.state.radius, this.state.sun_distance);
 			sun.castShadow = true;
       sun.power = 800;

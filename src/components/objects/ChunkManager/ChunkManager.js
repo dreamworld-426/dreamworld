@@ -1,6 +1,7 @@
 import { Group, Color, PlaneGeometry } from 'three';
 import  SimplexNoise  from 'simplex-noise';
 import { Chunk } from '../Chunk';
+import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 /*
       [0][1][2]
@@ -53,6 +54,10 @@ class ChunkManager extends Group {
 
             orbNum: 1,
             betweenChunks:false,
+            oldFour: null,
+            score: 0,
+            scoreDiv: null,
+            scoreBoard: null,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -111,6 +116,16 @@ class ChunkManager extends Group {
 
         let folder2 = this.state.gui.addFolder('ORBS');
         folder2.add(this.state, 'orbNum', 0, 5).name('Orb Count').onChange(() => this.updateOrbs());
+
+        let scoreDiv = document.createElement( 'div' );
+        scoreDiv.className = 'label';
+        scoreDiv.textContent = 'Score: ' + this.state.score;
+        scoreDiv.style.marginTop = '-1em';
+        this.state.scoreDiv = scoreDiv;
+
+        let scoreBoard = new CSS2DObject( scoreDiv );
+        this.state.scoreBoard = scoreBoard;
+        this.add( scoreBoard );
     }
 
     updateSimplexSeed() {
@@ -142,9 +157,11 @@ class ChunkManager extends Group {
       // make/delete chunks as needed
       // Initialized asa 0 but are actually supposed to be PlaneGeometry objects
       let plane_geos = [0, 0, 0];
+
       let need_update = (z > this.state.chunkWidth/2) || (z < -this.state.chunkWidth/2)
       || (x > this.state.chunkWidth/2) || (x < -this.state.chunkWidth/2);
 
+      // TRYING TO SOLVE GLITCH
       if(z > this.state.chunkWidth/2) {
         console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
@@ -317,14 +334,28 @@ class ChunkManager extends Group {
         this.state.chunks[8].setChunkPosition(-this.state.chunkWidth, 0, -this.state.chunkWidth)
       }
 
+      // if it is still the same chunk;
+      //if (this.state.oldFour === this.state.chunks[4]) {
+        this.state.chunks[4].orb.center = true;
+        this.state.chunks[4].orb.orientation(x, y, z, startYBelow);
+      // }
+
+      // console.log(this.state.chunks[1].orb.center);
+      // this.state.chunks[4].state.center = true;
+      //console.log(this.state.chunks[1].state.center);
+
       this.position.x = -x;
       this.position.y = y - startYBelow;
       this.position.z = -z;
       //debugger;
 
+      if (this.state.scoreDiv != null) {
+        this.state.scoreDiv.textContent = 'Score: ' + this.state.score;
+      }
+      if (this.state.scoreBoard != null) {
+        this.state.scoreBoard.position.set(this.state.parent.state.x, this.state.parent.state.y, this.state.parent.state.z );
+      }
     }
-
-
 }
 
 export default ChunkManager;
