@@ -74,10 +74,12 @@ class Bird extends Group {
       this.state.upTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
+      // change x rotation
       if (this.state.xRotate >= -0.5) {
         this.state.xRotate -= 0.01;
       }
 
+      // change bird speed to go faster
       if (this.state.speed >= 700) {
         this.state.speed -= 100;
       }
@@ -107,6 +109,7 @@ class Bird extends Group {
       let vals = [];
       if (this.state.bird === 'Stork') {
         vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
+        this.state.speed = 2000;
       }
       else if (this.state.bird === 'Parrot'){
         vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
