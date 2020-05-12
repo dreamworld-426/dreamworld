@@ -34,7 +34,7 @@ class Bird extends Group {
         xRotate: 0,
         yRotate: 0,
         zRotate: 0,
-        velocity: 5,
+        velocity: 3,
         keysPressed: [],
       };
 

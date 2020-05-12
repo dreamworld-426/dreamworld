@@ -7,15 +7,12 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 import { SeedScene } from 'scenes';
 import DEEP from './components/sounds/deep.mp3';
 import JAZZ from './components/sounds/jazzy.mp3';
 import PIANO from './components/sounds/piano.mp3';
 import MEDITATION from './components/sounds/5minbreathing.mp3';
 import SLOW from './components/sounds/slowmotion.mp3';
-import { Color } from 'three';
 var ColorTween = require('color-tween');
 
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
@@ -124,12 +121,6 @@ function loopSkyTween() {
 }
 
 
-// Initialize core ThreeJS components
-// const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
-// camera.position.y = 350;
-// camera.position.z = -300;
-// camera.position.x = 300;
-// const scene = new SeedScene(camera);
 
 const renderer = new WebGLRenderer({ antialias: true, alpha: true});
 

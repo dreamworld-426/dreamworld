@@ -52,14 +52,9 @@ class ChunkManager extends Group {
             terraces: 15,
 
             orbNum: 1,
-            betweenChunks:false,
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
-
-
-
-
 
         const coordinates = [
           [this.state.chunkWidth, 0, this.state.chunkWidth],
@@ -157,8 +152,6 @@ class ChunkManager extends Group {
         plane_geos[1] = this.state.chunks[7].disposeOf()
         plane_geos[2] = this.state.chunks[8].disposeOf()
 
-        this.state.betweenChunks = true;
-
         // move everything a row back. Chunks[] help us keep track of this
         this.state.chunks[6] = this.state.chunks[3]
         this.state.chunks[7] = this.state.chunks[4]
@@ -180,9 +173,6 @@ class ChunkManager extends Group {
         this.add(this.state.chunks[1])
         this.add(this.state.chunks[2])
 
-
-        this.state.betweenChunks = false;
-
       }
       else if(z < -this.state.chunkWidth/2) {
         this.state.currentZOffset -= this.state.chunkWidth;
@@ -194,7 +184,6 @@ class ChunkManager extends Group {
         plane_geos[1] = this.state.chunks[1].disposeOf()
         plane_geos[2] = this.state.chunks[2].disposeOf()
 
-        this.state.betweenChunks = true;
 
         // move everything a row forward. Chunks[] help us keep track of this
         this.state.chunks[0] = this.state.chunks[3]
@@ -220,7 +209,6 @@ class ChunkManager extends Group {
         this.add(this.state.chunks[7])
         this.add(this.state.chunks[8])
 
-        this.state.betweenChunks = false;
       }
 
 
@@ -235,7 +223,6 @@ class ChunkManager extends Group {
         plane_geos[1] = this.state.chunks[5].disposeOf()
         plane_geos[2] = this.state.chunks[8].disposeOf()
 
-        this.state.betweenChunks = true;
 
         // move everything a column right. Chunks[] help us keep track of this
         this.state.chunks[2] = this.state.chunks[1]
@@ -260,7 +247,6 @@ class ChunkManager extends Group {
         this.add(this.state.chunks[3])
         this.add(this.state.chunks[6])
 
-        this.state.betweenChunks = false;
       }
 
       else if(x < -this.state.chunkWidth/2) {
@@ -273,7 +259,6 @@ class ChunkManager extends Group {
         plane_geos[1] = this.state.chunks[3].disposeOf()
         plane_geos[2] = this.state.chunks[6].disposeOf()
 
-        this.state.betweenChunks = true;
 
         // move everything a column left. Chunks[] help us keep track of this
         this.state.chunks[0] = this.state.chunks[1]
@@ -298,7 +283,6 @@ class ChunkManager extends Group {
         this.add(this.state.chunks[5])
         this.add(this.state.chunks[8])
 
-        this.state.betweenChunks = false;
 
       }
       if (need_update) {
