@@ -9,7 +9,6 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
 import { SeedScene } from 'scenes';
 var ColorTween = require('color-tween');
-
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 
@@ -72,6 +71,7 @@ document.body.appendChild(canvas);
 const onAnimationFrameHandler = (timeStamp) => {
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
+
       scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };

@@ -46,7 +46,7 @@ class Bird extends Group {
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
       folder.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
-      folder.add(this.state, 'velocity', 0, 10).onChange((e) => {this.state.velocity = e});
+      folder.add(this.state, 'velocity', 0, 5).onChange((e) => {this.state.velocity = e});
       folder.open();
 
       // window listeners to rotate bird
@@ -74,10 +74,12 @@ class Bird extends Group {
       this.state.upTime = e.timeStamp;
       this.state.keyTime =  e.timeStamp;
 
+      // change x rotation
       if (this.state.xRotate >= -0.5) {
         this.state.xRotate -= 0.01;
       }
 
+      // change bird speed to go faster
       if (this.state.speed >= 700) {
         this.state.speed -= 100;
       }
@@ -101,11 +103,30 @@ class Bird extends Group {
       let values = track.values;
 
       // if (this.state.bird != 'Flamingo'){
-      let vals = [11,24,36,48,60,73,86,99,112,126,140,154,168,178];
-      for (let i = 0; i < values.length; i++) {
-        values[i] = 0;
+      // 0 - hooked wings - maybe
+      // 1 - hooked wings - maybe
+      // 2 - hooked wings - maybe
+      let vals = [];
+      if (this.state.bird === 'Stork') {
+        vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
+        this.state.speed = 2000;
+      }
+      else if (this.state.bird === 'Parrot'){
+        vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
+      }
+      else if (this.state.bird === 'Flamingo') {
+        vals = [];
       }
 
+      for (let i = 0; i < values.length; i++) {
+        if (vals.includes(i)) {
+          values[i] = 1;
+        }
+        else {
+          values[i] = 0;
+        }
+      }
+      // this.state.speed = 2000;
       if (!e.repeat) {
         const action = this.state.mixer.clipAction(animation);
         this.state.action = this.state.action.crossFadeTo(action, 1, true);
@@ -133,10 +154,6 @@ class Bird extends Group {
         this.state.yRotate = 2 * Math.PI;
       }
       this.state.yRotate -= 0.03;
-
-      // update terrain
-      // this.state.parent.state.x -= Math.cos(this.state.yRotate);
-      // this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
 
     // a key
@@ -263,7 +280,8 @@ class Bird extends Group {
           this.state.xRotate -= 0.005;
         }
       }
-      if (this.state.downTime < timeStamp && this.state.newAnimate) {
+      if (this.state.downTime + 1000 < timeStamp && this.state.newAnimate) {
+        this.state.speed = 1000;
         this.state.mixer.stopAllAction();
         const action = this.state.mixer.clipAction(this.state.animation);
         this.state.action = this.state.action.crossFadeTo(action, 1, true);

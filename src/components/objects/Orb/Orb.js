@@ -17,7 +17,7 @@ class Orb extends Group {
         };
 
         this.name = 'orb';
-        
+
         // parent.addToUpdateList(this);
         this.updateOrbs(this.state.numOrb);
     }
