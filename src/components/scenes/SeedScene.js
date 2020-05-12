@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-import { Bird, ChunkManager, Music} from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Orb, Text, Music } from 'objects';
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
@@ -23,6 +23,7 @@ class SeedScene extends Scene {
             x: 0,
             y: 0,
             z: 0,
+            text: null,
         };
 
         this.background = new THREE.TextureLoader().load(PURPLE);
@@ -46,6 +47,10 @@ class SeedScene extends Scene {
         const music = new Music(this,camera);
         this.add(music);
 
+        console.log("add text...")
+        const text = new Text();
+        this.state.text = text;
+        console.log(document.body);
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
 
@@ -98,6 +103,11 @@ class SeedScene extends Scene {
                 obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
             }
         }
+
+        // update texts
+        //if (this.state.text !== null) {
+          this.state.text.update(timeStamp);
+        //}
     }
 
 }

@@ -9,7 +9,6 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
 import { SeedScene } from 'scenes';
 var ColorTween = require('color-tween');
-
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 
@@ -68,12 +67,12 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
 
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
+
       scene.update && scene.update(timeStamp);
 
     window.requestAnimationFrame(onAnimationFrameHandler);

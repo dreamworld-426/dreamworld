@@ -1,0 +1,43 @@
+this.state = {
+  text: null,
+  num: 0,
+  box: null,
+}
+
+let box = document.createElement("DIV");
+this.state.box = box;
+box.style.left = '0%';
+box.style.position= "absolute";
+box.style.bottom = '0%';
+box.style.width = "100%";
+box.style.height = "10%";
+box.style.backgroundColor = 'black';
+box.style.opacity = "50%";
+box.style.display = 'flex';
+box.style.justifyContent = 'space-between';
+box.style.alignItems = 'center';
+box.id = 'box';
+document.body.appendChild(box);
+
+let backArrow = document.createElement("BUTTON");
+backArrow.id = 'backArrow';
+backArrow.innerText = 'back';
+backArrow.onClick = this.updateBackArrow();
+backArrow.style.left = '16px';
+backArrow.style.margin = 'auto';
+box.appendChild(backArrow);
+
+let text = document.createElement("DIV");
+text.id = 'text';
+text.innerText = QUOTES[this.state.num];
+text.style.color = 'white';
+
+box.appendChild(text);
+
+let forwardArrow = document.createElement("BUTTON");
+forwardArrow.id = 'forwardArrow';
+forwardArrow.innerText = 'forward';
+forwardArrow.onClick = this.updateForwardArrow();
+forwardArrow.style.right = '16px';
+forwardArrow.style.margin = 'auto';
+box.appendChild(forwardArrow);
