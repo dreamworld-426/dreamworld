@@ -12,10 +12,9 @@ class Chunk extends Group {
       // Init state
       this.state = {
           gui: parent.state.gui,
-          parent: parent,
+          parent:parent,
       };
 
-      //console.log(this.state.center);
       // feed in the parent (chunk manager) as it has the proper terrain variables
       this.terrain = new TerrainPlane(parent, xOffset, yOffset, zOffset, plane_geometry)
       this.add(this.terrain);
@@ -62,9 +61,6 @@ class Chunk extends Group {
 
     this.cloud2.disposeOf()
     this.remove(this.cloud2)
-
-    this.orb.disposeOf()
-    this.remove(this.orb)
 
     return this.terrain.disposeOf()
   }

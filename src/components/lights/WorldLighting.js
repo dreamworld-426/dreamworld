@@ -11,25 +11,24 @@ class WorldLighting extends Group {
       this.state = {
         sun: null,
         radius: 300,
-        spin_rate: 0.005,
-        sun_distance: 700
+        spin_rate: 0.001,
+        sun_distance: 600
       }
 
       // add sun
       var sunGeometry = new SphereBufferGeometry(20, 25, 25);
-      var sun = new DirectionalLight(0xffee88, 7);
+      var sun = new DirectionalLight(0xffee88, 5);
       var sunMat = new MeshStandardMaterial({
 					emissive: 0xffffee,
 					emissiveIntensity: 2,
 					color: 0xffee88,
           transparent: true,
-          depthOrder: 1
+          depthOrder: 1 // to render it after other objects
 			});
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
-
       sun.position.set(0, this.state.radius, this.state.sun_distance);
-			sun.castShadow = true;
+			sun.castShadow = true;x
       sun.power = 800;
       sun.decay = 2;
       sun.distance = Infinity;
@@ -59,7 +58,7 @@ class WorldLighting extends Group {
       // pink.target.position.set(0, 50, 50);
 
       // this.add(helper);
-      this.add(sun);
+      // this.add(sun);
       this.add(aura);
       // this.add(blue);
       // this.add(pink);
@@ -70,7 +69,7 @@ class WorldLighting extends Group {
 
     // move the sun
     update(timeStamp) {
-      this.rotateOnAxis(new Vector3(0, 0, 1), this.state.spin_rate);
+      this.rotateOnAxis(new Vector3(1, 0, 0), this.state.spin_rate);
 
       // tween.update();
     }

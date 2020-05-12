@@ -6,9 +6,9 @@ class BasicLights extends Group {
         super(...args);
 
         const dir = new SpotLight(0xffffff, 1.6, 7, 0.8, 1, 1);
-        const ambi = new AmbientLight(0x404040, 0.5); // overall lighting of the scene, doesn't cast shadows
+        const ambi = new AmbientLight(0x404040, 10); // overall lighting of the scene, doesn't cast shadows
         // const hemi = new HemisphereLight(0xffffbb, 0x080820, 1.0); // majority of the light (skycolor, groundcolor, intesnity)
-        const hemi = new HemisphereLight(0xcce0ff, 0x080820, 0.5);
+        const hemi = new HemisphereLight(0xcce0ff, 0x080820, 0.2);
         hemi.power = 800;
         hemi.decay = 2;
 
