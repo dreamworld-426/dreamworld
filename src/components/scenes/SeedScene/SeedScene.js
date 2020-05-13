@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Text, Music } from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Text, Music, Orb } from 'objects';
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';

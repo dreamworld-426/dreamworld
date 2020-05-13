@@ -38,6 +38,7 @@ class ChunkManager extends Group {
             totalVertWidth: chunkVertexWidth*3, // chunkVertWidth * 3
             currentXOffset: 0,
             currentZOffset: 0,
+            orbNum: 1,
 
             power: 1,
             octaves: 16,
@@ -124,7 +125,7 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
-        this.state.add(this.state, 'preset', PRESET_NAMES).onChange(() => this.loadPreset());
+        this.state.gui.add(this.state, 'preset', PRESET_NAMES).onChange(() => this.loadPreset());
 
         // folder.open();
     }
