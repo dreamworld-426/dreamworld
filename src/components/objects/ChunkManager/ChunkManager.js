@@ -17,7 +17,7 @@ const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
 
-const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars"];
+const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon"];
 
 class ChunkManager extends Group {
     constructor(parent) {
@@ -39,6 +39,8 @@ class ChunkManager extends Group {
             currentXOffset: 0,
             currentZOffset: 0,
             orbNum: 1,
+            displayOrbs: false,
+            displayClouds: true,
 
             power: 1,
             octaves: 16,
@@ -124,8 +126,11 @@ class ChunkManager extends Group {
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Terrain Presets").onChange(() => this.loadPreset());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
-        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Presets").onChange(() => this.loadPreset());
+        this.state.gui.add(this.state, 'displayOrbs').name("Display Words");
+        this.state.gui.add(this.state, 'displayClouds').name("Display Clouds");
+
 
         this.loadPreset();
         // folder.open();
@@ -151,6 +156,7 @@ class ChunkManager extends Group {
         this.state.terraces = 13
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Dusk'
+        this.state.displayClouds = true
         this.state.parent.updateSkyTexture();
       }
 
@@ -172,6 +178,7 @@ class ChunkManager extends Group {
         this.state.terraces = 15
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Sunset'
+        this.state.displayClouds = true
         this.state.parent.updateSkyTexture();
       }
 
@@ -193,6 +200,7 @@ class ChunkManager extends Group {
         this.state.terraces = 15
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = true
         this.state.parent.updateSkyTexture();
       }
 
@@ -214,6 +222,7 @@ class ChunkManager extends Group {
         this.state.terraces = 15
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = true
         this.state.parent.updateSkyTexture();
       }
 
@@ -235,6 +244,7 @@ class ChunkManager extends Group {
         this.state.terraces = 15
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = false
         this.state.parent.updateSkyTexture();
       }
 
@@ -245,6 +255,7 @@ class ChunkManager extends Group {
 
     // this doesnt work :()
     updateDisplay(gui) {
+        console.log(gui)
         for (var i in gui.__controllers) {
             gui.__controllers[i].updateDisplay();
         }
