@@ -86,7 +86,7 @@ class Text {
     // automate slideshow
     function auto() {
       plusSlides(1);
-      setTimeout(auto, 300000);
+      setTimeout(auto, 180000);
     }
 
   }

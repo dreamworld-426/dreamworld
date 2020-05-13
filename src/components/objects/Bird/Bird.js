@@ -14,7 +14,7 @@ class Bird extends Group {
       // Init state
       this.state = {
         gui: parent.state.gui,
-        bird: 'Parrot',
+        bird: 'Stork',
         model: null,
         mixer: null,
         prevTimeStamp: null,
@@ -40,7 +40,7 @@ class Bird extends Group {
       this.name = 'bird';
 
       // Load stork as default
-      this.onLoad('Parrot');
+      this.onLoad('Stork');
 
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
@@ -79,7 +79,7 @@ class Bird extends Group {
 
       // change bird speed to go faster
       if (this.state.speed >= 700) {
-        this.state.speed -= 100;
+        this.state.speed -= 200;
       }
 
       // update terrain y position
@@ -296,12 +296,12 @@ class Bird extends Group {
       // Reposition camera
       this.state.camera.position.y = 350 * Math.sin(this.state.xRotate + Math.PI/15);
       this.state.camera.position.z = -300 * Math.cos(this.state.yRotate);
-      this.state.camera.position.x = 300 * Math.sin(-this.state.yRotate);
+      this.state.camera.position.x = 300 * Math.sin(this.state.yRotate);
       this.state.camera.lookAt(this.state.model.position);
     }
 
     // update bird's speed based on its velocity if it is greater than 2
-    if (this.state.velocity >= 2 && this.state.downTime + 1000 < timeStamp){
+    if (this.state.velocity >= 2 && this.state.downTime + 1000 < timeStamp && this.state.upTime + 1000 < timeStamp){
       if (this.state.velocity >= 4) {
         this.state.speed = 1800 / 4;
       }
