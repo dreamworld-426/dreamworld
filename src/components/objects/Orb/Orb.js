@@ -2,6 +2,7 @@ import { Group, TextGeometry, MeshBasicMaterial, FontLoader, Mesh, MeshLambertMa
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import ORB from './orb.png';
 import 'three/examples/fonts/helvetiker_regular.typeface.json';
+import FONT_PATH from './font.json';
 
 const PROB_SHOWING = 0.5;
 const messages = ["breath", "exhale", "focus", "ohmmm", "free"];
@@ -49,7 +50,7 @@ class Orb extends Group {
 
       var loader = new FontLoader();
       var that = this;
-      let font = loader.load('src/components/objects/Orb/font.json', function ( font ) {
+      let font = loader.load(FONT_PATH, function ( font ) {
         //console.log(font)
 
         let geometry = new TextGeometry( messages[Math.round(Math.random()*4)], {
