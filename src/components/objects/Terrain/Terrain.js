@@ -1,4 +1,4 @@
-import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2, Water} from 'three';
+import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2} from 'three';
 import  SimplexNoise  from 'simplex-noise';
 //import { Water } from 'three/examples/js/objects/Water.js';
 
