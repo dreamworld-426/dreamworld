@@ -4,6 +4,7 @@ class Text {
   constructor() {
     let box = document.createElement("DIV");
     box.className = 'slideshow-container';
+    box.id = 'slideshow';
 
     box.style.position = 'fixed';
     box.style.bottom = '0';
