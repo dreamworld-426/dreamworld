@@ -94,9 +94,11 @@ class Orb extends Group {
 
     disposeOf() {
       if(this.state.isDisplayed == false) {return;}
-      this.state.mesh.geometry.dispose()
-      this.state.mesh.material.dispose()
-      this.remove(this.state.mesh)
+      if(this.state.mesh != null) {
+        this.state.mesh.geometry.dispose()
+        this.state.mesh.material.dispose()
+        this.remove(this.state.mesh)
+      }
     }
 }
 
