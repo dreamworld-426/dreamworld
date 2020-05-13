@@ -90,19 +90,13 @@ class ChunkManager extends Group {
         var waterGeometry = new PlaneBufferGeometry( this.state.chunkWidth*3, this.state.chunkWidth*3 );
 
         var textureLoader = new TextureLoader();
-      //  var normalMap0 = textureLoader.load( 'src/components/objects/ChunkManager/water/Water_1_M_Normal.jpg' )
-      //  console.log(normalMap0);
-        console.log(this.state.waterColor);
 
 				this.water = new Water( waterGeometry, {
-		//			color: this.state.waterColor,
 					scale: this.state.waterScale,
 					flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
 					textureWidth: 1024,
 					textureHeight: 1024,
-      //    normalMap0: normalMap0,
-      //    normalMap1: textureLoader.load( 'src/components/objects/ChunkManager//water/Water_2_M_Normal.jpg' )
-				} );
+    	  } );
 
 				//this.water.position.y = this.state.waterLevel - startYBelow;
 				this.water.rotation.x = Math.PI * - 0.5;
@@ -113,7 +107,6 @@ class ChunkManager extends Group {
         // Related to perlin noise, so call updateNoise which updates everything
         var folder0 = this.state.gui.addFolder( 'TERRAIN GENERATION FACTORS' );
         folder0.add(this.state, 'octaves', 1, 16).name("Jaggedness").onChange(() => this.updateNoise()) ;
-        // folder0.add(this.state, 'amplitude', 0, 10).onChange(() => this.updateNoise());
         folder0.add(this.state, 'freq', 1, 10).name("Peaks").onChange(() => this.updateNoise());
         folder0.add(this.state, 'randSeed', 0, 10).name("World Seed").onChange(() => this.updateSimplexSeed());
 
