@@ -75,8 +75,8 @@ class SeedScene extends Scene {
     }
 
     addToUpdateList(object) {
-        console.log("Adding to SeedScene: ")
-        console.log(object)
+        // console.log("Adding to SeedScene: ")
+        // console.log(object)
         this.state.updateList.push(object);
     }
 
