@@ -10,6 +10,7 @@ import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioL
 import { SeedScene, LoadingPage } from 'scenes';
 var ColorTween = require('color-tween');
 
+
 // animation loop for sky tween
 function animate() {
   // if (tween.update()) {
@@ -109,7 +110,7 @@ function loopSkyTween() {
 }
 
 // Set up camera
-
+const renderer = new WebGLRenderer({ antialias: true, alpha: true});
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 // const loadingPage = new LoadingPage();
@@ -157,8 +158,6 @@ canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
-
-renderer.render(scene, camera);
 
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
