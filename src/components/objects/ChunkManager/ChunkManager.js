@@ -17,6 +17,8 @@ const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
 
+const PRESET_NAMES = ["Natural", "Sunset Peaks", "Cotton Candy", "Clouds", "Rainbow Rolls"];
+
 class ChunkManager extends Group {
     constructor(parent) {
         // Call parent Group() constructor
@@ -54,10 +56,8 @@ class ChunkManager extends Group {
             terraces: 15,
             updateWithMusic: false,
 
-            // WATER PARAMS
-            waterScale: 1,
-            flowX: 1,
-            flowY: 1,
+            // PRESETS
+            preset: "Natural",
 
         };
 
@@ -124,8 +124,32 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
+        this.state.add(this.state, 'preset', PRESET_NAMES).onChange(() => this.loadPreset());
 
         // folder.open();
+    }
+
+    loadPreset() {
+
+      if(this.state.preset == "Natural") {
+        this.state.power = 1
+        this.state.octaves = 16
+        this.state.exaggeration = 20
+        this.state.ogExaggeration = 20
+        this.state.waterLevel = 0,
+        this.state.waterColor = new Color(50, 90, 145)
+        this.state.bankColor = new Color(0, 255, 0)
+        this.state.middleColor = new Color(255, 0, 0)
+        this.state.peakColor = new Color(0, 0, 255)
+        this.state.colorWiggle = 0.1
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 4
+        this.state.freq = 1
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+      }
+
     }
 
     updateSimplexSeed() {
