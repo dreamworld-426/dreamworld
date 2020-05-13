@@ -90,9 +90,11 @@ class TerrainPlane extends Group {
           var wiggle = this.state.parent.state.colorWiggle * 25;
           const max = (a.z+b.z+c.z)/3
       //    if(max <= this.state.parent.state.waterLevel) return f.color.setRGB((this.state.parent.state.waterColor.r + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.g + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.b +Math.random()*wiggle)/255)
-          if(max - this.state.parent.state.waterLevel > this.state.parent.state.exaggeration*7) return f.color.setRGB((this.state.parent.state.peakColor.r+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.g+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.b+ Math.random()*wiggle)/255)
 
           var ratio = (max - this.state.parent.state.waterLevel)/(this.state.parent.state.exaggeration*7);
+
+          if(ratio >= 1) return f.color.setRGB((this.state.parent.state.peakColor.r+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.g+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.b+ Math.random()*wiggle)/255)
+
 
           // upper half? blend middle with peak
           if(ratio >= this.state.parent.state.middleGradient) {
