@@ -124,7 +124,7 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
-        this.state.add(this.state, 'preset', PRESET_NAMES).onChange(() => this.loadPreset());
+        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Presets").onChange(() => this.loadPreset());
 
         // folder.open();
     }
@@ -148,8 +148,72 @@ class ChunkManager extends Group {
         this.state.terraced = false
         this.state.terraces = 15
         this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Dusk'
+        this.state.parent.updateSkyTexture();
       }
 
+      else if(this.state.preset == 'Sunset Peaks') {
+        this.state.power = 1
+        this.state.octaves = 16
+        this.state.exaggeration = 45
+        this.state.ogExaggeration = 45
+        this.state.waterLevel = 0,
+        this.state.waterColor = new Color(62,62,147)
+        this.state.bankColor = new Color(255, 147, 0)
+        this.state.middleColor = new Color(255, 13, 13)
+        this.state.peakColor = new Color(255,255,255)
+        this.state.colorWiggle = 0.1
+        this.state.middleGradient = 0.65
+        this.state.randSeed = 4
+        this.state.freq = 7.1
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Sunset'
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Cotton Candy') {
+        this.state.power = 1.1
+        this.state.octaves = 13
+        this.state.exaggeration = 65
+        this.state.ogExaggeration = 65
+        this.state.waterLevel = 28,
+        this.state.waterColor = new Color(50,90,145)
+        this.state.bankColor = new Color(11,130,209)
+        this.state.middleColor = new Color(255,0,197)
+        this.state.peakColor = new Color(32,67,214)
+        this.state.colorWiggle = 0.82
+        this.state.middleGradient = 0.33
+        this.state.randSeed = 4
+        this.state.freq = 2.7
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Clouds') {
+        this.state.power = 1
+        this.state.octaves = 12
+        this.state.exaggeration = 51
+        this.state.ogExaggeration = 51
+        this.state.waterLevel = 15
+        this.state.waterColor = new Color(50,90,145)
+        this.state.bankColor = new Color(14,21,112)
+        this.state.middleColor = new Color(35,129,169)
+        this.state.peakColor = new Color(252,252,252)
+        this.state.colorWiggle = 0.1
+        this.state.middleGradient = 0.69
+        this.state.randSeed = 4
+        this.state.freq = 6
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.parent.updateSkyTexture();
+      }
     }
 
     updateSimplexSeed() {
