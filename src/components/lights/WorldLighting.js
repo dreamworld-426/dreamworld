@@ -5,7 +5,8 @@
  *
  */
 
-import { Group, DirectionalLight, SpotLight, SpotLightHelper, SphereBufferGeometry, MeshStandardMaterial, PointLight, Mesh, DirectionalLightHelper, Vector3 } from 'three';
+import { Group, DirectionalLight, SpotLight, SpotLightHelper, SphereBufferGeometry,
+  MeshStandardMaterial, PointLight, Mesh, DirectionalLightHelper, Vector3, Geometry } from 'three';
 var ColorTween = require('color-tween');
 
 class WorldLighting extends Group {
@@ -16,10 +17,14 @@ class WorldLighting extends Group {
 
       // Init state
       this.state = {
+        gui: parent.state.gui,
         sun: null,
-        radius: 300,
-        spin_rate: 0.001,
-        sun_distance: 650
+        aura: null,
+        spin_rate: 0.003,
+        sun_start: new Vector3(0, 150, 650),
+        sun_distance: 650,
+        autosun: false,
+        sun_angle: 0
       }
 
       // add sun
@@ -34,7 +39,8 @@ class WorldLighting extends Group {
 			});
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
-      sun.position.set(0, this.state.radius, this.state.sun_distance);
+      sun.position.set(this.state.sun_start.x, this.state.sun_start.y, this.state.sun_start.z);
+      // sun.position.applyAxisAngle(new Vector3(1, 0, 0), this.state.sun_angle);
 			sun.castShadow = true;
       sun.power = 800;
       sun.decay = 2;
@@ -54,7 +60,8 @@ class WorldLighting extends Group {
 			} );
       aura.add(new Mesh(auraSphere, glowMat));
       aura.target.position.set(0, 0, 0);
-      aura.position.set(0, this.state.radius, this.state.sun_distance);
+      aura.position.set(this.state.sun_start.x, this.state.sun_start.y, this.state.sun_start.z);
+      this.state.aura = aura;
 
       // add visualization helper for debugging
       // const helper = new DirectionalLightHelper(sun);
@@ -63,13 +70,32 @@ class WorldLighting extends Group {
       this.add(sun);
       this.add(aura);
 
+      // populate GUI
+      let folder = this.state.gui.addFolder('SUN');
+      folder.add(this.state, 'sun_angle', 0, 360).name("Sun Angle").onChange(() => this.updateSunAngle());
+      folder.add(this.state, 'autosun').name("Rotating Sun");
+      folder.open();
+
       // add this object to SeedScene's update list
       parent.addToUpdateList(this);
     }
 
+    // update position of the sun based on angle
+    updateSunAngle() {
+      var sun = this.state.sun;
+      var aura = this.state.aura;
+      var radians = this.state.sun_angle * (Math.PI/180);
+      var rotated = this.state.sun_start.clone().applyAxisAngle(new Vector3(1, 0, 0), radians);
+
+      sun.position.set(rotated.x, rotated.y, rotated.z);
+      aura.position.set(rotated.x, rotated.y, rotated.z);
+    }
+
     // move the sun
     update(timeStamp) {
-      this.rotateOnAxis(new Vector3(1, 0, 0), this.state.spin_rate);
+      if (this.state.autosun) {
+        this.rotateOnAxis(new Vector3(1, 0, 0), this.state.spin_rate);
+      }
     }
 }
 
