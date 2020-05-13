@@ -24,7 +24,6 @@ class SeedScene extends Scene {
             y: 0,
             z: 0,
             text: null,
-            quotes: false,
         };
 
         // Set sky background
@@ -48,29 +47,16 @@ class SeedScene extends Scene {
         const music = new Music(this, camera);
         this.add(music);
 
-        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
+        console.log("add text...")
+        const text = new Text();
+        this.state.text = text;
+
+        this.fog = new THREE.Fog(0x17212A , 500, 1000);
 
         // Choose sky texture in GUI
         let folder = this.state.gui.addFolder('SKY');
         folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
         folder.open();
-
-        let quotes = this.state.gui.addFolder('QUOTES');
-        quotes.add(this.state, 'quotes').name('Quotes').onChange(() => this.updateQuotes());
-        quotes.open();
-    }
-
-    updateQuotes() {
-      if (this.state.quotes) {
-        this.state.quotes = true;
-        console.log("add text...")
-        const text = new Text();
-        this.state.text = text;
-      }
-      else {
-        let quotes = document.getElementById('slideshow');
-        document.body.removeChild(quotes);
-      }
     }
 
     addToUpdateList(object) {
