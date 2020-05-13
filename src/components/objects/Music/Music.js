@@ -95,7 +95,7 @@ class Music extends Group {
         //this.state.gui.exaggeration += avg*0.5;
         let chunkManager = this.parent.chunkmanager;
         if (avg > 10) {
-          chunkManager.state.exaggeration = chunkManager.state.ogExaggeration*avg/40;
+          chunkManager.state.exaggeration = chunkManager.state.ogExaggeration*avg/50;
           let factor = avg/500;
           
           chunkManager.state.bankColor = new Color(chunkManager.state.bankColor.r, chunkManager.state.bankColor.g, chunkManager.state.bankColor.b)

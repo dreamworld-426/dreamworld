@@ -51,7 +51,7 @@ class SeedScene extends Scene {
         const text = new Text();
         this.state.text = text;
 
-        this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
+        this.fog = new THREE.Fog(0x17212A , 500, 1000);
 
         // Choose sky texture in GUI
         let folder = this.state.gui.addFolder('SKY');
@@ -71,17 +71,22 @@ class SeedScene extends Scene {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         this.background = texture;
+        this.fog = new THREE.Fog(0xA36DA1, 500, 1000);
+
       }
       else if (this.state.skyTexture == 'Dusk'){
           var texture  = new THREE.TextureLoader().load(PURPLE);
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
+          this.fog = new THREE.Fog(0xB294B8, 500, 1000);
           this.background = texture;
       }
       else if (this.state.skyTexture == 'Starry') {
         var texture  = new THREE.TextureLoader().load(STARRY);
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
+        this.fog = new THREE.Fog(0x17212A, 500, 1000);
+
         this.background = texture;
       }
     }
