@@ -11,10 +11,11 @@ class LoadingPage extends Scene{
 
     // Box CSS
     box.style.position = 'absolute';
-    box.style.width = '100%';
     box.style.height = '100%';
+    box.style.width = '100%';
     box.style.textAlign = 'center';
     box.style.background = 'pink';
+    box.style.overflow = 'auto';
     document.body.appendChild(box);
     //
     // let image = document.createElement("IMG");
