@@ -38,6 +38,7 @@ class ChunkManager extends Group {
             totalVertWidth: chunkVertexWidth*3, // chunkVertWidth * 3
             currentXOffset: 0,
             currentZOffset: 0,
+            orbNum: 1,
 
             power: 1,
             octaves: 16,
