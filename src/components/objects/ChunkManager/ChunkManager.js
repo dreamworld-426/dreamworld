@@ -2,6 +2,9 @@ import { Group, Color, PlaneGeometry, PlaneBufferGeometry, Vector2, TextureLoade
 import  SimplexNoise  from 'simplex-noise';
 import { Chunk } from '../Chunk';
 import { Water } from 'three/examples/jsm/objects/water2.js';
+import NORM0 from './water/Water_1_M_Normal.jpg';
+import NORM1 from './water/Water_2_M_Normal.jpg';
+
 
 /*
       [0][1][2]
@@ -94,7 +97,10 @@ class ChunkManager extends Group {
 
         var textureLoader = new TextureLoader();
 
+
 				this.water = new Water( waterGeometry, {
+          normalMap0: textureLoader.load(NORM0),
+          normalMap1: textureLoader.load(NORM1),
 					scale: this.state.waterScale,
 					flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
 					textureWidth: 1024,
