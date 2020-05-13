@@ -34,6 +34,8 @@ class Orb extends Group {
 
     updateOrbs() {
 
+      if(this.state.isDisplayed == false) { return; }
+
       if (this.state.mesh != null || this.state.sphere != null) {
         this.remove(this.state.mesh);
         this.state.mesh.geometry.dispose();
