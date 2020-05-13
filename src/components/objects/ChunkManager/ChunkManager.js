@@ -1,6 +1,7 @@
-import { Group, Color, PlaneGeometry } from 'three';
+import { Group, Color, PlaneGeometry, PlaneBufferGeometry, Vector2, TextureLoader, Reflector, Refractor } from 'three';
 import  SimplexNoise  from 'simplex-noise';
 import { Chunk } from '../Chunk';
+import { Water } from 'three/examples/jsm/objects/water2.js';
 
 /*
       [0][1][2]
@@ -53,6 +54,11 @@ class ChunkManager extends Group {
             terraces: 15,
             updateWithMusic: false,
 
+            // WATER PARAMS
+            waterScale: 1,
+            flowX: 1,
+            flowY: 1,
+
         };
 
         this.state.simplex = new SimplexNoise(this.state.randSeed);
@@ -80,6 +86,29 @@ class ChunkManager extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
+        // add water plane
+        var waterGeometry = new PlaneBufferGeometry( this.state.chunkWidth*3, this.state.chunkWidth*3 );
+
+        var textureLoader = new TextureLoader();
+      //  var normalMap0 = textureLoader.load( 'src/components/objects/ChunkManager/water/Water_1_M_Normal.jpg' )
+      //  console.log(normalMap0);
+        console.log(this.state.waterColor);
+
+				this.water = new Water( waterGeometry, {
+		//			color: this.state.waterColor,
+					scale: this.state.waterScale,
+					flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
+					textureWidth: 1024,
+					textureHeight: 1024,
+      //    normalMap0: normalMap0,
+      //    normalMap1: textureLoader.load( 'src/components/objects/ChunkManager//water/Water_2_M_Normal.jpg' )
+				} );
+
+				//this.water.position.y = this.state.waterLevel - startYBelow;
+				this.water.rotation.x = Math.PI * - 0.5;
+				this.add( this.water );
+        console.log(this.water);
+
         // Populate GUI
         // Related to perlin noise, so call updateNoise which updates everything
         var folder0 = this.state.gui.addFolder( 'TERRAIN GENERATION FACTORS' );
@@ -92,10 +121,10 @@ class ChunkManager extends Group {
         let folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
         folder.add(this.state, 'ogExaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateExaggeration());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'waterLevel', -100, 200).name("Water Level").onChange(() => this.updateWaterLevel());
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'middleGradient', 0, 1).name("Peak Color Height").onChange(() => this.updateTerrainGeo());
-        folder.addColor(this.state, 'waterColor').name("Water Color").onChange(() => this.updateTerrainGeo());
+        folder.addColor(this.state, 'waterColor').name("Ocean Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'bankColor').name("Bank Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'middleColor').name("Middle Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
@@ -129,6 +158,11 @@ class ChunkManager extends Group {
       }
     }
 
+    updateWaterLevel() {
+      this.water.position.y = this.state.waterLevel;
+      this.updateTerrainGeo();
+    }
+
     update(timeStamp, x, y, z) {
       // console.log("Update in chunk manager. x: " + x + " y: " + y + " z: " + z)
       // make/delete chunks as needed
@@ -138,7 +172,6 @@ class ChunkManager extends Group {
       || (x > this.state.chunkWidth/2) || (x < -this.state.chunkWidth/2);
 
       if(z > this.state.chunkWidth/2) {
-        console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
         this.state.parent.state.z -= this.state.chunkWidth;
 

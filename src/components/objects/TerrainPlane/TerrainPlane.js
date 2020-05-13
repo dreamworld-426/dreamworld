@@ -73,7 +73,7 @@ class TerrainPlane extends Group {
                 v1.z = Math.pow(this.heightMap[j][i], Math.ceil(this.state.parent.state.power))*this.state.parent.state.exaggeration*10
               }
               // set to water level if below water
-              v1.z = Math.max(this.state.parent.state.waterLevel, v1.z)
+          //    v1.z = Math.max(this.state.parent.state.waterLevel, v1.z)
           }
       }
 
@@ -89,7 +89,7 @@ class TerrainPlane extends Group {
           //assign colors based on the average point of the face
           var wiggle = this.state.parent.state.colorWiggle * 25;
           const max = (a.z+b.z+c.z)/3
-          if(max <= this.state.parent.state.waterLevel) return f.color.setRGB((this.state.parent.state.waterColor.r + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.g + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.b +Math.random()*wiggle)/255)
+      //    if(max <= this.state.parent.state.waterLevel) return f.color.setRGB((this.state.parent.state.waterColor.r + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.g + Math.random()*wiggle)/255, (this.state.parent.state.waterColor.b +Math.random()*wiggle)/255)
           if(max - this.state.parent.state.waterLevel > this.state.parent.state.exaggeration*7) return f.color.setRGB((this.state.parent.state.peakColor.r+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.g+ Math.random()*wiggle)/255, (this.state.parent.state.peakColor.b+ Math.random()*wiggle)/255)
 
           var ratio = (max - this.state.parent.state.waterLevel)/(this.state.parent.state.exaggeration*7);
@@ -100,6 +100,14 @@ class TerrainPlane extends Group {
             return f.color.setRGB((this.state.parent.state.peakColor.r*ratio + this.state.parent.state.middleColor.r*(1-ratio) + Math.random()*wiggle)/255,
                                     (this.state.parent.state.peakColor.g*ratio + this.state.parent.state.middleColor.g*(1-ratio) + Math.random()*wiggle)/255,
                                     (this.state.parent.state.peakColor.b*ratio + this.state.parent.state.middleColor.b*(1-ratio) + Math.random()*wiggle)/255);
+          }
+
+          if(ratio < 0) {
+            ratio = 1 + ratio;
+            return f.color.setRGB((this.state.parent.state.bankColor.r*ratio + this.state.parent.state.waterColor.r*(1-ratio) + Math.random()*wiggle)/255,
+                                    (this.state.parent.state.bankColor.g*ratio + this.state.parent.state.waterColor.g*(1-ratio) + Math.random()*wiggle)/255,
+                                    (this.state.parent.state.bankColor.b*ratio + this.state.parent.state.waterColor.b*(1-ratio) + Math.random()*wiggle)/255);
+
           }
 
           ratio = (ratio)/this.state.parent.state.middleGradient;
