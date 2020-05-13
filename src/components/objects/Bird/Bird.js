@@ -26,6 +26,7 @@ class Bird extends Group {
         leftTime: 0,
         forwardTime: 0,
         backwardTime: 0,
+        keyTime: 0,
         parent: parent,
         animation: null,
         action: null,
@@ -33,7 +34,7 @@ class Bird extends Group {
         xRotate: 0,
         yRotate: 0,
         zRotate: 0,
-        velocity: 2,
+        velocity: 3,
         keysPressed: [],
       };
 
@@ -45,14 +46,14 @@ class Bird extends Group {
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
       folder.add(this.state, 'bird', ['Stork', 'Parrot', 'Flamingo']).onChange((bird) => this.onLoad(bird));
-      folder.add(this.state, 'velocity', 0, 5).onChange((e) => {this.state.velocity = e;});
+      folder.add(this.state, 'velocity', 0, 5).onChange((e) => {this.state.velocity = e});
       folder.open();
 
       // window listeners to rotate bird
       // set keysPressed true when key is pressed
       window.addEventListener('keydown', (e) => {
         this.state.keysPressed[e.keyCode] = true;
-        this.birdHandler(e);
+        this.windowResizeHandler(e);
       }, false);
 
 
@@ -66,11 +67,12 @@ class Bird extends Group {
   }
 
   // rotate bird based on wasd keys pressed
-  birdHandler(e) {
+  windowResizeHandler(e) {
     // bird goes up
     // w key
     if (this.state.keysPressed[87]) {
       this.state.upTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
 
       // change x rotation
       if (this.state.xRotate >= -0.5) {
@@ -79,10 +81,10 @@ class Bird extends Group {
 
       // change bird speed to go faster
       if (this.state.speed >= 700) {
-        this.state.speed -= 200;
+        this.state.speed -= 100;
       }
 
-      // update terrain y position
+      // update terrain position
       this.state.parent.state.y -= this.state.velocity;
     }
 
@@ -90,6 +92,7 @@ class Bird extends Group {
     // s space key
     if (this.state.keysPressed[83]) {
       this.state.downTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
 
       if (this.state.xRotate <= 0.5) {
           this.state.xRotate += 0.05;
@@ -106,12 +109,13 @@ class Bird extends Group {
       let vals = [];
       if (this.state.bird === 'Stork') {
         vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
+        this.state.speed = 2000;
       }
       else if (this.state.bird === 'Parrot'){
-        vals = [0,13,26,39,52,65,78,91,104,117,130,143];
+        vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
       }
       else if (this.state.bird === 'Flamingo') {
-        vals = [4,17,30,43,56,69,82,95,108,121,134,147,160,173];
+        vals = [];
       }
 
       for (let i = 0; i < values.length; i++) {
@@ -122,8 +126,7 @@ class Bird extends Group {
           values[i] = 0;
         }
       }
-
-      this.state.speed = 1500;
+      // this.state.speed = 2000;
       if (!e.repeat) {
         const action = this.state.mixer.clipAction(animation);
         this.state.action = this.state.action.crossFadeTo(action, 1, true);
@@ -141,6 +144,7 @@ class Bird extends Group {
     // d key
     if (this.state.keysPressed[68]) {
       this.state.rightTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate <= 0.5) {
         this.state.zRotate += 0.01;
       }
@@ -155,6 +159,7 @@ class Bird extends Group {
     // a key
     if (this.state.keysPressed[65]) {
       this.state.leftTime = e.timeStamp;
+      this.state.keyTime =  e.timeStamp;
       if (this.state.zRotate >= -0.5) {
         this.state.zRotate -= 0.01;
       }
@@ -189,9 +194,10 @@ class Bird extends Group {
       this.state.downTime = 0;
       this.state.rightTime = 0;
       this.state.leftTime = 0;
+      this.state.keyTime = 0;
       this.state.animation =  null;
       this.state.action = null;
-      this.state.newAnimate = false;
+      this.statenewAnimate = false;
     }
 
     // Bird loader
@@ -300,15 +306,7 @@ class Bird extends Group {
       this.state.camera.lookAt(this.state.model.position);
     }
 
-    // update bird's speed based on its velocity if it is greater than 2
-    if (this.state.velocity >= 2 && this.state.downTime + 1000 < timeStamp && this.state.upTime + 1000 < timeStamp){
-      if (this.state.velocity >= 4) {
-        this.state.speed = 1800 / 4;
-      }
-      else {this.state.speed = 1800 / this.state.velocity;}
-    }
-
-    //  animate the bird
+    // animate the bird
     if (this.state.mixer !== null) {
       // set previous time stamp if null
       if (this.state.prevTimeStamp === null) {

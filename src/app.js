@@ -6,9 +6,17 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
-import { SeedScene, LoadingPage } from 'scenes';
+
+import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap, Color } from 'three';
+import { SeedScene } from 'scenes';
+// import { Sky } from 'three-sky/src/Sky.js';
 var ColorTween = require('color-tween');
+var THREE = require('three');
+const Sky = require('three-sky');
+
+const renderer = new WebGLRenderer({ antialias: true, alpha: true});
+const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+const scene = new SeedScene(renderer, camera);
 
 // animation loop for sky tween
 function animate() {
@@ -109,11 +117,6 @@ function loopSkyTween() {
 }
 
 // Set up camera
-
-const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-const scene = new SeedScene(camera);
-// const loadingPage = new LoadingPage();
-
 camera.position.y = 60;
 camera.position.z = -300;
 camera.lookAt(new Vector3(0, 50, 0));
@@ -157,8 +160,6 @@ canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
-
-renderer.render(scene, camera);
 
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {

@@ -10,14 +10,13 @@ class Text {
     box.style.width = '100%';
     box.style.backgroundColor = 'black';
     box.style.opacity = '50%';
-    box.style.height = '10%';
-    box.style.top = '90%';
+    box.style.height = '20%';
     document.body.appendChild(box);
 
     let quotes = document.createElement("DIV");
     quotes.className = 'quotes';
 
-    quotes.style.padding = '30px';
+    quotes.style.padding = '80px';
     quotes.style.textAlign = 'center';
     box.appendChild(quotes);
 
@@ -86,7 +85,7 @@ class Text {
     // automate slideshow
     function auto() {
       plusSlides(1);
-      setTimeout(auto, 180000);
+      setTimeout(auto, 3000);
     }
 
   }

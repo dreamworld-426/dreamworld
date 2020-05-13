@@ -7,4 +7,3 @@ export * from './ChunkManager';
 export * from './Chunk';
 export * from './Text';
 export * from './Music';
-export * from './Orb';

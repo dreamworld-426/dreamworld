@@ -3,7 +3,7 @@ import JAZZ from './sounds/jazzy.mp3';
 import PIANO from './sounds/piano.mp3';
 import MEDITATION from './sounds/5minbreathing.mp3';
 import SLOW from './sounds/slowmotion.mp3';
-import { Group, AudioListener, Audio, AudioLoader, AudioAnalyser, Color} from 'three';
+import { Group, AudioListener, Audio, AudioLoader, AudioAnalyser} from 'three';
 
 class Music extends Group {
     constructor(parent, camera) {
@@ -90,21 +90,15 @@ class Music extends Group {
       this.soundHandler(sound);
     }
     update() {
-      if (this.state.soundUpdate % 5 == 0 && this.parent.chunkmanager.state.updateWithMusic == true) {
+      if (this.state.soundUpdate % 5 == 0) {
         let avg = this.state.analyser.getAverageFrequency();
         //this.state.gui.exaggeration += avg*0.5;
         let chunkManager = this.parent.chunkmanager;
         if (avg > 10) {
-          chunkManager.state.exaggeration = chunkManager.state.ogExaggeration*avg/40;
+          chunkManager.state.exaggeration = Math.min(avg - 10,50);
           let factor = avg/500;
-          
-          chunkManager.state.bankColor = new Color(chunkManager.state.bankColor.r, chunkManager.state.bankColor.g, chunkManager.state.bankColor.b)
-          chunkManager.state.middleColor = new Color(chunkManager.state.middleColor.r, chunkManager.state.middleColor.g, chunkManager.state.middleColor.b)
-          chunkManager.state.peakColor = new Color(chunkManager.state.peakColor.r, chunkManager.state.peakColor.g, chunkManager.state.peakColor.b)
-
           if (this.state.colorLevel == 0) {
             chunkManager.state.bankColor.lerp(chunkManager.state.middleColor,factor);
-
           }
           else if (this.state.colorLevel == 1) {
             chunkManager.state.middleColor.lerp(chunkManager.state.peakColor,factor);

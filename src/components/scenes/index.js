@@ -1,2 +1,1 @@
-export * from './SeedScene';
-export * from './LoadingPage';
+export { default as SeedScene } from './SeedScene.js';

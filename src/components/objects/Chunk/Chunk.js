@@ -1,8 +1,6 @@
 import { Group } from 'three';
 import { TerrainPlane } from '../TerrainPlane';
 import { Cloud } from '../Cloud';
-import { Orb } from '../Orb';
-
 
 class Chunk extends Group {
   constructor(parent, xOffset, yOffset, zOffset, plane_geometry) {
@@ -25,9 +23,6 @@ class Chunk extends Group {
 
       this.cloud2 = new Cloud(parent,1);
       this.add(this.cloud2);
-
-      this.orb1 = new Orb(parent);
-      this.add(this.orb1);
 
       this.position.x = -1000;
       this.position.z = -1000;
@@ -57,10 +52,6 @@ class Chunk extends Group {
 
     this.cloud2.disposeOf()
     this.remove(this.cloud2)
-
-    this.orb1.disposeOf()
-    this.remove(this.orb1)
-
 
     return this.terrain.disposeOf()
   }
