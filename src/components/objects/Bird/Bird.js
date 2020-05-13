@@ -296,7 +296,7 @@ class Bird extends Group {
       // Reposition camera
       this.state.camera.position.y = 350 * Math.sin(this.state.xRotate + Math.PI/15);
       this.state.camera.position.z = -300 * Math.cos(this.state.yRotate);
-      this.state.camera.position.x = 300 * Math.sin(this.state.yRotate);
+      this.state.camera.position.x = 300 * Math.sin(-this.state.yRotate);
       this.state.camera.lookAt(this.state.model.position);
     }
 
