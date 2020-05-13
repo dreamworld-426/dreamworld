@@ -44,6 +44,7 @@ class TerrainPlane extends Group {
             flatShading:true,
         });
         const terrain = new Mesh(this.geometry, this.material)
+        const lowerTerrain = new Mesh(this.geometry, this.material)
 
         // update location on the map
         // let groundY = -200 //-249;
@@ -53,7 +54,14 @@ class TerrainPlane extends Group {
         terrain.receiveShadow = true;
         terrain.castShadow = true;
 
+        lowerTerrain.rotation.x = -Math.PI / 2;
+        lowerTerrain.rotation.z = -Math.PI / 2;
+        lowerTerrain.receiveShadow = false;
+        lowerTerrain.castShadow = false;
+        lowerTerrain.position.y = -15;
+
         this.add(terrain);
+        this.add(lowerTerrain);
 
         // Add self to parent's update list
         // parent.addToUpdateList(this);
