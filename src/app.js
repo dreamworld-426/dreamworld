@@ -51,7 +51,6 @@ camera.lookAt(new Vector3(0, 50, 0));
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.physicallyCorrectLights = true;
 renderer.shadowMap.enabled;
 renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
