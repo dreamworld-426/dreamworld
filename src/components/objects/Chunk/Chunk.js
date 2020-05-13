@@ -20,14 +20,18 @@ class Chunk extends Group {
       this.terrain = new TerrainPlane(parent, xOffset, yOffset, zOffset, plane_geometry)
       this.add(this.terrain);
 
-      this.cloud1 = new Cloud(parent,0);
-      this.add(this.cloud1);
+      if(parent.state.displayClouds == true) {
+        this.cloud1 = new Cloud(parent,0);
+        this.add(this.cloud1);
 
-      this.cloud2 = new Cloud(parent,1);
-      this.add(this.cloud2);
+        this.cloud2 = new Cloud(parent,1);
+        this.add(this.cloud2);
+      }
 
-      this.orb1 = new Orb(parent);
-      this.add(this.orb1);
+      if(parent.state.displayOrbs == true) {
+        this.orb1 = new Orb(parent);
+        this.add(this.orb1);
+      }
 
       this.position.x = -1000;
       this.position.z = -1000;
@@ -52,14 +56,20 @@ class Chunk extends Group {
     this.terrain.disposeOf()
     this.remove(this.terrain)
 
-    this.cloud1.disposeOf()
-    this.remove(this.cloud1)
+    if(this.cloud1 != null) {
+      this.cloud1.disposeOf()
+      this.remove(this.cloud1)
+    }
 
-    this.cloud2.disposeOf()
-    this.remove(this.cloud2)
+    if(this.cloud2 != null) {
+      this.cloud2.disposeOf()
+      this.remove(this.cloud2)
+    }
 
-    this.orb1.disposeOf()
-    this.remove(this.orb1)
+    if(this.orb1 != null) {
+      this.orb1.disposeOf()
+      this.remove(this.orb1)
+    }
 
 
     return this.terrain.disposeOf()
