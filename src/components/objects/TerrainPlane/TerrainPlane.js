@@ -185,6 +185,7 @@ class TerrainPlane extends Group {
     disposeOf() {
       this.material.dispose();
       this.remove(this.children[0]);
+      this.remove(this.children[1]);
 
       return this.geometry;
     }
