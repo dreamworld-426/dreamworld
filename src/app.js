@@ -60,8 +60,6 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-renderer.render(scene, camera);
-
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
       scene.update && scene.update(timeStamp);
