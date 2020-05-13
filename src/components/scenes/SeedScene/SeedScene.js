@@ -1,13 +1,12 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Text, Music } from 'objects';
+import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, Text, Music, Orb } from 'objects';
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Sky } from 'three/examples/jsm/objects/Sky.js';
-import RED from '../textures/sunset.jpg';
-import PURPLE from '../textures/purple.jpeg';
-import STARRY from '../textures/starry.jpg';
+import RED from '../../textures/sunset.jpg';
+import PURPLE from '../../textures/purple.jpeg';
+import STARRY from '../../textures/starry.jpg';
 const THREE = require ('three');
 
 class SeedScene extends Scene {
@@ -51,7 +50,7 @@ class SeedScene extends Scene {
         console.log("add text...")
         const text = new Text();
         this.state.text = text;
-        console.log(document.body);
+
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Choose sky texture in GUI
@@ -99,9 +98,6 @@ class SeedScene extends Scene {
                 obj.update(timeStamp, this.state.x, this.state.y, this.state.z);
             }
         }
-
-        // update texts
-        this.state.text.update(timeStamp);
     }
 
 }
