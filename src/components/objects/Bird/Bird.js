@@ -9,8 +9,6 @@ class Bird extends Group {
       // Call parent Group() constructor
       super();
 
-      console.log("BIRD CONSTRUCTOR")
-
       // Init state
       this.state = {
         gui: parent.state.gui,

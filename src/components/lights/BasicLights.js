@@ -1,4 +1,4 @@
-import { Group, SpotLight, AmbientLight, HemisphereLight, DirectionalLightHelper, DirectionalLight } from 'three';
+import { Group, SpotLight, SpotLightHelper, AmbientLight, HemisphereLight, DirectionalLightHelper, DirectionalLight } from 'three';
 
 class BasicLights extends Group {
     constructor(...args) {
@@ -14,13 +14,13 @@ class BasicLights extends Group {
 
         // Add light right above bird
         // const birdLight = new (0xffffff, 10, 20, Math.PI/2, 0, 2);
-        var birdLight = new DirectionalLight(0xffffff, 1);
-        birdLight.power = 1600; // 4 * Math.PI
+        var birdLight = new DirectionalLight(0xffffff, 1.75);
+        birdLight.power = 800; // 4 * Math.PI
         birdLight.position.set(0, 0, -100);
         birdLight.target.position.set(0, 0, 0);
         birdLight.castShadow = true;
-        birdLight.decay = 2;
-        birdLight.distance = Infinity;
+        birdLight.decay = 100;
+        birdLight.distance = 200;
 
         // var helper = new DirectionalLightHelper(birdLight);
 
@@ -28,7 +28,7 @@ class BasicLights extends Group {
         dir.position.set(5, 1, 2);
         dir.target.position.set(0, 0, 0);
 
-        this.add(dir, ambi, hemi, birdLight);
+        this.add(ambi, hemi, birdLight, birdLight.target);
     }
 }
 

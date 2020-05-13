@@ -29,22 +29,23 @@ class WorldLighting extends Group {
 
       // add sun
       var sunGeometry = new SphereBufferGeometry(20, 25, 25);
-      var sun = new DirectionalLight(0xffee88, 3);
+      var sun = new DirectionalLight(0xffee88, 2);
       var sunMat = new MeshStandardMaterial({
 					emissive: 0xffffee,
-					emissiveIntensity: 2,
+					emissiveIntensity: 1,
 					color: 0xffee88,
           transparent: true,
           depthOrder: 1 // to render it after other objects
 			});
       sun.add(new Mesh(sunGeometry, sunMat));
       sun.target.position.set(0, 0, 0);
-      sun.position.set(this.state.sun_start.x, this.state.sun_start.y, this.state.sun_start.z);
+      var starting = this.state.sun_start.clone();
+      sun.position.set(starting.x, starting.y, starting.z);
       // sun.position.applyAxisAngle(new Vector3(1, 0, 0), this.state.sun_angle);
 			sun.castShadow = true;
       sun.power = 800;
       sun.decay = 2;
-      sun.distance = Infinity;
+      sun.distance = 500;
       this.state.sun = sun;
 
       // glow aura around sun
@@ -60,7 +61,7 @@ class WorldLighting extends Group {
 			} );
       aura.add(new Mesh(auraSphere, glowMat));
       aura.target.position.set(0, 0, 0);
-      aura.position.set(this.state.sun_start.x, this.state.sun_start.y, this.state.sun_start.z);
+      aura.position.set(starting.x, starting.y, starting.z);
       this.state.aura = aura;
 
       // add visualization helper for debugging
@@ -68,7 +69,9 @@ class WorldLighting extends Group {
 
       // this.add(helper);
       this.add(sun);
+      this.add(sun.target);
       this.add(aura);
+      this.add(aura.target);
 
       // populate GUI
       let folder = this.state.gui.addFolder('SUN');
