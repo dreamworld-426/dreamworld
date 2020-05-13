@@ -17,7 +17,7 @@ const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
 
-const PRESET_NAMES = ["Natural", "Sunset Peaks", "Cotton Candy", "Clouds", "Rainbow Rolls"];
+const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars"];
 
 class ChunkManager extends Group {
     constructor(parent) {
@@ -58,7 +58,7 @@ class ChunkManager extends Group {
             updateWithMusic: false,
 
             // PRESETS
-            preset: "Natural",
+            preset: "Cotton Candy",
 
         };
 
@@ -115,9 +115,9 @@ class ChunkManager extends Group {
         let folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
         folder.add(this.state, 'ogExaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateExaggeration());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'waterLevel', -100, 200).name("Water Level").onChange(() => this.updateWaterLevel());
+        folder.add(this.state, 'waterLevel', -200, 200).name("Water Level").onChange(() => this.updateWaterLevel());
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'middleGradient', 0, 1).name("Peak Color Height").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'middleGradient', 0.1, 1).name("Gradient").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'waterColor').name("Ocean Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'bankColor').name("Bank Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'middleColor').name("Middle Color").onChange(() => this.updateTerrainGeo());
@@ -127,27 +127,28 @@ class ChunkManager extends Group {
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Presets").onChange(() => this.loadPreset());
 
+        this.loadPreset();
         // folder.open();
     }
 
     loadPreset() {
 
-      if(this.state.preset == "Natural") {
+      if(this.state.preset == "Natural Terraces") {
         this.state.power = 1
-        this.state.octaves = 16
-        this.state.exaggeration = 20
-        this.state.ogExaggeration = 20
-        this.state.waterLevel = 0,
-        this.state.waterColor = new Color(50, 90, 145)
-        this.state.bankColor = new Color(0, 255, 0)
-        this.state.middleColor = new Color(255, 0, 0)
-        this.state.peakColor = new Color(0, 0, 255)
-        this.state.colorWiggle = 0.1
+        this.state.octaves = 4
+        this.state.exaggeration = 30
+        this.state.ogExaggeration = 30
+        this.state.waterLevel = -13
+        this.state.waterColor = new Color(14, 116, 255)
+        this.state.bankColor = new Color(183, 181, 82)
+        this.state.middleColor = new Color(16, 158, 83)
+        this.state.peakColor = new Color(255, 255, 255)
+        this.state.colorWiggle = -0.66
         this.state.middleGradient = 0.5
         this.state.randSeed = 4
-        this.state.freq = 1
-        this.state.terraced = false
-        this.state.terraces = 15
+        this.state.freq = 1.6
+        this.state.terraced = true
+        this.state.terraces = 13
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Dusk'
         this.state.parent.updateSkyTexture();
@@ -158,7 +159,7 @@ class ChunkManager extends Group {
         this.state.octaves = 16
         this.state.exaggeration = 45
         this.state.ogExaggeration = 45
-        this.state.waterLevel = 0,
+        this.state.waterLevel = 0
         this.state.waterColor = new Color(62,62,147)
         this.state.bankColor = new Color(255, 147, 0)
         this.state.middleColor = new Color(255, 13, 13)
@@ -179,7 +180,7 @@ class ChunkManager extends Group {
         this.state.octaves = 13
         this.state.exaggeration = 65
         this.state.ogExaggeration = 65
-        this.state.waterLevel = 28,
+        this.state.waterLevel = 28
         this.state.waterColor = new Color(50,90,145)
         this.state.bankColor = new Color(11,130,209)
         this.state.middleColor = new Color(255,0,197)
@@ -198,9 +199,9 @@ class ChunkManager extends Group {
       else if (this.state.preset == 'Clouds') {
         this.state.power = 1
         this.state.octaves = 12
-        this.state.exaggeration = 51
-        this.state.ogExaggeration = 51
-        this.state.waterLevel = 15
+        this.state.exaggeration = 29
+        this.state.ogExaggeration = 29
+        this.state.waterLevel = -44
         this.state.waterColor = new Color(50,90,145)
         this.state.bankColor = new Color(14,21,112)
         this.state.middleColor = new Color(35,129,169)
@@ -215,6 +216,41 @@ class ChunkManager extends Group {
         this.state.parent.state.skyTexture = 'Starry'
         this.state.parent.updateSkyTexture();
       }
+
+      else if (this.state.preset == 'Mars') {
+        this.state.power = 1.6
+        this.state.octaves = 16
+        this.state.exaggeration = 26
+        this.state.ogExaggeration = 26
+        this.state.waterLevel = -200
+        this.state.waterColor = new Color(255,255,255)
+        this.state.bankColor = new Color(185,5,5)
+        this.state.middleColor = new Color(103,0,45)
+        this.state.peakColor = new Color(80,0,0)
+        this.state.colorWiggle = -1
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 7
+        this.state.freq = 7.3
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.parent.updateSkyTexture();
+      }
+
+      this.updateNoise();
+      this.updateWaterLevel();
+    //  this.updateDisplay(this.state.gui);
+    }
+
+    // this doesnt work :()
+    updateDisplay(gui) {
+        for (var i in gui.__controllers) {
+            gui.__controllers[i].updateDisplay();
+        }
+        for (var f in gui.__folders) {
+            updateDisplay(gui.__folders[f]);
+        }
     }
 
     updateSimplexSeed() {
