@@ -14,7 +14,7 @@ var ColorTween = require('color-tween');
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
-// const loadingPage = new LoadingPage();
+const loadingPage = new LoadingPage();
 
 camera.position.y = 60;
 camera.position.z = -300;
