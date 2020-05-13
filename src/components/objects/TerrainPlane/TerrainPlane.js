@@ -122,13 +122,6 @@ class TerrainPlane extends Group {
       this.geometry.computeFlatVertexNormals();
     }
 
-
-    updateSimplexSeed() {
-      // this.simplex = new SimplexNoise(this.state.randSeed);
-
-      this.updateNoise();
-    }
-
     updateNoise() {
       this.heightMap = this.generateTexture();
 
