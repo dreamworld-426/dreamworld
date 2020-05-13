@@ -248,6 +248,28 @@ class ChunkManager extends Group {
         this.state.parent.updateSkyTexture();
       }
 
+      else if (this.state.preset == 'Moon') {
+        this.state.power = 1.6
+        this.state.octaves = 4
+        this.state.exaggeration = 40
+        this.state.ogExaggeration = 40
+        this.state.waterLevel = -200
+        this.state.waterColor = new Color(0,0,0)
+        this.state.bankColor = new Color(195,195,195)
+        this.state.middleColor = new Color(50,50,50)
+        this.state.peakColor = new Color(210,210,210)
+        this.state.colorWiggle = 0.13
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 4
+        this.state.freq = 1.3
+        this.state.terraced = true
+        this.state.terraces = 20
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = false
+        this.state.parent.updateSkyTexture();
+      }
+
       this.updateNoise();
       this.updateWaterLevel();
     //  this.updateDisplay(this.state.gui);
