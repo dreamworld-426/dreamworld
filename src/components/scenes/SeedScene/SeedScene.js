@@ -30,10 +30,7 @@ class SeedScene extends Scene {
         // Set sky background
         this.background = new THREE.TextureLoader().load(PURPLE);
 
-        // Add lights to scene
-        const worldlights = new WorldLighting(this);
-        this.add(worldlights);
-
+        // add base lighting
         const lights = new BasicLights();
         this.add(lights);
 
@@ -51,6 +48,10 @@ class SeedScene extends Scene {
         this.fog = new THREE.Fog(0xcce0ff, 500, 1100);
 
         // Choose sky texture in GUI
+        // Add lights to scene
+        const worldlights = new WorldLighting(this);
+        this.add(worldlights);
+
         let folder = this.state.gui.addFolder('SKY');
         folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
         folder.open();
