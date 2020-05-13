@@ -57,6 +57,7 @@ class SeedScene extends Scene {
 
         let quotes = this.state.gui.addFolder('QUOTES');
         quotes.add(this.state, 'quotes').name('Quotes').onChange(() => this.updateQuotes());
+        quotes.open();
     }
 
     updateQuotes() {
