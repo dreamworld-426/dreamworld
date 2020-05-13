@@ -171,9 +171,10 @@ class TerrainPlane extends Group {
         return canvas
     }
 
+    // Returns geometry to be reused
     disposeOf() {
-      this.material.dispose()
-      this.remove(this.children[0])
+      this.material.dispose();
+      this.remove(this.children[0]);
 
       return this.geometry;
     }

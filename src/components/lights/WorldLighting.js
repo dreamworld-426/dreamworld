@@ -1,3 +1,10 @@
+/**
+ * WorldLighting.js
+ *
+ * This handles sun and special lighting.
+ *
+ */
+
 import { Group, DirectionalLight, SpotLight, SpotLightHelper, SphereBufferGeometry, MeshStandardMaterial, PointLight, Mesh, DirectionalLightHelper, Vector3 } from 'three';
 var ColorTween = require('color-tween');
 

@@ -4,13 +4,14 @@ import { Bird, Flower, Land, Terrain, Cloud, ChunkManager, Chunk, TerrainPlane, 
 import { BasicLights } from 'lights';
 import { WorldLighting } from 'lights';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import RED from '../textures/sunset.jpg';
 import PURPLE from '../textures/purple.jpeg';
 import STARRY from '../textures/starry.jpg';
 const THREE = require ('three');
 
 class SeedScene extends Scene {
-    constructor(camera) {
+    constructor(renderer, camera) {
         // Call parent Scene() constructor
         super();
 
@@ -88,10 +89,6 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { updateList, x, y, z } = this.state;
-        // calculate offsets
-
-        // disable rotation
-        //this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
@@ -104,9 +101,7 @@ class SeedScene extends Scene {
         }
 
         // update texts
-        //if (this.state.text !== null) {
-          this.state.text.update(timeStamp);
-        //}
+        this.state.text.update(timeStamp);
     }
 
 }
