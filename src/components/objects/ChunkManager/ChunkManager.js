@@ -39,6 +39,7 @@ class ChunkManager extends Group {
             currentXOffset: 0,
             currentZOffset: 0,
             orbNum: 1,
+            displayOrbs: false,
 
             power: 1,
             octaves: 16,
@@ -124,8 +125,9 @@ class ChunkManager extends Group {
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Terrain Presets").onChange(() => this.loadPreset());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
-        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Presets").onChange(() => this.loadPreset());
+        this.state.gui.add(this.state, 'displayOrbs').name("Display Words");
 
         this.loadPreset();
         // folder.open();
