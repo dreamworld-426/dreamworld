@@ -11,7 +11,7 @@ import STARRY from '../textures/starry.jpg';
 const THREE = require ('three');
 
 class SeedScene extends Scene {
-    constructor(renderer, camera) {
+    constructor(camera) {
         // Call parent Scene() constructor
         super();
 
