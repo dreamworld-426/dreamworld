@@ -278,7 +278,7 @@ class ChunkManager extends Group {
 
       this.updateNoise();
       this.updateWaterLevel();
-    //  this.updateDisplay(this.state.gui);
+      this.updateDisplay(this.state.gui);
     }
 
     // this doesnt work :()
@@ -288,7 +288,7 @@ class ChunkManager extends Group {
             gui.__controllers[i].updateDisplay();
         }
         for (var f in gui.__folders) {
-            updateDisplay(gui.__folders[f]);
+            this.updateDisplay(gui.__folders[f]);
         }
     }
 
