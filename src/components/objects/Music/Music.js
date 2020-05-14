@@ -62,6 +62,7 @@ class Music extends Group {
         }
         else return;
     }
+
     soundHandler(sound) {
       let music = this.state.library[this.state.audiofile];
       if (!sound.isPlaying) {
@@ -97,7 +98,7 @@ class Music extends Group {
         if (avg > 10) {
           chunkManager.state.exaggeration = chunkManager.state.ogExaggeration*avg/50;
           let factor = avg/500;
-          
+
           chunkManager.state.bankColor = new Color(chunkManager.state.bankColor.r, chunkManager.state.bankColor.g, chunkManager.state.bankColor.b)
           chunkManager.state.middleColor = new Color(chunkManager.state.middleColor.r, chunkManager.state.middleColor.g, chunkManager.state.middleColor.b)
           chunkManager.state.peakColor = new Color(chunkManager.state.peakColor.r, chunkManager.state.peakColor.g, chunkManager.state.peakColor.b)
