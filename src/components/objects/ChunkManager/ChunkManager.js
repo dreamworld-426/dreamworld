@@ -50,6 +50,7 @@ class ChunkManager extends Group {
             exaggeration: 20,
             ogExaggeration: 20,
             waterLevel: 0,
+            activeWater: false,
             waterColor: new Color(50, 90, 145),
             bankColor: new Color(0, 255, 0),
             middleColor: new Color(255, 0, 0),
@@ -93,24 +94,24 @@ class ChunkManager extends Group {
         parent.addToUpdateList(this);
 
         // add water plane
-        var waterGeometry = new PlaneBufferGeometry( this.state.chunkWidth*3, this.state.chunkWidth*3 );
+        this.waterGeometry = new PlaneBufferGeometry( this.state.chunkWidth*3, this.state.chunkWidth*3 );
 
         var textureLoader = new TextureLoader();
 
+        if (this.state.activeWater === true) {
+          this.water = new Water( this.waterGeometry, {
+            normalMap0: textureLoader.load(NORM0),
+            normalMap1: textureLoader.load(NORM1),
+            scale: this.state.waterScale,
+            flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
+            textureWidth: 1024,
+            textureHeight: 1024,
+          } );
 
-				this.water = new Water( waterGeometry, {
-          normalMap0: textureLoader.load(NORM0),
-          normalMap1: textureLoader.load(NORM1),
-					scale: this.state.waterScale,
-					flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
-					textureWidth: 1024,
-					textureHeight: 1024,
-    	  } );
-
-				//this.water.position.y = this.state.waterLevel - startYBelow;
-				this.water.rotation.x = Math.PI * - 0.5;
-				this.add( this.water );
-        console.log(this.water);
+          //this.water.position.y = this.state.waterLevel - startYBelow;
+          this.water.rotation.x = Math.PI * - 0.5;
+          this.add( this.water );
+        }
 
         // Populate GUI
         // Related to perlin noise, so call updateNoise which updates everything
@@ -124,6 +125,7 @@ class ChunkManager extends Group {
         folder.add(this.state, 'ogExaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateExaggeration());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'waterLevel', -200, 200).name("Water Level").onChange(() => this.updateWaterLevel());
+        folder.add(this.state, 'displayClouds').name("Display Clouds");
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'middleGradient', 0.1, 1).name("Gradient").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'waterColor').name("Ocean Color").onChange(() => this.updateTerrainGeo());
@@ -136,6 +138,7 @@ class ChunkManager extends Group {
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'displayOrbs').name("Display Words");
         this.state.gui.add(this.state, 'displayClouds').name("Display Clouds");
+        this.state.gui.add(this.state, 'activeWater').name("Running Water").onChange(() => this.addActiveWater());
 
 
         this.loadPreset();
@@ -172,7 +175,7 @@ class ChunkManager extends Group {
         this.state.exaggeration = 45
         this.state.ogExaggeration = 45
         this.state.waterLevel = 0
-        this.state.waterColor = new Color(62,62,147)
+        this.state.waterColor = new Color(14, 116, 255)
         this.state.bankColor = new Color(255, 147, 0)
         this.state.middleColor = new Color(255, 13, 13)
         this.state.peakColor = new Color(255,255,255)
@@ -336,9 +339,32 @@ class ChunkManager extends Group {
       }
     }
 
+    addActiveWater() {
+      if (this.state.activeWater === true) {
+        var textureLoader = new TextureLoader();
+
+        this.water = new Water( this.waterGeometry, {
+          normalMap0: textureLoader.load(NORM0),
+          normalMap1: textureLoader.load(NORM1),
+          scale: this.state.waterScale,
+          flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
+          textureWidth: 1024,
+          textureHeight: 1024,
+        } );
+
+        //this.water.position.y = this.state.waterLevel - startYBelow;
+        this.water.rotation.x = Math.PI * - 0.5;
+        this.add( this.water );
+
+      }
+      this.updateWaterLevel();
+    }
+
     updateWaterLevel() {
-      this.water.position.y = this.state.waterLevel;
-      this.updateTerrainGeo();
+      if (this.state.activeWater === true) {
+        this.water.position.y = this.state.waterLevel;
+        this.updateTerrainGeo();
+      }
     }
 
     update(timeStamp, x, y, z) {
