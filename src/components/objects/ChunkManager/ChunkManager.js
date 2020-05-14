@@ -17,8 +17,8 @@ USING THIS ARRAY STRUCTURE
 
 // SET THESE TO CHANGE CHUNK DIMENSIONS
 const startYBelow = 200;
-const chunkPxWidth = 700;
-const chunkVertexWidth = 50;
+const chunkPxWidth = 900;
+const chunkVertexWidth = 60;
 
 const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon", "Atlantis", "Bubble Gum", "Ice World"];
 
