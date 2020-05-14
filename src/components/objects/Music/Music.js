@@ -20,10 +20,10 @@ class Music extends Group {
 
         let listener = new AudioListener();
         camera.add(listener);
-  
+
         let sound = new Audio(listener);
         this.add(sound);
-  
+
         // Init state
         this.state = {
             gui: parent.state.gui,
@@ -39,7 +39,7 @@ class Music extends Group {
         };
 
         this.soundHandler(sound);
-      
+
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
@@ -63,6 +63,7 @@ class Music extends Group {
         }
         else return;
     }
+
     soundHandler(sound) {
       let music = this.state.library[this.state.audiofile];
       if (!sound.isPlaying) {
@@ -77,7 +78,7 @@ class Music extends Group {
         sound.pause();
       }
     }
-    
+
     // update audio when changed in gui
     updateAudioFile(audiofile) {
       // let audioLoader = new AudioLoader();
@@ -98,6 +99,11 @@ class Music extends Group {
         if (avg > 10) {
           chunkManager.state.exaggeration = Math.min(avg - 10,50);
           let factor = avg/500;
+
+          chunkManager.state.bankColor = new Color(chunkManager.state.bankColor.r, chunkManager.state.bankColor.g, chunkManager.state.bankColor.b)
+          chunkManager.state.middleColor = new Color(chunkManager.state.middleColor.r, chunkManager.state.middleColor.g, chunkManager.state.middleColor.b)
+          chunkManager.state.peakColor = new Color(chunkManager.state.peakColor.r, chunkManager.state.peakColor.g, chunkManager.state.peakColor.b)
+
           if (this.state.colorLevel == 0) {
             chunkManager.state.bankColor.lerp(chunkManager.state.middleColor,factor);
           }
@@ -116,6 +122,6 @@ class Music extends Group {
       this.state.soundUpdate = (this.state.soundUpdate + 1) % 500;
 
     }
-}          
+}
 
 export default Music;
