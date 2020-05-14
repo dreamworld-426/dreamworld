@@ -31,6 +31,7 @@ camera.lookAt(new Vector3(0, 50, 0));
     let box = document.createElement("DIV");
     box.id = 'LoadingPage';
     box.height = '100%';
+    box.weigth = '100%';
 
     // adapted from bootstrap docs
     let html = '<style type="text/css">' +
@@ -39,24 +40,28 @@ camera.lookAt(new Vector3(0, 50, 0));
     '.jumbotron { background: none; }' +
     '.keys { display: inline:block; font-size: 20px;}' +
     'input { max-height: 20px;}' +
-    '.box {z-index: 10; position:absolute; top:0;}' +
+    'hr { color: white;}' +
+    '.box {z-index: 10; position:absolute; top:0; width: 100%}' +
+    '@media only screen and (max-width: 767px) { .p-large { font-size: 1.0rem; } .display-4,.display-5 { font-size: 1.5rem; }}' +
+    '@media only screen and (min-width: 768px) { .p-large, { font-size: 1.4rem; } .display-4,.display-5 { font-size: 1.7rem; }}' +
+    '@media only screen and (min-width: 992px) { .p-large { font-size: 1.8rem; } .display-4,.display-5 { font-size: 2.6rem; } } }' +
     '</style>' +
     '<div class="container-fluid box text-center" style="background: linear-gradient(90deg, rgba(168,14,62,1) 0%, rgba(255,147,0,1) 100%);">' +
     '<div class="text container p-5" style="color: white;">' + 
     '<div class="jumbotron">' +
-    '<div style="height: 100vh">' +
     '<h1 class="display-4">DreamWorld</h1>' +
     '<p class="lead">Meditation like you\'ve never seen it before.</p>' +
     '<hr class="my-4">' +
-    '<h2>DreamWorld is a ThreeJS-based world simulation for focused meditation. Focused meditation is the practice of meditating with a specific focus on a particular object. With this simulation, we hope to facilitate the meditation process by designing a dream-like world in which users can customize their own calming terrain through the perspective of a flying bird while listening to peaceful music and guided meditations.</h3>' +
+    '<p class="p-large">DreamWorld is a ThreeJS-based world simulation for focused meditation. Focused meditation is the practice of meditating with a specific focus on a particular object. With this simulation, we hope to facilitate the meditation process by designing a dream-like world in which users can customize their own calming terrain through the perspective of a flying bird while listening to peaceful music and guided meditations.</p>' +
     '<a class="btn btn-light btn-lg" href="#keys" role="button">Get Started</a>' +
     '<br>' +
     '<hr class="my-4">' +
-    '</div>' +
+    '<br>' +
+
     '<a name ="keys"></a>' +
     '<h1 class="display-5 pt-2">Instructions</h1>' +
-    '<hr class="my-4">' +
     '<p class="lead">Use the following keys to navigate through this simulation:</p>' +
+    '<hr class="my-4">' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
     '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">S</span><p class="py-3">DOWN</p></div></span></div></div>' +
     '<div class="row"><div class="col"><span class="keys">D</span><p class="py-3">RIGHT</p></div></div>' + 
@@ -291,7 +296,9 @@ document.body.insertAdjacentHTML('beforeend', '<div id="info" style="color:white
 
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
-document.body.style.overflow = 'scroll'; // Fix scrolling
+document.body.style.overflowY = 'scroll'; // Fix scrolling
+document.body.style.overflowX = 'hidden'; // Fix scrolling
+
 document.body.appendChild(canvas);
 
 
