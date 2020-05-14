@@ -26,6 +26,7 @@
   "dependencies": {
     "color-tween": "^0.1.1",
     "dat.gui": "^0.7.7",
+    "shepherd.js": "^7.2.0",
     "simplex-noise": "^2.4.0",
     "three": "^0.115.0",
     "three-instanced-mesh": "0.96.2",

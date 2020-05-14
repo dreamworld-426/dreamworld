@@ -60,6 +60,17 @@ class SeedScene extends Scene {
         let quotes = this.state.gui.addFolder('QUOTES');
         quotes.add(this.state, 'quotes').name('Quotes').onChange(() => this.updateQuotes());
         quotes.open();
+
+        this.state.gui.__ul.childNodes[1].classList += ' step2';
+        this.state.gui.__ul.childNodes[2].classList += ' step3';
+        this.state.gui.__ul.childNodes[3].classList += ' step4';
+        this.state.gui.__ul.childNodes[4].classList += ' step5';
+        this.state.gui.__ul.childNodes[5].classList += ' step6';
+        this.state.gui.__ul.childNodes[6].classList += ' step7';
+        this.state.gui.__ul.childNodes[7].classList += ' step8';
+        this.state.gui.__ul.childNodes[8].classList += ' step9';
+        this.state.gui.__ul.childNodes[9].classList += ' step10';
+        this.state.gui.__ul.childNodes[10].classList += ' step11';
     }
 
     updateQuotes() {
