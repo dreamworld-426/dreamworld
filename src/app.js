@@ -32,7 +32,7 @@ camera.lookAt(new Vector3(0, 50, 0));
     let box = document.createElement("DIV");
     box.id = 'LoadingPage';
     box.height = '100%';
-    box.overflow= 'hidden';
+    //box.overflow= 'hidden';
 
     // adapted from bootstrap docs
     let html = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">' +
@@ -97,6 +97,8 @@ window.onload=function(){
     btn.addEventListener("click", function(){
         let loadingPage = document.getElementById('LoadingPage');
         document.body.removeChild(loadingPage);
+        document.body.style.overflow = 'hidden'; // Fix scrolling
+
       })
       })
     }
@@ -108,7 +110,7 @@ renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
-document.body.style.overflow = 'hidden'; // Fix scrolling
+document.body.style.overflow = 'scroll'; // Fix scrolling
 document.body.appendChild(canvas);
 
 //Render loop
