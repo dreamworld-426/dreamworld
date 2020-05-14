@@ -9,7 +9,7 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
 import { SeedScene, LoadingPage } from 'scenes';
 var ColorTween = require('color-tween');
-
+import Shepherd from 'shepherd.js';
 // Set up camera
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
@@ -31,14 +31,12 @@ camera.lookAt(new Vector3(0, 50, 0));
 
     let box = document.createElement("DIV");
     box.id = 'LoadingPage';
-    box.height = '100vh';
-    box.overflow= 'hidden';
+    box.height = '100%';
 
     // adapted from bootstrap docs
-    let html = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">' +
-    '<style type="text/css">' +
+    let html = '<style type="text/css">' +
     'body, p, h1, h2, h3, h4, h5, a' +
-    '{ font-family: Comfortaa; }' +
+    '{ font-family: Comfortaa, Helvetica, san-serif; }' +
     '.jumbotron { background: none; }' +
     '.keys { display: inline:block; font-size: 20px;}' +
     'input { max-height: 20px;}' +
@@ -47,10 +45,19 @@ camera.lookAt(new Vector3(0, 50, 0));
     '<div class="container-fluid box text-center" style="background: linear-gradient(90deg, rgba(168,14,62,1) 0%, rgba(255,147,0,1) 100%);">' +
     '<div class="text container p-5" style="color: white;">' + 
     '<div class="jumbotron">' +
+    '<div style="height: 100vh">' +
     '<h1 class="display-4">DreamWorld</h1>' +
     '<p class="lead">Meditation like you\'ve never seen it before.</p>' +
     '<hr class="my-4">' +
-    '<p>Use the following keys to navigate through this simulation:</p>' +
+    '<h2>DreamWorld is a ThreeJS-based world simulation for focused meditation. Focused meditation is the practice of meditating with a specific focus on a particular object. With this simulation, we hope to facilitate the meditation process by designing a dream-like world in which users can customize their own calming terrain through the perspective of a flying bird while listening to peaceful music and guided meditations.</h3>' +
+    '<a class="btn btn-light btn-lg" href="#keys" role="button">Get Started</a>' +
+    '<br>' +
+    '<hr class="my-4">' +
+    '</div>' +
+    '<a name ="keys"></a>' +
+    '<h1 class="display-5">Instructions</h1>' +
+    '<hr class="my-4">' +
+    '<p class="lead">Use the following keys to navigate through this simulation:</p>' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
     '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">S</span><p class="py-3">DOWN</p></div></span></div></div>' +
     '<div class="row"><div class="col"><span class="keys">D</span><p class="py-3">RIGHT</p></div></div>' + 
@@ -63,6 +70,12 @@ camera.lookAt(new Vector3(0, 50, 0));
     box.innerHTML = html;
     document.body.appendChild(box);
 
+
+    let shepherd = '<link rel="stylesheet" href="https://shepherdjs.dev/dist/css/shepherd.css" />';
+    document.head.innerHTML += shepherd;
+
+    let bootstrap = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">';
+    document.head.innerHTML += bootstrap;
 
     let allKeys = document.getElementsByClassName("keys");
     for (let i = 0; i < allKeys.length; i++){
@@ -84,25 +97,207 @@ camera.lookAt(new Vector3(0, 50, 0));
     }
 
 
+        // adapted from https://shepherdjs.dev/ example
+        const tour = new Shepherd.Tour({
+            defaultStepOptions: {
+              cancelIcon: {
+                enabled: true
+              },
+              classes: 'shadow-md bg-purple-dark',
+              scrollTo: { behavior: 'smooth', block: 'center' }
+            }
+          });
+          
+          tour.addStep({
+            title: 'Welcome to DreamWorld',
+            text: `Let's get meditating! \ In this GUI you'll be able to select from world presets, meditation tracks, customize your own world, and more.`,
+            attachTo: {
+                element: '.main',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+          tour.addStep({
+            title: 'Presets',
+            text: `Choose from one of several preset environments or create your own.`,
+            attachTo: {
+                element: '.step3',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+          tour.addStep({
+            title: 'Musice Responsiveness',
+            text: `Select "Breathing" to make the terrain move with the music.`,
+            attachTo: {
+                element: '.step4',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+          tour.addStep({
+            title: 'Select a Bird',
+            text: `Choose from one of three birds.`,
+            attachTo: {
+                element: '.step7',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+
+          tour.addStep({
+            title: 'Choose an Audio Track',
+            text: `Choose an audio track and press the P key to begin or pause the music.`,
+            attachTo: {
+                element: '.step8',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+
+          tour.addStep({
+            title: 'Generate Custom Terrain',
+            text: `Explore many options for customizing the terrain generation! Click Terrain Look Factors to take a peek.`,
+            attachTo: {
+                element: '.step2',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+          
 // Referenced the following: 
 window.onload=function(){
     document.querySelectorAll(".begin-btn").forEach(function(btn){
     btn.addEventListener("click", function(){
         let loadingPage = document.getElementById('LoadingPage');
         document.body.removeChild(loadingPage);
+        document.body.style.overflow = 'hidden'; // Fix scrolling
+        tour.start();
       })
       })
     }
+
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled;
 renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
+
+
+
+let info = document.createElement("DIV");
+info.style.display = 'block';
+info.innerText ="Bird Controls: W - A - S - D Keys | Camera Controls: Arrow Keys | Music Play/Pause: P key";
+info.style.color = "white";
+info.style.textAlign ="center";
+info.display = 'absolute';
+info.style.top = "10px";
+info.style.zIndex = "100";
+
+document.body.appendChild(info);
+
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
-document.body.style.overflow = 'hidden'; // Fix scrolling
+document.body.style.overflow = 'scroll'; // Fix scrolling
 document.body.appendChild(canvas);
+
+
 
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
