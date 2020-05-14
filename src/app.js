@@ -54,7 +54,7 @@ camera.lookAt(new Vector3(0, 50, 0));
     '<hr class="my-4">' +
     '</div>' +
     '<a name ="keys"></a>' +
-    '<h1 class="display-5">Instructions</h1>' +
+    '<h1 class="display-5 pt-2">Instructions</h1>' +
     '<hr class="my-4">' +
     '<p class="lead">Use the following keys to navigate through this simulation:</p>' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
@@ -279,17 +279,8 @@ renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
 
 
+document.body.insertAdjacentHTML('beforeend', '<div id="info" style="color:white; position: absolute;top: 15px; width: 100%; text-align: center; display:block;">Bird Controls: W - A - S - D Keys | Camera Controls: Arrow Keys | Music Play/Pause: P key</div>');
 
-let info = document.createElement("DIV");
-info.style.display = 'block';
-info.innerText ="Bird Controls: W - A - S - D Keys | Camera Controls: Arrow Keys | Music Play/Pause: P key";
-info.style.color = "white";
-info.style.textAlign ="center";
-info.display = 'absolute';
-info.style.top = "10px";
-info.style.zIndex = "100";
-
-document.body.appendChild(info);
 
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
