@@ -110,7 +110,7 @@ camera.lookAt(new Vector3(0, 50, 0));
           
           tour.addStep({
             title: 'Welcome to DreamWorld',
-            text: `Let's get meditating! \ In this GUI you'll be able to select from world presets, meditation tracks, or customize your own world.`,
+            text: `Let's get meditating! \ In this GUI you'll be able to select from world presets, meditation tracks, customize your own world, and more.`,
             attachTo: {
                 element: '.main',
                 on: 'left'
@@ -160,7 +160,7 @@ camera.lookAt(new Vector3(0, 50, 0));
 
           tour.addStep({
             title: 'Musice Responsiveness',
-            text: `Select "Breathe" to make the terrain move with the music.`,
+            text: `Select "Breathing" to make the terrain move with the music.`,
             attachTo: {
                 element: '.step4',
                 on: 'left'
@@ -278,12 +278,26 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled;
 renderer.shadowMap.type = PCFShadowMap;
 const canvas = renderer.domElement;
-document.body.innerHTML += '<div id="info" style="color:white;position: absolute;top: 10px;width: 100%;text-align: center;display:block;">Use the W - A - S - D keys to move the bird. Use the arrow keys to move the camera. Press P to toggle music. </div>';
+
+
+
+let info = document.createElement("DIV");
+info.style.display = 'block';
+info.innerText ="Bird Controls: W - A - S - D Keys | Camera Controls: Arrow Keys | Music Play/Pause: P key";
+info.style.color = "white";
+info.style.textAlign ="center";
+info.display = 'absolute';
+info.style.top = "10px";
+info.style.zIndex = "100";
+
+document.body.appendChild(info);
 
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'scroll'; // Fix scrolling
 document.body.appendChild(canvas);
+
+
 
 //Render loop
 const onAnimationFrameHandler = (timeStamp) => {
