@@ -20,7 +20,7 @@ const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
 
-const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon", "Atlantis"];
+const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon", "Atlantis", "Bubble Gum", "Ice World"];
 
 class ChunkManager extends Group {
     constructor(parent) {
@@ -136,9 +136,9 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Terrain Presets").onChange(() => this.loadPreset());
         this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
-        this.state.gui.add(this.state, 'displayOrbs').name("Display Words");
-        this.state.gui.add(this.state, 'displayClouds').name("Display Clouds");
-        this.state.gui.add(this.state, 'activeWater').name("Running Water").onChange(() => this.addActiveWater());
+        this.state.gui.add(this.state, 'displayOrbs').name("Generate Words");
+        this.state.gui.add(this.state, 'displayClouds').name("Generate Clouds");
+        this.state.gui.add(this.state, 'activeWater').name("Display Water").onChange(() => this.addActiveWater());
 
 
         this.loadPreset();
@@ -297,6 +297,48 @@ class ChunkManager extends Group {
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Dusk'
         this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+      else if (this.state.preset == 'Bubble Gum') {
+        this.state.power = 0.6
+        this.state.octaves = 1
+        this.state.exaggeration = 31
+        this.state.ogExaggeration = 31
+        this.state.waterLevel = 0.2
+        this.state.waterColor = new Color(148,255,255)
+        this.state.bankColor = new Color(238,60,227)
+        this.state.middleColor = new Color(255,21,145)
+        this.state.peakColor = new Color(255,141,187)
+        this.state.colorWiggle = 0.8
+        this.state.middleGradient = 0.36
+        this.state.randSeed = 4
+        this.state.freq = 5
+        this.state.terraced = false
+        this.state.terraces = 20
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Dusk'
+        this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+      else if (this.state.preset == 'Ice World') {
+        this.state.power = 3.1
+        this.state.octaves = 1
+        this.state.exaggeration = 42
+        this.state.ogExaggeration = 42
+        this.state.waterLevel = 0.2
+        this.state.waterColor = new Color(255,255,255)
+        this.state.bankColor = new Color(255,255,255)
+        this.state.middleColor = new Color(21,21,225)
+        this.state.peakColor = new Color(255,255,255)
+        this.state.colorWiggle = 0.5
+        this.state.middleGradient = 0.36
+        this.state.randSeed = 4
+        this.state.freq = 10
+        this.state.terraced = false
+        this.state.terraces = 20
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = false
         this.state.parent.updateSkyTexture();
       }
 
