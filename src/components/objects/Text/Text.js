@@ -4,6 +4,7 @@ class Text {
   constructor() {
     let box = document.createElement("DIV");
     box.className = 'slideshow-container';
+    box.id = 'slideshow';
 
     box.style.position = 'fixed';
     box.style.bottom = '0';
@@ -86,7 +87,7 @@ class Text {
     // automate slideshow
     function auto() {
       plusSlides(1);
-      setTimeout(auto, 300000);
+      setTimeout(auto, 180000);
     }
 
   }

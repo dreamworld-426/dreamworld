@@ -1,6 +1,10 @@
-import { Group, Color, PlaneGeometry } from 'three';
+import { Group, Color, PlaneGeometry, PlaneBufferGeometry, Vector2, TextureLoader, Reflector, Refractor } from 'three';
 import  SimplexNoise  from 'simplex-noise';
 import { Chunk } from '../Chunk';
+import { Water } from 'three/examples/jsm/objects/water2.js';
+import NORM0 from './water/Water_1_M_Normal.jpg';
+import NORM1 from './water/Water_2_M_Normal.jpg';
+
 
 /*
       [0][1][2]
@@ -15,6 +19,8 @@ USING THIS ARRAY STRUCTURE
 const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
+
+const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon"];
 
 class ChunkManager extends Group {
     constructor(parent) {
@@ -35,10 +41,14 @@ class ChunkManager extends Group {
             totalVertWidth: chunkVertexWidth*3, // chunkVertWidth * 3
             currentXOffset: 0,
             currentZOffset: 0,
+            orbNum: 1,
+            displayOrbs: false,
+            displayClouds: true,
 
             power: 1,
             octaves: 16,
             exaggeration: 20,
+            ogExaggeration: 20,
             waterLevel: 0,
             waterColor: new Color(50, 90, 145),
             bankColor: new Color(0, 255, 0),
@@ -50,6 +60,10 @@ class ChunkManager extends Group {
             freq: 1,
             terraced: false,
             terraces: 15,
+            updateWithMusic: false,
+
+            // PRESETS
+            preset: "Cotton Candy",
 
         };
 
@@ -78,29 +92,204 @@ class ChunkManager extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
+        // add water plane
+        var waterGeometry = new PlaneBufferGeometry( this.state.chunkWidth*3, this.state.chunkWidth*3 );
+
+        var textureLoader = new TextureLoader();
+
+
+				this.water = new Water( waterGeometry, {
+          normalMap0: textureLoader.load(NORM0),
+          normalMap1: textureLoader.load(NORM1),
+					scale: this.state.waterScale,
+					flowDirection: new Vector2( this.state.flowX, this.state.flowY ),
+					textureWidth: 1024,
+					textureHeight: 1024,
+    	  } );
+
+				//this.water.position.y = this.state.waterLevel - startYBelow;
+				this.water.rotation.x = Math.PI * - 0.5;
+				this.add( this.water );
+        console.log(this.water);
+
         // Populate GUI
         // Related to perlin noise, so call updateNoise which updates everything
         var folder0 = this.state.gui.addFolder( 'TERRAIN GENERATION FACTORS' );
         folder0.add(this.state, 'octaves', 1, 16).name("Jaggedness").onChange(() => this.updateNoise()) ;
-        // folder0.add(this.state, 'amplitude', 0, 10).onChange(() => this.updateNoise());
         folder0.add(this.state, 'freq', 1, 10).name("Peaks").onChange(() => this.updateNoise());
         folder0.add(this.state, 'randSeed', 0, 10).name("World Seed").onChange(() => this.updateSimplexSeed());
 
         // Related to the look of the terrain and don't need to recalculate height map again
         let folder = this.state.gui.addFolder( 'TERRAIN LOOK FACTORS' );
-        folder.add(this.state, 'exaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'ogExaggeration', 0, 70).name("Exaggeration").onChange(() => this.updateExaggeration());
         folder.add(this.state, 'power', 0, 5).name("Valleys").onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'waterLevel', -100, 100).name("Water Level").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'waterLevel', -200, 200).name("Water Level").onChange(() => this.updateWaterLevel());
         folder.add(this.state, 'colorWiggle', -1, 1).name("Color Texturing").onChange(() => this.updateTerrainGeo());
-        folder.add(this.state, 'middleGradient', 0, 1).name("Peak Color Height").onChange(() => this.updateTerrainGeo());
-        folder.addColor(this.state, 'waterColor').name("Water Color").onChange(() => this.updateTerrainGeo());
+        folder.add(this.state, 'middleGradient', 0.1, 1).name("Gradient").onChange(() => this.updateTerrainGeo());
+        folder.addColor(this.state, 'waterColor').name("Ocean Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'bankColor').name("Bank Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'middleColor').name("Middle Color").onChange(() => this.updateTerrainGeo());
         folder.addColor(this.state, 'peakColor').name("Peak Color").onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Terrain Presets").onChange(() => this.loadPreset());
+        this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'displayOrbs').name("Display Words");
+        this.state.gui.add(this.state, 'displayClouds').name("Display Clouds");
 
-        folder.open();
+
+        this.loadPreset();
+        // folder.open();
+    }
+
+    loadPreset() {
+
+      if(this.state.preset == "Natural Terraces") {
+        this.state.power = 1
+        this.state.octaves = 4
+        this.state.exaggeration = 30
+        this.state.ogExaggeration = 30
+        this.state.waterLevel = -13
+        this.state.waterColor = new Color(14, 116, 255)
+        this.state.bankColor = new Color(183, 181, 82)
+        this.state.middleColor = new Color(16, 158, 83)
+        this.state.peakColor = new Color(255, 255, 255)
+        this.state.colorWiggle = -0.66
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 4
+        this.state.freq = 1.6
+        this.state.terraced = true
+        this.state.terraces = 13
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Dusk'
+        this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if(this.state.preset == 'Sunset Peaks') {
+        this.state.power = 1
+        this.state.octaves = 16
+        this.state.exaggeration = 45
+        this.state.ogExaggeration = 45
+        this.state.waterLevel = 0
+        this.state.waterColor = new Color(62,62,147)
+        this.state.bankColor = new Color(255, 147, 0)
+        this.state.middleColor = new Color(255, 13, 13)
+        this.state.peakColor = new Color(255,255,255)
+        this.state.colorWiggle = 0.1
+        this.state.middleGradient = 0.65
+        this.state.randSeed = 4
+        this.state.freq = 7.1
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Sunset'
+        this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Cotton Candy') {
+        this.state.power = 1.1
+        this.state.octaves = 13
+        this.state.exaggeration = 65
+        this.state.ogExaggeration = 65
+        this.state.waterLevel = 28
+        this.state.waterColor = new Color(50,90,145)
+        this.state.bankColor = new Color(11,130,209)
+        this.state.middleColor = new Color(255,0,197)
+        this.state.peakColor = new Color(32,67,214)
+        this.state.colorWiggle = 0.82
+        this.state.middleGradient = 0.33
+        this.state.randSeed = 4
+        this.state.freq = 2.7
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Clouds') {
+        this.state.power = 1
+        this.state.octaves = 12
+        this.state.exaggeration = 29
+        this.state.ogExaggeration = 29
+        this.state.waterLevel = -44
+        this.state.waterColor = new Color(50,90,145)
+        this.state.bankColor = new Color(14,21,112)
+        this.state.middleColor = new Color(35,129,169)
+        this.state.peakColor = new Color(252,252,252)
+        this.state.colorWiggle = 0.1
+        this.state.middleGradient = 0.69
+        this.state.randSeed = 4
+        this.state.freq = 6
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = true
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Mars') {
+        this.state.power = 1.6
+        this.state.octaves = 16
+        this.state.exaggeration = 26
+        this.state.ogExaggeration = 26
+        this.state.waterLevel = -200
+        this.state.waterColor = new Color(255,255,255)
+        this.state.bankColor = new Color(185,5,5)
+        this.state.middleColor = new Color(103,0,45)
+        this.state.peakColor = new Color(80,0,0)
+        this.state.colorWiggle = -1
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 7
+        this.state.freq = 7.3
+        this.state.terraced = false
+        this.state.terraces = 15
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = false
+        this.state.parent.updateSkyTexture();
+      }
+
+      else if (this.state.preset == 'Moon') {
+        this.state.power = 1.6
+        this.state.octaves = 4
+        this.state.exaggeration = 40
+        this.state.ogExaggeration = 40
+        this.state.waterLevel = -200
+        this.state.waterColor = new Color(0,0,0)
+        this.state.bankColor = new Color(195,195,195)
+        this.state.middleColor = new Color(50,50,50)
+        this.state.peakColor = new Color(210,210,210)
+        this.state.colorWiggle = 0.13
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 4
+        this.state.freq = 1.3
+        this.state.terraced = true
+        this.state.terraces = 20
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Starry'
+        this.state.displayClouds = false
+        this.state.parent.updateSkyTexture();
+      }
+
+      this.updateNoise();
+      this.updateWaterLevel();
+      this.updateDisplay(this.state.gui);
+    }
+
+    // this doesnt work :()
+    updateDisplay(gui) {
+        console.log(gui)
+        for (var i in gui.__controllers) {
+            gui.__controllers[i].updateDisplay();
+        }
+        for (var f in gui.__folders) {
+            this.updateDisplay(gui.__folders[f]);
+        }
     }
 
     updateSimplexSeed() {
@@ -115,22 +304,31 @@ class ChunkManager extends Group {
       }
     }
 
+    updateExaggeration() {
+      this.state.exaggeration = this.state.ogExaggeration;
+      this.updateTerrainGeo()
+    }
+
     updateTerrainGeo() {
       for(let chunk of this.state.chunks) {
         chunk.updateTerrainGeo();
       }
     }
 
+    updateWaterLevel() {
+      this.water.position.y = this.state.waterLevel;
+      this.updateTerrainGeo();
+    }
+
     update(timeStamp, x, y, z) {
       // console.log("Update in chunk manager. x: " + x + " y: " + y + " z: " + z)
       // make/delete chunks as needed
-      // Initialized asa 0 but are actually supposed to be PlaneGeometry objects
+      // Initialized as a 0 but are actually supposed to be PlaneGeometry objects
       let plane_geos = [0, 0, 0];
       let need_update = (z > this.state.chunkWidth/2) || (z < -this.state.chunkWidth/2)
       || (x > this.state.chunkWidth/2) || (x < -this.state.chunkWidth/2);
 
       if(z > this.state.chunkWidth/2) {
-        console.log("Trig Z")
         this.state.currentZOffset += this.state.chunkWidth;
         this.state.parent.state.z -= this.state.chunkWidth;
 
@@ -165,6 +363,7 @@ class ChunkManager extends Group {
       }
       else if(z < -this.state.chunkWidth/2) {
         this.state.currentZOffset -= this.state.chunkWidth;
+        this.state.parent.state.z += this.state.chunkWidth;
 
         this.remove(this.state.chunks[0])
         this.remove(this.state.chunks[1])
@@ -191,9 +390,6 @@ class ChunkManager extends Group {
         this.state.chunks[8] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset,plane_geos
         [2]);
 
-
-        this.state.parent.state.z += this.state.chunkWidth;
-
         this.add(this.state.chunks[6])
         this.add(this.state.chunks[7])
         this.add(this.state.chunks[8])
@@ -204,6 +400,7 @@ class ChunkManager extends Group {
       else if(x > this.state.chunkWidth/2) {
 
         this.state.currentXOffset += this.state.chunkWidth;
+        this.state.parent.state.x -= this.state.chunkWidth;
 
         this.remove(this.state.chunks[2])
         this.remove(this.state.chunks[5])
@@ -230,8 +427,6 @@ class ChunkManager extends Group {
         this.state.chunks[6] = new Chunk(this, this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset,plane_geos
         [2]);
 
-        this.state.parent.state.x -= this.state.chunkWidth;
-
         this.add(this.state.chunks[0])
         this.add(this.state.chunks[3])
         this.add(this.state.chunks[6])
@@ -240,6 +435,7 @@ class ChunkManager extends Group {
 
       else if(x < -this.state.chunkWidth/2) {
         this.state.currentXOffset -= this.state.chunkWidth;
+        this.state.parent.state.x += this.state.chunkWidth;
 
         this.remove(this.state.chunks[0])
         this.remove(this.state.chunks[3])
@@ -265,8 +461,6 @@ class ChunkManager extends Group {
         [1]);
         this.state.chunks[8] = new Chunk(this, -this.state.chunkWidth + this.state.currentXOffset, 0, -this.state.chunkWidth + this.state.currentZOffset, plane_geos
         [2]);
-
-        this.state.parent.state.x += this.state.chunkWidth;
 
         this.add(this.state.chunks[2])
         this.add(this.state.chunks[5])

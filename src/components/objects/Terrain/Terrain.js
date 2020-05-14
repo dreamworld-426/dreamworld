@@ -1,13 +1,12 @@
-import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh} from 'three';
+import { Group, Color, PlaneBufferGeometry, VertexColors, PlaneGeometry, MeshStandardMaterial, MeshLambertMaterial, Mesh, Vector2} from 'three';
 import  SimplexNoise  from 'simplex-noise';
+//import { Water } from 'three/examples/js/objects/Water.js';
 
 const terrainSize = {width: 1000, height: 1000, vertsWidth: 100, vertsHeight: 100};
 
 class Terrain extends Group {
 
-
     constructor(parent) {
-        // console.log("CONSTRUCTOR TERRAIN")
         // Call parent Group() constructor
         super();
 
@@ -33,21 +32,22 @@ class Terrain extends Group {
 
         // create the plane
         this.geometry = new PlaneGeometry(terrainSize.width,terrainSize.height,
-                                    terrainSize.vertsWidth-1,terrainSize.vertsHeight-1)
+                                    terrainSize.vertsWidth-1,terrainSize.vertsHeight-1);
         this.geometry.verticesNeedUpdate = true;
         this.geometry.colorsNeedUpdate = true;
+
 
         // get perline noise height map and update the geometry
         this.heightMap = this.generateTexture()
         this.updateTerrainGeo();
 
         //required for flat shading
-        this.geometry.computeFlatVertexNormals()
+        this.geometry.computeFlatVertexNormals();
         const terrain = new Mesh(this.geometry, new MeshLambertMaterial({
             // wireframe:true,
             vertexColors: VertexColors,
             //required for flat shading
-            flatShading:true,
+            flatShading: true,
         }))
 
         // update location on the map
@@ -101,8 +101,6 @@ class Terrain extends Group {
         } */
 
         //console.log("TS = " + timeStamp + "(" + x + ", " + y + ", " + z + ")")
-
-
     }
 
     updateTerrainGeo() {
@@ -146,9 +144,10 @@ class Terrain extends Group {
           // upper half? blend middle with peak
           if(ratio >= this.state.middleGradient) {
             ratio = (ratio-this.state.middleGradient)/this.state.middleGradient;
-            return f.color.setRGB((this.state.peakColor.r*ratio + this.state.middleColor.r*(1-ratio) + Math.random()*wiggle)/255,
-                                    (this.state.peakColor.g*ratio + this.state.middleColor.g*(1-ratio) + Math.random()*wiggle)/255,
-                                    (this.state.peakColor.b*ratio + this.state.middleColor.b*(1-ratio) + Math.random()*wiggle)/255);
+            return f.color.setRGB((this.state.peakColor.r*ratio + this.state.middleColor.r*(1-ratio)
+            + Math.random()*wiggle)/255,
+            (this.state.peakColor.g*ratio + this.state.middleColor.g*(1-ratio) + Math.random()*wiggle)/255,
+            (this.state.peakColor.b*ratio + this.state.middleColor.b*(1-ratio) + Math.random()*wiggle)/255);
           }
 
           ratio = (ratio)/this.state.middleGradient;

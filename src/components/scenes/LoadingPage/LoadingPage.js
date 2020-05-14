@@ -1,5 +1,5 @@
 import { Scene, Color, SphereGeometry, SpotLight, BoxGeometry } from 'three';
-
+import BACKGROUND from './background.png';
 
 class LoadingPage extends Scene{
   constructor() {
@@ -351,6 +351,11 @@ class LoadingPage extends Scene{
     }
   update(timeStamp) {
 
+
+    function deleteLandingPage() {
+      let loadingPage = document.getElementById('LoadingPage');
+      document.body.removeChild(loadingPage);
+    }
   }
 }
 

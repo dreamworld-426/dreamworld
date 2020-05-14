@@ -9,12 +9,10 @@ class Bird extends Group {
       // Call parent Group() constructor
       super();
 
-      console.log("BIRD CONSTRUCTOR")
-
       // Init state
       this.state = {
         gui: parent.state.gui,
-        bird: 'Parrot',
+        bird: 'Stork',
         model: null,
         mixer: null,
         prevTimeStamp: null,
@@ -40,7 +38,7 @@ class Bird extends Group {
       this.name = 'bird';
 
       // Load stork as default
-      this.onLoad('Parrot');
+      this.onLoad('Stork');
 
       // Populate Bird GUI
       let folder = this.state.gui.addFolder('BIRD');
@@ -79,7 +77,7 @@ class Bird extends Group {
 
       // change bird speed to go faster
       if (this.state.speed >= 700) {
-        this.state.speed -= 100;
+        this.state.speed -= 200;
       }
 
       // update terrain y position
@@ -108,10 +106,10 @@ class Bird extends Group {
         vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
       }
       else if (this.state.bird === 'Parrot'){
-        vals = [0,13,26,39,52,65,78,91,104,117,130,143];
+        vals = [0,12,24,37,50,67,80,93,106,119];
       }
       else if (this.state.bird === 'Flamingo') {
-        vals = [4,17,30,43,56,69,82,95,108,121,134,147,160,173];
+        vals = [5,18,33,48,63,79,94,109,124,139,152,165,178,191,201];
       }
 
       for (let i = 0; i < values.length; i++) {
@@ -301,7 +299,7 @@ class Bird extends Group {
     }
 
     // update bird's speed based on its velocity if it is greater than 2
-    if (this.state.velocity >= 2 && this.state.downTime + 1000 < timeStamp){
+    if (this.state.velocity >= 2 && this.state.downTime + 1000 < timeStamp && this.state.upTime + 1000 < timeStamp){
       if (this.state.velocity >= 4) {
         this.state.speed = 1800 / 4;
       }
