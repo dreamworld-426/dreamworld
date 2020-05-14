@@ -20,7 +20,7 @@ const startYBelow = 200;
 const chunkPxWidth = 1000;
 const chunkVertexWidth = 100;
 
-const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon"];
+const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon", "Atlantis"];
 
 class ChunkManager extends Group {
     constructor(parent) {
@@ -273,6 +273,27 @@ class ChunkManager extends Group {
         this.state.updateWithMusic = false
         this.state.parent.state.skyTexture = 'Starry'
         this.state.displayClouds = false
+        this.state.parent.updateSkyTexture();
+      }
+      else if (this.state.preset == 'Atlantis') {
+        this.state.power = 1.6
+        this.state.octaves = 16
+        this.state.exaggeration = 40
+        this.state.ogExaggeration = 40
+        this.state.waterLevel = 200
+        this.state.waterColor = new Color(0,0,0)
+        this.state.bankColor = new Color(42,92,217)
+        this.state.middleColor = new Color(63,125,199)
+        this.state.peakColor = new Color(96,159,168)
+        this.state.colorWiggle = 0.13
+        this.state.middleGradient = 0.5
+        this.state.randSeed = 4
+        this.state.freq = 6.3
+        this.state.terraced = false
+        this.state.terraces = 20
+        this.state.updateWithMusic = false
+        this.state.parent.state.skyTexture = 'Dusk'
+        this.state.displayClouds = true
         this.state.parent.updateSkyTexture();
       }
 
