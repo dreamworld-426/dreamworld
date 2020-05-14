@@ -31,7 +31,7 @@ camera.lookAt(new Vector3(0, 50, 0));
 
     let box = document.createElement("DIV");
     box.id = 'LoadingPage';
-    box.height = '100vh';
+    box.height = '100%';
     box.overflow= 'hidden';
 
     // adapted from bootstrap docs
@@ -50,6 +50,13 @@ camera.lookAt(new Vector3(0, 50, 0));
     '<h1 class="display-4">DreamWorld</h1>' +
     '<p class="lead">Meditation like you\'ve never seen it before.</p>' +
     '<hr class="my-4">' +
+    '<h2 class="display-5">DreamWorld is a ThreeJS-based world simulation for focused meditation. Focused meditation is the practice of meditating with a specific focus on a particular object. With this simulation, we hope to facilitate the meditation process by designing a dream-like world in which users can customize their own calming terrain through the perspective of a flying bird while listening to peaceful music and guided meditations.</h3>' +
+    '<br>' +
+    '<a class="btn btn-light btn-lg" href="#keys" role="button">Get Started</a>' +
+    '<hr class="my-4">' +
+    '<br>' +
+    '<a name ="keys"></a>' +
+    '<h3>Instructions</h3>' +
     '<p>Use the following keys to navigate through this simulation:</p>' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
     '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">S</span><p class="py-3">DOWN</p></div></span></div></div>' +
