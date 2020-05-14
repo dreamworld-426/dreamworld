@@ -7,6 +7,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import RED from '../../textures/sunset.jpg';
 import PURPLE from '../../textures/purple.jpeg';
 import STARRY from '../../textures/starry.jpg';
+import BLUE from '../../textures/misty.jpg';
 const THREE = require ('three');
 
 class SeedScene extends Scene {
@@ -53,7 +54,7 @@ class SeedScene extends Scene {
         this.add(worldlights);
 
         let folder = this.state.gui.addFolder('SKY');
-        folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset']).onChange(() => this.updateSkyTexture());
+        folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset', 'Blue']).onChange(() => this.updateSkyTexture());
         folder.open();
 
         let quotes = this.state.gui.addFolder('QUOTES');
@@ -101,6 +102,14 @@ class SeedScene extends Scene {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         this.fog = new THREE.Fog(0x17212A, 500, 1000);
+
+        this.background = texture;
+      }
+      else if (this.state.skyTexture == 'Blue') {
+        var texture  = new THREE.TextureLoader().load(BLUE);
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        this.fog = new THREE.Fog(0x42c8f5, 500, 1000);
 
         this.background = texture;
       }
