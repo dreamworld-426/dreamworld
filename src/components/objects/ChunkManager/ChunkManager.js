@@ -17,8 +17,8 @@ USING THIS ARRAY STRUCTURE
 
 // SET THESE TO CHANGE CHUNK DIMENSIONS
 const startYBelow = 200;
-const chunkPxWidth = 1000;
-const chunkVertexWidth = 100;
+const chunkPxWidth = 700;
+const chunkVertexWidth = 50;
 
 const PRESET_NAMES = ["Natural Terraces", "Sunset Peaks", "Cotton Candy", "Clouds", "Mars", "Moon", "Atlantis", "Bubble Gum", "Ice World"];
 
@@ -50,7 +50,7 @@ class ChunkManager extends Group {
             exaggeration: 20,
             ogExaggeration: 20,
             waterLevel: 0,
-            activeWater: false,
+            activeWater: true,
             waterColor: new Color(50, 90, 145),
             bankColor: new Color(0, 255, 0),
             middleColor: new Color(255, 0, 0),
