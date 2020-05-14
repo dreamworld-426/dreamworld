@@ -7,14 +7,13 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
-import { SeedScene, LoadingPage } from 'scenes';
+import { SeedScene } from 'scenes';
 var ColorTween = require('color-tween');
 import Shepherd from 'shepherd.js';
 // Set up camera
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
-// const loadingPage = new LoadingPage();
 
 camera.position.y = 350 * Math.sin(Math.PI / 15);
 camera.position.z = -300;
