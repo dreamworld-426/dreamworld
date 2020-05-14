@@ -35,15 +35,19 @@ class Music extends Group {
             sound: sound,
             analyser: new AudioAnalyser(sound, 32),
             colorLevel:0,
-            soundUpdate:0
+            soundUpdate:0,
+            audioPlaying:false,
         };
 
-        this.soundHandler(sound);
+        //this.soundHandler(sound);
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
         folder.add(this.state, 'audiofile', ['1: Jazzy', '2: Deep Meditation', '3: Slow', '4: Piano', '5: Breathing Exercise']).onChange((audiofile) => this.updateAudioFile(audiofile));
+        folder.add(this.state, 'audioPlaying').name("Toggle Audio").onChange(() => this.soundHandler(sound));
+
         folder.open();
+        
 
         window.addEventListener('keydown', (e) => {
           this.audioHandler(e);
