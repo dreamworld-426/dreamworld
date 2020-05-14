@@ -47,7 +47,7 @@ class Music extends Group {
         folder.add(this.state, 'audioPlaying').name("Toggle Audio").onChange(() => this.soundHandler(sound));
 
         folder.open();
-        
+
 
         window.addEventListener('keydown', (e) => {
           this.audioHandler(e);
@@ -57,7 +57,9 @@ class Music extends Group {
 
 
     }
+
     audioHandler(event) {
+      debugger;
         if (event.key == 'p') {
           let sound = this.state.sound;
           if (sound) {
@@ -68,8 +70,11 @@ class Music extends Group {
     }
 
     soundHandler(sound) {
+      debugger;
       let music = this.state.library[this.state.audiofile];
       if (!sound.isPlaying) {
+        this.state.audioPlaying = true;
+        this.state.gui.updateDisplay();
         this.state.audioLoader.load(music, function(buffer) {
           sound.setBuffer(buffer);
           sound.setLoop(true);
@@ -78,6 +83,8 @@ class Music extends Group {
         });
       }
       else {
+        this.state.audioPlaying = false;
+        this.state.gui.updateDisplay();
         sound.pause();
       }
     }
