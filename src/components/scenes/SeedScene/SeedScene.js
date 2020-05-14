@@ -54,7 +54,7 @@ class SeedScene extends Scene {
         this.add(worldlights);
 
         let folder = this.state.gui.addFolder('SKY');
-        folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset', 'Blue']).onChange(() => this.updateSkyTexture());
+        folder.add(this.state, 'skyTexture', ['Dusk', 'Starry', 'Sunset', 'Blue']).name('Sky Texture').onChange(() => this.updateSkyTexture());
         folder.open();
 
         let quotes = this.state.gui.addFolder('QUOTES');
@@ -117,10 +117,11 @@ class SeedScene extends Scene {
         this.background = texture;
       }
       else if (this.state.skyTexture == 'Blue') {
+        // Photo by Yuriy Kovalev on Unsplash
         var texture  = new THREE.TextureLoader().load(BLUE);
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        this.fog = new THREE.Fog(0x42c8f5, 500, 1000);
+        this.fog = new THREE.Fog(0x95a4bd, 500, 1000);
 
         this.background = texture;
       }

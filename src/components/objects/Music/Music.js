@@ -43,7 +43,7 @@ class Music extends Group {
 
         // Choose audio file in GUI
         let folder = this.state.gui.addFolder('AUDIO');
-        folder.add(this.state, 'audiofile', ['1: Jazzy', '2: Deep Meditation', '3: Slow', '4: Piano', '5: Breathing Exercise']).onChange((audiofile) => this.updateAudioFile(audiofile));
+        folder.add(this.state, 'audiofile', ['1: Jazzy', '2: Deep Meditation', '3: Slow', '4: Piano', '5: Breathing Exercise']).name("Audio Track").onChange((audiofile) => this.updateAudioFile(audiofile));
         folder.add(this.state, 'audioPlaying').name("Toggle Audio").onChange(() => this.soundHandler(sound));
 
         folder.open();
