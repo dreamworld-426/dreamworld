@@ -352,10 +352,14 @@ class ChunkManager extends Group {
           textureHeight: 1024,
         } );
 
+
         //this.water.position.y = this.state.waterLevel - startYBelow;
         this.water.rotation.x = Math.PI * - 0.5;
         this.add( this.water );
 
+      }
+      else {
+        this.water.remove();
       }
       this.updateWaterLevel();
     }
