@@ -33,6 +33,8 @@ class Bird extends Group {
         zRotate: 0,
         velocity: 2,
         keysPressed: [],
+        cameraState: 'ArrowDown',
+        repeated: true,
       };
 
       this.name = 'bird';
@@ -49,7 +51,6 @@ class Bird extends Group {
       // window listeners to rotate bird
       // set keysPressed true when key is pressed
       window.addEventListener('keydown', (e) => {
-        this.state.keysPressed[e.keyCode] = true;
         this.birdHandler(e);
       }, false);
 
@@ -65,108 +66,44 @@ class Bird extends Group {
 
   // rotate bird based on wasd keys pressed
   birdHandler(e) {
+
+    // if arrow keys call cameraHandler
+    let arrows = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+    if (arrows.includes(e.key)) {
+      this.cameraHandler(e);
+    }
+
+    // change the state of the bird;
+    this.state.keysPressed[e.keyCode] = true;
     // bird goes up
     // w key
     if (this.state.keysPressed[87]) {
       this.state.upTime = e.timeStamp;
-
-      // change x rotation
-      if (this.state.xRotate >= -0.5) {
-        this.state.xRotate -= 0.01;
-      }
-
-      // change bird speed to go faster
-      if (this.state.speed >= 700) {
-        this.state.speed -= 200;
-      }
-
-      // update terrain y position
-      this.state.parent.state.y -= this.state.velocity;
     }
 
     // bird goes down
     // s space key
     if (this.state.keysPressed[83]) {
       this.state.downTime = e.timeStamp;
-
-      if (this.state.xRotate <= 0.5) {
-          this.state.xRotate += 0.05;
-      }
-
-      let animation = this.state.animation.clone();
-      let track =  animation.tracks[0];
-      let values = track.values;
-
-      // if (this.state.bird != 'Flamingo'){
-      // 0 - hooked wings - maybe
-      // 1 - hooked wings - maybe
-      // 2 - hooked wings - maybe
-      let vals = [];
-      if (this.state.bird === 'Stork') {
-        vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
-      }
-      else if (this.state.bird === 'Parrot'){
-        vals = [0,12,24,37,50,67,80,93,106,119];
-      }
-      else if (this.state.bird === 'Flamingo') {
-        vals = [5,18,33,48,63,79,94,109,124,139,152,165,178,191,201];
-      }
-
-      for (let i = 0; i < values.length; i++) {
-        if (vals.includes(i)) {
-          values[i] = 1;
-        }
-        else {
-          values[i] = 0;
-        }
-      }
-
-      this.state.speed = 1500;
-      if (!e.repeat) {
-        const action = this.state.mixer.clipAction(animation);
-        this.state.action = this.state.action.crossFadeTo(action, 1, true);
-        this.state.action.play();
-        this.state.newAnimate = true;
-      }
-
-      // Update terrain position
-      if (this.state.parent.state.y <= -10) {
-        this.state.parent.state.y += this.state.velocity;
-      }
+      this.state.repeated = e.repeat;
     }
 
     // bird goes to the left
     // d key
     if (this.state.keysPressed[68]) {
       this.state.rightTime = e.timeStamp;
-      if (this.state.zRotate <= 0.5) {
-        this.state.zRotate += 0.01;
-      }
-
-      // Keep rotations between 0 and 2 * PI;
-      if (this.state.yRotate <= 0) {
-        this.state.yRotate = 2 * Math.PI;
-      }
-      this.state.yRotate -= 0.03;
     }
 
     // a key
     if (this.state.keysPressed[65]) {
       this.state.leftTime = e.timeStamp;
-      if (this.state.zRotate >= -0.5) {
-        this.state.zRotate -= 0.01;
-      }
-
-      // Keep rotations between 0 and 2 * PI;
-      this.state.yRotate += 0.03;
-      this.state.yRotate = this.state.yRotate % (2 * Math.PI);
-
-      // Update Terrain
-      // this.state.parent.state.x += Math.cos(this.state.yRotate);
-      // this.state.parent.state.z -= Math.sin(this.state.yRotate);
     }
   }
 
+  cameraHandler(e) {
+    this.state.cameraState = e.key;
+    return;
+  }
 
   // Converts glb files to gltf
   // Adapted from https://discoverthreejs.com/book/first-steps/load-models/
@@ -249,6 +186,87 @@ class Bird extends Group {
 
   update(timeStamp, x, y, z) {
     if (this.state.model != null) {
+      // if the w key is pressed
+      if (this.state.keysPressed[87]) {
+        // change x rotation
+        if (this.state.xRotate >= -0.5) {
+          this.state.xRotate -= 0.005;
+        }
+
+        // change bird speed to go faster
+        if (this.state.speed >= 700) {
+          this.state.speed -= 200;
+        }
+
+        // update terrain y position
+        this.state.parent.state.y -= 0.5;
+      }
+      // if the s key is pressed
+      if (this.state.keysPressed[83]) {
+        if (this.state.xRotate <= 0.5) {
+            this.state.xRotate += 0.005;
+        }
+
+        let animation = this.state.animation.clone();
+        let track =  animation.tracks[0];
+        let values = track.values;
+
+        let vals = [];
+        if (this.state.bird === 'Stork') {
+          vals = [0,13,26,39,58,72,86,103,104,117,136,150,168,169];
+        }
+        else if (this.state.bird === 'Parrot'){
+          vals = [0,12,24,37,50,67,80,93,106,119];
+        }
+        else if (this.state.bird === 'Flamingo') {
+          vals = [5,18,33,48,63,79,94,109,124,139,152,165,178,191,201];
+        }
+
+        for (let i = 0; i < values.length; i++) {
+          if (vals.includes(i)) {
+            values[i] = 1;
+          }
+          else {
+            values[i] = 0;
+          }
+        }
+
+        this.state.speed = 1500;
+        if (!this.state.repeated) {
+          const action = this.state.mixer.clipAction(animation);
+          this.state.action = this.state.action.crossFadeTo(action, 1, true);
+          this.state.action.play();
+          this.state.newAnimate = true;
+        }
+
+        // Update terrain position
+        if (this.state.parent.state.y <= 100) {
+          this.state.parent.state.y += .5;
+        }
+      }
+      // if the a key is pressed
+      if (this.state.keysPressed[65]) {
+        if (this.state.zRotate >= -0.5) {
+          this.state.zRotate -= 0.01;
+        }
+
+        // Keep rotations between 0 and 2 * PI;
+        this.state.yRotate += 0.005;
+        this.state.yRotate = this.state.yRotate % (2 * Math.PI);
+      }
+      // if the d key is pressed
+      if (this.state.keysPressed[68]) {
+        if (this.state.zRotate <= 0.5) {
+          this.state.zRotate += 0.01;
+        }
+
+        // Keep rotations between 0 and 2 * PI;
+        if (this.state.yRotate <= 0) {
+          this.state.yRotate = 2 * Math.PI;
+        }
+        this.state.yRotate -= 0.005;
+      }
+
       // update rotation of the bird;
       this.state.model.rotation.x = this.state.xRotate;
       this.state.model.rotation.y = this.state.yRotate;
@@ -290,12 +308,35 @@ class Bird extends Group {
           this.state.zRotate -= 0.005;
         }
       }
+      // Update camera based on camera position
 
-      // Reposition camera
-      this.state.camera.position.y = 350 * Math.sin(this.state.xRotate + Math.PI/15);
-      this.state.camera.position.z = -300 * Math.cos(this.state.yRotate);
-      this.state.camera.position.x = 300 * Math.sin(-this.state.yRotate);
+      // front
+      if (this.state.cameraState == 'ArrowUp') {
+        this.state.camera.position.x = 300 * Math.sin((this.state.yRotate - Math.PI/10));
+        this.state.camera.position.y = 350 * Math.sin(-(this.state.xRotate - Math.PI/15));
+        this.state.camera.position.z = 300 * Math.cos(-(this.state.yRotate - Math.PI/10));
+      }
+      // back
+      else if (this.state.cameraState == 'ArrowDown') {
+        this.state.camera.position.x = 300 * Math.sin(-this.state.yRotate);
+        this.state.camera.position.y = 350 * Math.sin(this.state.xRotate + Math.PI/15);
+        this.state.camera.position.z = -300 * Math.cos(this.state.yRotate);
+      }
+      // left
+      else if (this.state.cameraState == 'ArrowLeft') {
+        this.state.camera.position.x = 300 * Math.sin((this.state.yRotate + Math.PI/2));
+        this.state.camera.position.y = 350 * Math.sin(-(this.state.xRotate - Math.PI/15));
+        this.state.camera.position.z = 300 * Math.cos(-(this.state.yRotate + Math.PI/2));
+      }
+      // right
+      else if (this.state.cameraState == 'ArrowRight') {
+        this.state.camera.position.x = 300 * Math.sin((this.state.yRotate - Math.PI/2));
+        this.state.camera.position.y = 350 * Math.sin(-(this.state.xRotate - Math.PI/15));
+        this.state.camera.position.z = 300 * Math.cos(-(this.state.yRotate - Math.PI/2));
+      }
+
       this.state.camera.lookAt(this.state.model.position);
+
     }
 
     // update bird's speed based on its velocity if it is greater than 2
