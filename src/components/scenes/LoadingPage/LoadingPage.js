@@ -162,7 +162,7 @@ class LoadingPage extends Scene{
     }
 
     // show button after a certain period of time
-    setTimeout(addButton, 5000);
+    setTimeout(addButton, 3000);
 
     function addButton() {
       console.log('added button');

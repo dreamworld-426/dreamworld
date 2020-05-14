@@ -109,7 +109,7 @@ class Bird extends Group {
         vals = [0,12,24,37,50,67,80,93,106,119];
       }
       else if (this.state.bird === 'Flamingo') {
-        vals = [4,17,30,43,56,69,82,95,108,121,134,147,160,173];
+        vals = [5,18,33,48,63,79,94,109,124,139,152,165,178,191,201];
       }
 
       for (let i = 0; i < values.length; i++) {
