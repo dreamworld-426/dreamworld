@@ -170,7 +170,7 @@ camera.lookAt(new Vector3(0, 50, 0));
           });
 
           tour.addStep({
-            title: 'Musice Responsiveness',
+            title: 'Music Responsiveness',
             text: `Select "Breathing" to make the terrain move with the music.`,
             attachTo: {
                 element: '.step4',
@@ -195,10 +195,35 @@ camera.lookAt(new Vector3(0, 50, 0));
           });
 
           tour.addStep({
+            title: 'Toggle Water',
+            text: `If your simulation is running slowly, it may help to turn running water off.`,
+            attachTo: {
+                element: '.step7',
+                on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'creating'
+          });
+
+          tour.addStep({
             title: 'Select a Bird',
             text: `Choose from one of three birds.`,
             attachTo: {
-                element: '.step7',
+                element: '.step8',
                 on: 'left'
             },
             buttons: [
@@ -224,7 +249,7 @@ camera.lookAt(new Vector3(0, 50, 0));
             title: 'Choose an Audio Track',
             text: `Choose an audio track and press the P key to begin or pause the music.`,
             attachTo: {
-                element: '.step8',
+                element: '.step9',
                 on: 'left'
             },
             buttons: [
