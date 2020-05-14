@@ -135,7 +135,7 @@ class ChunkManager extends Group {
         folder.add(this.state, 'terraced').onChange(() => this.updateTerrainGeo());
         folder.add(this.state, 'terraces', 1, 20).name("Num Terraces").onChange(() => this.updateTerrainGeo());
         this.state.gui.add(this.state, 'preset', PRESET_NAMES).name("Terrain Presets").onChange(() => this.loadPreset());
-        this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.updateTerrainGeo());
+        this.state.gui.add(this.state, 'updateWithMusic').name("Breathing Terrain").onChange(() => this.breathingTerrain());
         this.state.gui.add(this.state, 'displayOrbs').name("Generate Words");
         this.state.gui.add(this.state, 'displayClouds').name("Generate Clouds");
         this.state.gui.add(this.state, 'activeWater').name("Display Water").onChange(() => this.addActiveWater());
@@ -143,6 +143,13 @@ class ChunkManager extends Group {
 
         this.loadPreset();
         // folder.open();
+    }
+
+    breathingTerrain() {
+      if(this.state.updateWithMusic == false) { // became false
+        this.updateDisplay(this.state.gui);
+      }
+      this.updateTerrainGeo();
     }
 
     loadPreset() {
@@ -349,7 +356,6 @@ class ChunkManager extends Group {
 
     // this doesnt work :()
     updateDisplay(gui) {
-        console.log(gui)
         for (var i in gui.__controllers) {
             gui.__controllers[i].updateDisplay();
         }
