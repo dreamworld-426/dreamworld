@@ -323,17 +323,17 @@ class ChunkManager extends Group {
       else if (this.state.preset == 'Ice World') {
         this.state.power = 3.1
         this.state.octaves = 1
-        this.state.exaggeration = 42
-        this.state.ogExaggeration = 42
+        this.state.exaggeration = 27
+        this.state.ogExaggeration = 27
         this.state.waterLevel = 0.2
         this.state.waterColor = new Color(255,255,255)
-        this.state.bankColor = new Color(255,255,255)
+        this.state.bankColor = new Color(172,245,255)
         this.state.middleColor = new Color(21,21,225)
         this.state.peakColor = new Color(255,255,255)
         this.state.colorWiggle = 0.5
         this.state.middleGradient = 0.36
         this.state.randSeed = 4
-        this.state.freq = 10
+        this.state.freq = 7.2
         this.state.terraced = false
         this.state.terraces = 20
         this.state.updateWithMusic = false
