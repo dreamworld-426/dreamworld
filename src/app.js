@@ -76,6 +76,13 @@ camera.lookAt(new Vector3(0, 50, 0));
     let bootstrap = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">';
     document.head.innerHTML += bootstrap;
 
+    let guifix = '<style type="text/css">' +
+    'input { max-height: 20px; margin:1px!important; padding:1px!important;}' +
+    '.dg .cr.number input[type=text], .dg .c input[type=text] { max-height: 20px; margin:1px; padding-bottom:2px;}' +
+    '.box {z-index: 10; position:absolute; top:0;}' +
+    '</style>';
+    document.head.innerHTML += guifix;
+
     let allKeys = document.getElementsByClassName("keys");
     for (let i = 0; i < allKeys.length; i++){
     allKeys[i].style.display = 'inline-block';
