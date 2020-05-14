@@ -359,7 +359,7 @@ class ChunkManager extends Group {
 
       }
       else {
-        this.water.remove();
+        this.remove(this.water);
       }
       this.updateWaterLevel();
     }
