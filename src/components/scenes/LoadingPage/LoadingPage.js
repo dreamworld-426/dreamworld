@@ -5,19 +5,20 @@ class LoadingPage extends Scene{
   constructor() {
     super();
 
-    // Box Element
     let box = document.createElement("DIV");
-    box.id = 'LoadingPage';
+    box.className = 'Loading Page';
 
-    // Box CSS
     box.style.position = 'absolute';
-    box.style.height = '100%';
+    box.style.top = '0';
+    box.style.bottom = '0';
     box.style.width = '100%';
-    box.style.textAlign = 'center';
-    box.style.background = 'pink';
-    box.style.overflow = 'auto';
+    box.style.height = '100%';
+    box.style.left = '0';
+    box.style.backgroundColor = 'pink';
+    box.style.opacity = '100%';
+    box.style.alignItems = 'center';
     document.body.appendChild(box);
-    //
+
     // let image = document.createElement("IMG");
     // image.src = BACKGROUND;
     // image.style.opacity = '100%';
@@ -33,20 +34,41 @@ class LoadingPage extends Scene{
     link.href = "https://fonts.googleapis.com/css2?family=Orbitron&display=swap";
     headID.appendChild(link);
 
-    // Welcome to Dream World Message
-    let text = document.createElement("P");
+    let text = document.createElement("DIV");
     text.className = 'Dream World';
     text.innerText = 'Welcome to Dream World!';
-
     text.style.color = 'white';
     text.style.textAlign =  'center';
-    text.style.fontSize = '60px';
+    text.style.marginTop = '20%';
+    text.style.fontSize = '40px';
     text.style.textDecoration = 'underline';
-    text.style.fontFamily = "Orbitron";
-    text.style.transition = "opacity 2s";
-    text.style.webkitTransition = "opacity 2s";
     box.appendChild(text);
 
+    let simulate = document.createElement("DIV");
+    simulate.className = 'Meditation Simulation';
+    simulate.innerText = 'A Meditation Simulation';
+
+    simulate.style.color = 'white';
+    simulate.style.textAlign = 'center';
+    simulate.style.fontSize = '20px';
+    box.appendChild(simulate);
+
+    let enter = document.createElement("BUTTON");
+    enter.className = 'Enter Button'
+    enter.innerText = 'Press to Enter';
+
+    enter.style.cursor = 'pointer';
+    enter.style.position = 'absolute';
+    enter.style.padding = '16px';
+    enter.style.backgroundColor = 'pink';
+    enter.style.color = 'white';
+    enter.style.border = '2px solid white';
+    enter.style.top = '50%';
+    enter.style.left = '43%';
+    enter.onclick = function() {
+      document.body.removeChild(box);
+    }
+    // ORIGINAL CSS
     // A Meditation Simulation
     let meditation = document.createElement("P")
     meditation.display = 'absolute';
@@ -58,11 +80,154 @@ class LoadingPage extends Scene{
     meditation.style.fontFamily = "Orbitron";
     box.appendChild(meditation);
 
-    // Add keys
+    // Camera and Bird Titles
+    let titles = document.createElement("DIV");
+    titles.style.textAlign = 'center';
+    titles.style.paddingTop = '30px';
+    // titles.style.display = 'inline-block';
+    box.appendChild(titles);
+
+    let bird_title = document.createElement("P");
+    bird_title.display = 'absolute';
+    bird_title.style.textAlign = 'center';
+    bird_title.style.fontSize = '20px';
+    bird_title.style.color = 'white';
+    bird_title.style.fontFamily = "Orbitron";
+    bird_title.style.paddingTop = '10px';
+    bird_title.style.paddingRight = '230px';
+    bird_title.style.display = 'inline-block';
+    bird_title.innerText = 'Bird';
+    titles.appendChild(bird_title);
+
+    let camera_title = document.createElement("P");
+    camera_title.display = 'absolute';
+    camera_title.style.textAlign = 'center';
+    camera_title.style.fontSize = '20px';
+    camera_title.style.color = 'white';
+    camera_title.style.fontFamily = "Orbitron";
+    camera_title.style.paddingTop = '10px';
+    camera_title.style.display = 'inline-block';
+    camera_title.innerText = 'Camera';
+    titles.appendChild(camera_title);
+
+    // Add bird control keys
     let keys = document.createElement("DIV");
     keys.style.textAlign = 'center';
     keys.style.paddingTop = '30px';
+    keys.style.display = 'inline-block';
+    keys.style.marginRight = '30px';
+    // keys.verticalAlign = 'middle';
+    // keys.innerText = 'Bird Controls';
     box.appendChild(keys);
+
+    // ------------ Add camera controls -------------//
+
+    let camera_keys = document.createElement("DIV");
+    camera_keys.style.textAlign = 'center';
+    camera_keys.style.paddingTop = '30px';
+    camera_keys.style.display = 'inline-block';
+    box.appendChild(camera_keys);
+
+    let upKey = document.createElement("canvas");
+    upKey.width = 100;
+    upKey.height = 100;
+    let ctx = upKey.getContext('2d');
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.moveTo(50, 90);
+    ctx.lineTo(50, 50);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(20, 40);
+    ctx.lineTo(50, 10);
+    ctx.lineTo(80, 40);
+    ctx.stroke();
+
+    camera_keys.appendChild(upKey);
+    upKey.style.fontFamily = "Orbitron";
+    upKey.className = 'keys';
+
+    let upExp = document.createElement("P")
+    camera_keys.appendChild(upExp);
+    upExp.innerText = 'UP';
+    upExp.className = 'text';
+    upExp.style.fontFamily = "Orbitron";
+
+    // left
+    let leftKey = document.createElement("SPAN");
+    camera_keys.appendChild(leftKey);
+    leftKey.innerText = '<-';
+    leftKey.style.fontFamily = "Orbitron";
+    leftKey.className = 'keys';
+
+    let leftExp = document.createElement("P")
+    camera_keys.appendChild(leftExp);
+    leftExp.innerText = 'LEFT';
+    leftExp.className = 'text';
+    leftExp.style.fontFamily = "Orbitron";
+
+    let leftSpan = document.createElement("SPAN");
+    leftSpan.style.display = 'inline-block';
+    camera_keys.appendChild(leftSpan);
+    leftSpan.appendChild(leftKey);
+    leftSpan.appendChild(leftExp);
+
+    // down
+    let downKey = document.createElement("canvas");
+    camera_keys.appendChild(downKey);
+    downKey.width = 100;
+    downKey.height = 100;
+    ctx = downKey.getContext('2d');
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.moveTo(50, 10);
+    ctx.lineTo(50, 60);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(20, 60);
+    ctx.lineTo(50, 90);
+    ctx.lineTo(80, 60);
+    ctx.stroke();
+
+    downKey.style.fontFamily = "Orbitron";
+    downKey.className = 'keys';
+
+    let downExp = document.createElement("P")
+    camera_keys.appendChild(downExp);
+    downExp.innerText = 'DOWN';
+    downExp.className = 'text';
+    downExp.style.fontFamily = "Orbitron";
+
+    let downSpan = document.createElement("SPAN");
+    downSpan.style.display = 'inline-block';
+    camera_keys.appendChild(downSpan);
+    downSpan.appendChild(downKey);
+    downSpan.appendChild(downExp);
+
+    // right
+    let rightKey = document.createElement("SPAN");
+    camera_keys.appendChild(rightKey);
+    rightKey.innerText = '->';
+    rightKey.style.fontFamily = "Orbitron";
+    rightKey.className = 'keys';
+
+    let rightExp = document.createElement("P")
+    camera_keys.appendChild(rightExp);
+    rightExp.innerText = 'RIGHT';
+    rightExp.className = 'text';
+    rightExp.style.fontFamily = "Orbitron";
+
+    let rightSpan = document.createElement("SPAN");
+    rightSpan.style.display = 'inline-block';
+    camera_keys.appendChild(rightSpan);
+    rightSpan.appendChild(rightKey);
+    rightSpan.appendChild(rightExp);
+
+    // -----------BIRD CONTROLS ----------- //
 
     // w Key
     let wKey = document.createElement("SPAN");
@@ -76,6 +241,7 @@ class LoadingPage extends Scene{
     wExp.innerText = 'UP';
     wExp.className = 'text';
 
+    // a key
     let aSpan = document.createElement("SPAN");
     aSpan.style.display = 'inline-block';
     keys.appendChild(aSpan);
@@ -118,6 +284,7 @@ class LoadingPage extends Scene{
     dExp.className = 'text';
     dSpan.appendChild(dExp);
 
+    // play music key
     let play = document.createElement("DIV");
     box.appendChild(play);
     play.style.textAlign = 'center';
@@ -155,6 +322,8 @@ class LoadingPage extends Scene{
       allKeys[i].style.marginLeft = '15px';
       allKeys[i].style.marginRight = '15px';
     }
+    box.appendChild(enter);
+  }
 
     let texts = document.getElementsByClassName("text");
     for (let i = 0; i < texts.length; i++){
@@ -164,6 +333,7 @@ class LoadingPage extends Scene{
     // show button after a certain period of time
     setTimeout(addButton, 3000);
 
+    // add 'ENTER' button
     function addButton() {
       console.log('added button');
       let button = document.createElement("BUTTON");
@@ -179,6 +349,8 @@ class LoadingPage extends Scene{
       button.onclick = function() {deleteLandingPage()};
       box.appendChild(button);
     }
+  update(timeStamp) {
+
 
     function deleteLandingPage() {
       let loadingPage = document.getElementById('LoadingPage');
