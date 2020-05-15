@@ -65,7 +65,7 @@ class Cloud extends Group {
         this.material = new MeshLambertMaterial({
             map:texture,
             transparent: true,
-            opacity: 0.75,
+            opacity: 0.9,
           });
         // instance mesh code very loosely inspired by Three.js example:
         // https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_dynamic.html
