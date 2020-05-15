@@ -63,8 +63,8 @@ camera.lookAt(new Vector3(0, 50, 0));
     '<p class="lead">Use the following keys to navigate through this simulation:</p>' +
     '<hr class="my-4">' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
-    '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">S</span><p class="py-3">DOWN</p></div></span></div></div>' +
-    '<div class="row"><div class="col"><span class="keys">D</span><p class="py-3">RIGHT</p></div></div>' + 
+    '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">D</span><p class="py-3">RIGHT</p></div></span></div></div>' +
+    '<div class="row"><div class="col"><span class="keys">S</span><p class="py-3">DOWN</p></div></div>' + 
     '<br>' +
     '<button class="btn btn-light btn-lg begin-btn" href="#" role="button" id="begin-btn">Begin</a>' + 
     '</div>' +
