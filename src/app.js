@@ -335,11 +335,11 @@ const onAnimationFrameHandler = (timeStamp) => {
       scene.update && scene.update(timeStamp);
       renderer.render(scene, camera);
 
-      scene.update && scene.update(timeStamp);
-    window.requestAnimationFrame(onAnimationFrameHandler);
+    //  scene.update && scene.update(timeStamp);
+  //  window.requestAnimationFrame(onAnimationFrameHandler);
 };
-
-window.requestAnimationFrame(onAnimationFrameHandler);
+renderer.setAnimationLoop(onAnimationFrameHandler);
+//window.requestAnimationFrame(onAnimationFrameHandler);
 
 // Resize Handler
 const windowResizeHandler = () => {
