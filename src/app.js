@@ -6,6 +6,7 @@
  * handles window resizes.
  *
  */
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { WebGLRenderer, PerspectiveCamera, Vector3, AudioListener, Audio, AudioLoader, AudioAnalyser, PCFShadowMap } from 'three';
 import { SeedScene } from 'scenes';
 var ColorTween = require('color-tween');
@@ -14,11 +15,12 @@ import Shepherd from 'shepherd.js';
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 const scene = new SeedScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
+renderer.xr.enabled = true;
 
 camera.position.y = 350 * Math.sin(Math.PI / 15);
 camera.position.z = -300;
 camera.lookAt(new Vector3(0, 50, 0));
-
+document.body.appendChild( VRButton.createButton( renderer ) );
 
     //TODO: Add styles to header
     let headID = document.getElementsByTagName('head')[0];
@@ -47,7 +49,7 @@ camera.lookAt(new Vector3(0, 50, 0));
     '@media only screen and (min-width: 992px) { .p-large { font-size: 1.8rem; } .display-4,.display-5 { font-size: 2.6rem; } } }' +
     '</style>' +
     '<div class="container-fluid box text-center" style="background: linear-gradient(90deg, rgba(168,14,62,1) 0%, rgba(255,147,0,1) 100%);">' +
-    '<div class="text container p-5" style="color: white;">' + 
+    '<div class="text container p-5" style="color: white;">' +
     '<div class="jumbotron">' +
     '<h1 class="display-4">DreamWorld</h1>' +
     '<p class="lead">Meditation like you\'ve never seen it before.</p>' +
@@ -64,9 +66,9 @@ camera.lookAt(new Vector3(0, 50, 0));
     '<hr class="my-4">' +
     '<div class="row"><div class="col"><span class="keys">W</span><p class="py-3">UP</p></div></div>' +
     '<div class="row " style="padding-left:30%; padding-right:30%"><div class="col"><span><div class="float-sm-left"><span class="keys">A</span><p class="py-3">LEFT</p></div><div class="float-sm-right"><span class="keys">D</span><p class="py-3">RIGHT</p></div></span></div></div>' +
-    '<div class="row"><div class="col"><span class="keys">S</span><p class="py-3">DOWN</p></div></div>' + 
+    '<div class="row"><div class="col"><span class="keys">S</span><p class="py-3">DOWN</p></div></div>' +
     '<br>' +
-    '<button class="btn btn-light btn-lg begin-btn" href="#" role="button" id="begin-btn">Begin</a>' + 
+    '<button class="btn btn-light btn-lg begin-btn" href="#" role="button" id="begin-btn">Begin</a>' +
     '</div>' +
     '</div>' +
     '</div>';
@@ -118,7 +120,7 @@ camera.lookAt(new Vector3(0, 50, 0));
               scrollTo: { behavior: 'smooth', block: 'center' }
             }
           });
-          
+
           tour.addStep({
             title: 'Welcome to DreamWorld',
             text: `Let's get meditating! \ In this GUI you'll be able to select from world presets, meditation tracks, customize your own world, and more.`,
@@ -295,8 +297,8 @@ camera.lookAt(new Vector3(0, 50, 0));
             ],
             id: 'creating'
           });
-          
-// Referenced the following: 
+
+// Referenced the following:
 window.onload=function(){
     document.querySelectorAll(".begin-btn").forEach(function(btn){
     btn.addEventListener("click", function(){
@@ -348,5 +350,3 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
-
-
