@@ -20,7 +20,6 @@ renderer.xr.enabled = true;
 camera.position.y = 350 * Math.sin(Math.PI / 15);
 camera.position.z = -300;
 camera.lookAt(new Vector3(0, 50, 0));
-document.body.appendChild( VRButton.createButton( renderer ) );
 
     //TODO: Add styles to header
     let headID = document.getElementsByTagName('head')[0];
@@ -304,6 +303,7 @@ window.onload=function(){
     btn.addEventListener("click", function(){
         let loadingPage = document.getElementById('LoadingPage');
         document.body.removeChild(loadingPage);
+        document.body.appendChild( VRButton.createButton( renderer ) );
         document.body.style.overflow = 'hidden'; // Fix scrolling
         tour.start();
       })
